@@ -1,0 +1,19 @@
+node_modules/
+**/node_modules/
+**/dist/
+**/coverage/
+**/.vite/
+**/.env
+**/.env.local
+**/.env.*.local
+!.env.example
+!.env.*.example
+backend/src/generated/
+*.log
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Personal source references provided privately for Codex handoff only
+handoff-private/
