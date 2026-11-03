@@ -48,3 +48,11 @@ This repository is **Nyirarukundo Seraphine's** bespoke portfolio website and fu
 - Phase 3 acceptance evidence is in `docs/PHASE_03_VERIFICATION.md`; read current status before interpreting the historical `CODEX_PROMPT.md`. Phase 4 has not been implemented.
 - `npm ci`, `npm test`, `npm run typecheck`, `npm run build`, Prisma validate/generate and real local API/browser checks passed. A local ignored `.env` is expected and must never enter the ZIP.
 - MySQL remains unavailable; generated Prisma Client is ignored, no migrations exist, no DB-backed application behavior is implemented.
+
+## Phase 3.1 architecture — verified 2026-11-03
+
+- Phase 3 and 3.1 are complete; Phase 4 remains NOT STARTED. Read `docs/PHASE_03_1_VERIFICATION.md` for current checks and browser limitations.
+- Backend: route → controller → service → Prisma/data access. Routes bind endpoints; controllers handle validated HTTP input/output; services own business rules and simple Prisma access when Phase 5 begins. Current health/metadata need no service. Use `middlewares/` for shared concerns, `config/` for environment validation and `.js` import specifiers for NodeNext.
+- Frontend: `src/app/` for composition, `src/features/` for feature UI/data/types, `src/shared/` for genuinely shared UI/layout/styles. Shared code must not import feature content. Pass data into leaf sections; compose sections in portfolio `HomePage`. Use explicit relative imports and type-only imports where appropriate.
+- Do not create empty modules, speculative repositories, providers, router setup or a certification section to fill a folder diagram. Preserve current contracts/DOM/CSS/content during structural work.
+- `npm test` now runs structural, frontend render and backend HTTP suites. Static render tests do not prove browser interaction; browser checks from Phase 3.1 remain unavailable and are documented for manual follow-up.

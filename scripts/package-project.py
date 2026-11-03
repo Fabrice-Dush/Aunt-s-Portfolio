@@ -62,10 +62,16 @@ def main():
     required = {
         'package-lock.json', 'README.md', 'AGENTS.md', 'PROJECT_STATUS.md', 'HANDOFF.md',
         'CHANGELOG.md', 'BACKLOG.md', 'ARCHITECTURE.md', 'DECISIONS.md', 'DESIGN_SYSTEM.md',
-        'frontend/src/App.tsx', 'backend/src/server.ts', 'backend/.env.example',
+        'frontend/src/app/App.tsx', 'frontend/src/features/portfolio/pages/HomePage.tsx',
+        'frontend/src/shared/styles/global.css', 'frontend/test/render.test.mjs',
+        'backend/src/server.ts', 'backend/.env.example',
+        'backend/src/routes/index.ts', 'backend/src/routes/health.routes.ts',
+        'backend/src/controllers/health.controller.ts', 'backend/src/controllers/api.controller.ts',
+        'backend/src/middlewares/errorHandler.ts', 'backend/src/middlewares/notFound.ts',
         'backend/prisma/schema.prisma', 'backend/prisma.config.ts', 'backend/test/http.test.mjs',
         'design/prototype/index.html', 'design/prototype/admin.html', 'design/prototype/super-admin.html',
         'docs/visual-approval/approved-homepage-mockup.png', 'docs/PHASE_03_VERIFICATION.md',
+        'docs/PHASE_03_1_VERIFICATION.md',
     }
     names = {name for _, name in files}
     if required - names:

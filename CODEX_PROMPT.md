@@ -1,3 +1,5 @@
+> **Latest continuation — 2026-11-03:** Phase 3.1 architecture refactoring is complete; Phase 4 has not started. Read `docs/PHASE_03_1_VERIFICATION.md`, `PROJECT_STATUS.md`, `HANDOFF.md` and `ARCHITECTURE.md` before the retained historical notes below. Browser verification limitations are explicitly recorded.
+
 > **Historical takeover prompt:** Its old Phase 3 blockers were investigated on 2026-11-02. Current results and next steps are in `PROJECT_STATUS.md`, `HANDOFF.md` and `docs/PHASE_03_VERIFICATION.md`. Do not rerun this old assignment as if verification were still pending.
 
 # Paste this into Codex (first instruction)

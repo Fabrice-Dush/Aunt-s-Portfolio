@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-03 — Phase 3.1 architecture refactoring
+
+- Extracted health and API metadata controllers, composed `/api/v1` routes and split 404/error middleware under `middlewares/`. Existing endpoints, statuses, security configuration, 100kb body limit and server startup retained.
+- Moved React composition into `app/App.tsx` and portfolio `HomePage`; extracted Hero, Overview, About, Expertise, Experience, Education, Projects and Contact. Moved shared layout/heading/global CSS and feature-owned icons/content; passed career/education/name data through props.
+- Preserved client wording/provisional flags, JSX, class names, anchors, ARIA, responsive image references, CSS and Header interaction code. No certifications, services, repositories, auth, dashboards, CRUD, schema changes or new dependencies.
+- Updated structural tests and ZIP required paths; added three real React render tests to root `npm test`; strengthened metadata response assertion. Added `.cache` ignore rule for temporary local verification evidence.
+- Baseline and final tests/typechecks/builds passed; Prisma valid. Development and compiled health/400/413 plus frontend source/assets/proxy and production preview checked. Rendered before/after HTML is byte-identical; CSS and approved assets unchanged.
+- Browser host/native pipe unavailable, so screenshots, browser console and live menu tests could not run. Documented exact scope/manual follow-up in `docs/PHASE_03_1_VERIFICATION.md` without claiming pixel equivalence.
+- Updated all project memory and complete-source Phase 3.1 ZIP delivery. Phase 3 remains complete; Phase 4 remains NOT STARTED.
+
 ## 2026-11-03 — Phase 3 completion and verified delivery
 
 - Reinstalled the existing root lockfile successfully after releasing this project's Vite/esbuild Windows file lock. Preserved the user's prior Express-range correction; no dependency version changes, lockfile regeneration or plugin switch.

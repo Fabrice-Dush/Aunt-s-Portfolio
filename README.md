@@ -2,7 +2,7 @@
 
 # Nyirarukundo Seraphine — Professional Portfolio
 
-**Project phase:** Phase 3 / 10 — architecture and codebase setup (install, builds, API and browser verified; see current status).
+**Project phase:** Phase 3.1 — architecture refactoring COMPLETE; Phase 3 COMPLETE; Phase 4 NOT STARTED. Current verification and browser limitations: [`docs/PHASE_03_1_VERIFICATION.md`](docs/PHASE_03_1_VERIFICATION.md).
 
 This is a bespoke professional portfolio and a future two-role content-management system for **Nyirarukundo Seraphine**, Water Treatment Plant Engineer in Kigali, Rwanda. The light, portrait-led homepage, light `ADMIN` Studio, and dark `SUPER_ADMIN` Operations interface are the approved design direction.
 
@@ -34,7 +34,7 @@ npm run dev
 - Frontend: **http://localhost:5173**
 - Backend health: **http://localhost:4000/api/v1/health**
 - If `npm run dev` cannot manage both terminals on your OS, use `npm run dev:frontend` and `npm run dev:backend` in separate terminals.
-- The public frontend currently renders local, client-approved questionnaire details from `frontend/src/data/profile.ts`. It **does not yet fetch content from the API**.
+- The public frontend currently renders local, client-approved questionnaire details from `frontend/src/features/portfolio/data/profile.ts`. It **does not yet fetch content from the API**.
 
 ## Checks to perform after installation
 
@@ -58,7 +58,7 @@ Live MySQL connectivity and migrations require real local credentials in Phase 5
 - Verified on Windows with Node 24.11.1 / npm 11.6.2. The existing lockfile is included; `npm ci` reproducibly installs both workspaces from root.
 - Stop this project's development servers before `npm ci` on Windows; esbuild can otherwise be locked. Do not delete the lockfile to fix that lock.
 - `npm run dev` starts both services. `npm run dev:frontend`, `npm run dev:backend`, and `npm run dev` from either workspace directory are supported. The current combined runner emits Node 24's shell-argument deprecation warning; its fixed workspace names are not user input. Both services started and stopped in verification.
-- Typechecks, production builds, six structure tests and seven HTTP scenarios passed. `npm start -w backend` serves the compiled API; `npm run preview -w frontend -- --port 4173 --strictPort` serves the frontend build.
+- Typechecks, production builds, six structure tests, three frontend render tests and seven HTTP scenarios passed. `npm start -w backend` serves the compiled API; `npm run preview -w frontend -- --port 4173 --strictPort` serves the frontend build.
 - Prisma 7.10.0 schema validation and Client generation passed. Generated files are ignored and omitted from delivery. Local MySQL refused the connection and the local URL still contains example credentials. No migrations or data writes were performed.
 - The ZIP omits dependencies, build outputs, real environment files, private handoff material and caches. Python 3 is needed only to rerun `scripts/package-project.py` for the release ZIP.
 - The portrait is an **AI-generated concept based on the owner-provided photograph**. Seraphine's likeness/public-use approval remains required before launch.
@@ -70,9 +70,9 @@ Live MySQL connectivity and migrations require real local credentials in Phase 5
 seraphine-portfolio/
 ├── frontend/                   # React + Vite + TypeScript
 │   ├── public/images/          # Optimized concept portrait
-│   └── src/                    # Initial public homepage components and content
+│   └── src/                    # app/, features/ and shared/; see ARCHITECTURE.md
 ├── backend/                    # Express 5 + TypeScript
-│   ├── src/                    # CORS, Helmet, rate limit, /api/v1/health
+│   ├── src/                    # routes/, controllers/, middlewares/, config/
 │   └── prisma/schema.prisma    # Proposed MySQL data models; not yet migrated
 ├── design/                     # ALL previous Phase 2 HTML prototypes and screenshots
 ├── docs/                       # Review, assets, setup and verification notes
@@ -101,3 +101,9 @@ seraphine-portfolio/
 ## Project continuation
 
 Read `AGENTS.md` then `PROJECT_STATUS.md` and `HANDOFF.md` before modifying any feature. Before a coding phase is marked completed, run relevant tests, update all memory files and deliver a complete updated project ZIP.
+
+## Phase 3.1 architecture and delivery
+
+The backend uses MVC with a service-layer boundary for future business logic; health and metadata are simple controllers. The frontend uses feature modules with shared layout/UI and application composition. See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the full source tree and ownership rules, and [`docs/PHASE_03_1_VERIFICATION.md`](docs/PHASE_03_1_VERIFICATION.md) for moved/created files, compatibility evidence and remaining manual browser checks.
+
+No live MySQL/auth/CMS/dashboard implementation or Phase 4 redesign is included. The complete local ZIP is `C:\Users\HP\Pictures\Aunt nyirarukundo\seraphine-portfolio-phase-03.1-complete.zip`; it excludes dependencies, generated/build/cache outputs, secrets and private materials.

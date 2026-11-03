@@ -1,8 +1,8 @@
 # PROJECT_STATUS — Nyirarukundo Seraphine portfolio
 
 **Updated:** 2026-11-03
-**Current phase:** **3 of 10 — Architecture & Project Setup**
-**Status:** **COMPLETED — acceptance criteria passed and complete-source ZIP verified.**
+**Current phase:** **3.1 — Architecture Refactoring**
+**Status:** **COMPLETED — code validation passed; browser verification limitations documented.**
 **Next phase:** Phase 4 public portfolio refinement — NOT STARTED.
 **Last approved design:** Phase 2 revision 02, developer-approved 2026-10-30. Owner portrait consent remains open.
 
@@ -12,7 +12,8 @@
 |---|---|
 | 1 Requirements | Sufficient for implementation; launch facts remain open |
 | 2 UI/UX | Bright name-first portfolio, light ADMIN and dark SUPER_ADMIN direction approved; prototypes only |
-| 3 Setup | See acceptance evidence below and final status above |
+| 3 Setup | COMPLETED; retained acceptance evidence in `docs/PHASE_03_VERIFICATION.md` |
+| 3.1 Architecture refactor | COMPLETED; evidence and browser limitations in `docs/PHASE_03_1_VERIFICATION.md` |
 | 4 Public portfolio | Not started; current React page is a foundation |
 | 5 Backend/database | Not started; proposed schema validates and Client generates, but no DB connection, migration or content API |
 | 6 Authentication/dashboards | Not started; role enum only, no login, guards or working dashboards |
@@ -20,6 +21,17 @@
 | 8 Full QA/performance | Not started; Phase 3 smoke tests do not substitute for full QA |
 | 9 Owner approval/launch readiness | Not started; facts and media consent outstanding |
 | 10 Deployment/handover | Not started; nothing published |
+
+## Verified Phase 3.1 refactoring
+
+- Backend now separates routes, controllers, shared middleware and configuration. The service-layer boundary is documented; no service is needed for the current no-DB health/metadata responses.
+- Frontend now uses `app/`, feature sections and `shared/`. Existing content, markup, section anchors, ARIA, assets and mobile navigation implementation are preserved.
+- Clean baseline at commit `8fefefee17746e6f6cc8e9c7445f305e4ea201d2`; no unrelated local changes were present. No dependency, lockfile or Prisma schema changes.
+- `npm test`: 6 structure tests, 3 rendered frontend tests and 7 HTTP scenarios pass (backend runner reports 8 including parent). Both typechecks/builds and Prisma validation pass.
+- Development frontend and API start; compiled API and frontend preview start. Health 200, malformed JSON 400, oversized JSON 413, development module/asset requests and proxy pass.
+- Before/after React static HTML matches exactly (9,430 bytes). CSS and existing interactive Header source are unchanged; approved assets preserved. This verifies markup/source preservation, **not pixel equivalence or browser event execution**.
+- Browser host and Windows native pipe were unavailable in this session. New screenshots, live mobile-menu/anchor checks and browser-console review could not run. Manual checklist is in the Phase 3.1 verification report; previous Phase 3 browser evidence remains historical.
+- Complete source ZIP target: `C:\Users\HP\Pictures\Aunt nyirarukundo\seraphine-portfolio-phase-03.1-complete.zip`. Packaging checks required entries, exclusions, CRCs and every source hash. Phase 4 remains **NOT STARTED**.
 
 ## Verified Phase 3 functionality
 
@@ -59,4 +71,4 @@
 
 ## Exact next steps
 
-Read `HANDOFF.md`; start Phase 4 only when requested. Preserve approved design references and refine the public portfolio, accessible interaction and SEO/pre-render plan without adding fabricated content. Database migration and authentication remain later phases. See `docs/PHASE_03_VERIFICATION.md` for commands and reproducible checks.
+Read `HANDOFF.md`; start Phase 4 only when requested. Preserve approved design references and refine the public portfolio, accessible interaction and SEO/pre-render plan without adding fabricated content. Database migration and authentication remain later phases. See `docs/PHASE_03_1_VERIFICATION.md` for current commands, architecture changes and remaining manual browser checks.

@@ -10,10 +10,21 @@
 - [x] Basic Chrome desktop/mobile visual and menu checks; full details in `docs/PHASE_03_VERIFICATION.md`.
 - [x] Final complete-source ZIP packaged and verified (see `PROJECT_STATUS.md` for delivery status).
 
+## Phase 3.1 — Architecture refactoring complete
+
+- [x] Baseline Git/source review, tests, typechecks and builds.
+- [x] Backend routes/controllers/middlewares with documented future service/data-access boundaries.
+- [x] Feature-based frontend extraction; unchanged DOM/content/styles/assets and navigation source.
+- [x] Updated structure checks, frontend rendered-output tests, HTTP contract regression and ZIP required paths.
+- [x] Combined tests, typechecks/builds, Prisma validation, development/compiled HTTP checks and before/after static HTML equality.
+- [x] Updated memory and complete-source ZIP delivery workflow.
+- [ ] Follow the Phase 3.1 manual browser checklist when browser access is available: screenshots, responsive layout, menu/Escape, anchors, focus/reduced motion and console. No browser visual-equivalence claim is made.
+- No remaining architectural implementation task is required for Phase 3.1. Add services/repositories only as actual later-phase business logic warrants them.
+
 ## Phase 4 — Public portfolio polish
 
 - [ ] Refine homepage to closely match approved light name-first visual concept.
-- [ ] Replace initial section scaffolding with finished reusable production-ready components.
+- [ ] Polish the extracted feature components into the approved finished public portfolio; architecture extraction is complete.
 - [ ] Extend the Phase 3 Chrome viewport smoke review to full-page, keyboard, real-device and cross-browser testing; implement premium yet low-cost interaction details.
 - [ ] Choose SEO pre-render strategy for public portfolio; validate social previews.
 - [ ] Add accessible behavior and optimize page critical path.

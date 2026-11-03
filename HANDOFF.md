@@ -1,8 +1,16 @@
-# Handoff — verified Phase 3 foundation
+# Handoff — verified Phase 3.1 architecture
 
-**Updated:** 2026-11-02. Read `PROJECT_STATUS.md` and `docs/PHASE_03_VERIFICATION.md` for final acceptance and delivery status.
+**Updated:** 2026-11-03. Phase 3 and 3.1 complete; Phase 4 NOT STARTED. Read `PROJECT_STATUS.md` and `docs/PHASE_03_1_VERIFICATION.md` for current evidence and browser limitations.
 
-## What works
+## Where new functionality belongs
+
+- Backend endpoint bindings go in `src/routes/`; HTTP handlers in `src/controllers/`; actual future business logic in `src/services/` with Prisma access only after Phase 5 database setup. No service/repository scaffolding is needed for existing health/metadata. Shared middleware is in `src/middlewares/`; environment validation remains `src/config/env.ts`.
+- Frontend root composition is `src/app/App.tsx`; public section composition is `src/features/portfolio/pages/HomePage.tsx`. Hero/About/Overview/Contact and owner profile content belong to portfolio; expertise, experience, education and projects own their existing sections. Shared layout/heading/global CSS live in `src/shared/` and do not import feature data.
+- Keep imports relative (frontend extensionless, backend `.js`); type-only domain imports are allowed. Pass profile data to leaf sections through props. Do not duplicate content into shared modules.
+- `npm test` runs 6 structural tests, 3 frontend render tests and 7 HTTP scenarios (8 backend runner results). No browser test framework was added. Preserve the existing header behavior/CSS and follow the manual browser checklist in the current verification report when browser access is restored.
+- No live MySQL, migration, auth/dashboard/CMS/contact functionality was added. Current source ZIP is `seraphine-portfolio-phase-03.1-complete.zip` in the repository parent.
+
+## What works (Phase 3 baseline retained)
 
 The inherited React/Vite/TypeScript and Express/TypeScript workspaces now install, typecheck, build and run locally. Chrome rendered the page without the historical Babel overlay. Real development and compiled backend requests returned HTTP 200. Prisma 7.10.0 schema validation and Client generation passed; there is no DB integration or migration. All Phase 2 source/prototypes/approved references are retained.
 

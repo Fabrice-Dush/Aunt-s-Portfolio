@@ -9,8 +9,13 @@ const get = (path) => readFileSync(join(root, path), 'utf8');
 
 test('required frontend, API, database and handoff files exist', () => {
   for (const file of [
-    'frontend/src/main.tsx', 'frontend/src/App.tsx', 'frontend/vite.config.ts',
+    'frontend/src/main.tsx', 'frontend/src/app/App.tsx', 'frontend/vite.config.ts',
+    'frontend/src/features/portfolio/pages/HomePage.tsx',
+    'frontend/src/shared/styles/global.css',
     'backend/src/app.ts', 'backend/src/server.ts', 'backend/prisma/schema.prisma',
+    'backend/src/routes/index.ts', 'backend/src/routes/health.routes.ts',
+    'backend/src/controllers/health.controller.ts', 'backend/src/controllers/api.controller.ts',
+    'backend/src/middlewares/errorHandler.ts', 'backend/src/middlewares/notFound.ts',
     'AGENTS.md', 'PROJECT_STATUS.md', 'DESIGN_SYSTEM.md', 'ARCHITECTURE.md', 'HANDOFF.md',
   ]) assert.ok(existsSync(join(root, file)), `${file} should exist`);
 });
@@ -23,13 +28,13 @@ test('project role names are declared but no public GUEST account role', () => {
 });
 
 test('approved homepage uses the correct client identity', () => {
-  const profile = get('frontend/src/data/profile.ts');
+  const profile = get('frontend/src/features/portfolio/data/profile.ts');
   assert.match(profile, /Nyirarukundo Seraphine/);
   assert.match(profile, /Water Treatment Plant Engineer/);
   assert.doesNotMatch(profile, /Environmental Engineer/);
-  const app = get('frontend/src/App.tsx');
-  assert.match(app, /id="hero-title"/);
-  assert.match(app, /Seraphine/);
+  const hero = get('frontend/src/features/portfolio/components/Hero.tsx');
+  assert.match(hero, /id="hero-title"/);
+  assert.match(hero, /Seraphine/);
 });
 
 test('preview portrait assets exist and are lightweight WebP', () => {
@@ -47,9 +52,15 @@ test('secret files are ignored and sample env file is present', () => {
   assert.match(get('.gitignore'), /!\.env\.example/);
 });
 
-test('only explicitly configured health endpoint is included', () => {
+test('API composition keeps middleware and delegates routes to controllers', () => {
   const app = get('backend/src/app.ts');
-  assert.match(app, /\/api\/v1\/health/);
+  assert.match(app, /app\.use\('\/api\/v1', apiRouter\)/);
+  assert.doesNotMatch(app, /app\.(get|post|put|patch|delete)\(/);
   assert.match(app, /helmet\(/);
   assert.match(app, /rateLimit\(/);
+  const routes = get('backend/src/routes/index.ts') + get('backend/src/routes/health.routes.ts');
+  assert.match(routes, /apiRouter\.use\('\/health', healthRouter\)/);
+  assert.match(routes, /healthRouter\.get\('\/', getHealth\)/);
+  assert.match(routes, /controllers\/health\.controller\.js/);
+  assert.doesNotMatch(routes, /\.json\(|PrismaClient/);
 });

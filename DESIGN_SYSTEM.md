@@ -24,7 +24,7 @@
 - Display type: Georgia/Times family at large tight-tracked serif sizes; body: system `Segoe UI`/Arial (fast loading, no network font request). We may refine font licensing/typography in Phase 4, provided performance is preserved.
 - Compositions: strong hero hierarchy; no generic repeated gradients, neon glow blobs or unnecessary endless cards.
 - Corners: deliberate minimal rectangular buttons and framing on public site; dashboard cards may use controlled rounded corners.
-- Icons: original SVG motifs in `frontend/src/components/ExpertiseIcon.tsx`; no heavyweight icon dependency required initially.
+- Icons: original SVG motifs in `frontend/src/features/expertise/components/ExpertiseIcon.tsx`; no heavyweight icon dependency required initially.
 
 ## Responsive and motion
 
@@ -45,3 +45,7 @@ Largest Contentful Paint ≤2.5s, Interaction to Next Paint ≤200ms, Cumulative
 ## Phase 3 verification — 2026-11-02
 
 The approved design direction and source assets remain unchanged. One genuine rendering defect was corrected: only the heading's direct children are block-level, keeping the orange punctuation inline beside Seraphine. Chrome viewport/menu smoke checks are recorded in `docs/PHASE_03_VERIFICATION.md`; they do not replace Phase 4/8 full design, accessibility or cross-browser acceptance.
+
+## Phase 3.1 preservation — 2026-11-03
+
+Global CSS moved unchanged to `frontend/src/shared/styles/global.css`. Existing JSX was extracted into features and shared components; rendered HTML matches the pre-refactor baseline exactly. All approved design assets remain unchanged. Browser automation was unavailable, so this phase does not add screenshot, browser-console or interactive equivalence evidence; see the manual checklist in `docs/PHASE_03_1_VERIFICATION.md`.

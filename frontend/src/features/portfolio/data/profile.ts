@@ -1,12 +1,6 @@
-/** Only confirmed client information or explicitly marked provisional data. */
-export type CareerPosition = {
-  title: string;
-  employer: string;
-  period: string;
-  responsibilities: string;
-  provisional: boolean;
-};
+import type { CareerPosition } from '../../experience/types';
 
+/** Only confirmed client information or explicitly marked provisional data. */
 export const profile = {
   name: 'Nyirarukundo Seraphine',
   title: 'Water Treatment Plant Engineer',

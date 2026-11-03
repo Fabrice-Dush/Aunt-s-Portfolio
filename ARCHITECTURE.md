@@ -1,26 +1,67 @@
 # Architecture — current source and future boundaries
 
-## Source tree as of Phase 3
+## Source tree as of Phase 3.1 — 2026-11-03
 
+```text
+frontend/
+  src/
+    main.tsx
+    app/App.tsx
+    features/
+      portfolio/
+        components/{Hero,Overview,About,Contact}.tsx
+        data/profile.ts
+        pages/HomePage.tsx
+      expertise/
+        components/{Expertise,ExpertiseIcon}.tsx
+        data/specialties.ts
+      experience/
+        components/Experience.tsx
+        types.ts
+      education/components/Education.tsx
+      projects/components/Projects.tsx
+    shared/
+      components/layout/{Header,Brand,Footer}.tsx
+      components/ui/SectionHeading.tsx
+      styles/global.css
+    vite-env.d.ts
+  test/render.test.mjs
+  public/                         unchanged favicon and concept portraits
+backend/
+  src/
+    app.ts                        middleware ordering and versioned router mount
+    server.ts                     unchanged HTTP startup/shutdown
+    config/env.ts                 unchanged validated environment configuration
+    routes/{index,health.routes}.ts
+    controllers/{api,health}.controller.ts
+    middlewares/{errorHandler,notFound}.ts
+  test/http.test.mjs
+  prisma/schema.prisma            proposed MySQL model; no migration
+  prisma.config.ts                unchanged Prisma 7 configuration
+scripts/                          structure tests, dev runner, ZIP packager
+design/                           preserved Phase 2 prototypes/assets/previews
+docs/                             approvals and phase verification records
 ```
-frontend/                         React 19 + Vite 7 + TypeScript
-  src/App.tsx                     first real public portfolio React page
-  src/components/                 Brand, Header, SectionHeading, ExpertiseIcon
-  src/data/profile.ts             centralized client-supplied content and provisos
-  src/styles.css                  responsive tokens, layout, states and accessible motion
-  public/images/                  approved-design synthetic WebP concept portrait (pending consent)
-backend/                          Node.js + Express 5 + TypeScript
-  src/app.ts                      Helmet, CORS, rate limiting, JSON limit, health route
-  src/server.ts                   HTTP server start/stop
-  src/config/env.ts               validation of public server configuration
-  src/middleware/errorHandler.ts  common 404 / safe 500 handling
-  src/routes/health.ts            no-database `/api/v1/health`
-  prisma/schema.prisma            PROPOSED future MySQL data model; not migrated
-  prisma.config.ts                Prisma 7 schema + datasource config
-backend/test/http.test.mjs         real HTTP foundation regression tests
-scripts/                          structure tests, dual dev runner, source ZIP packaging
- design/                           preserved Phase 2 HTML/CSS design prototyping
-```
+
+## Backend MVC with service layer
+
+REST flow: **request → route → controller → service → Prisma/data access → MySQL**. The service and database portions apply when business functionality is implemented in Phase 5. Current health and API metadata handlers simply return JSON; they do not require a service. No empty `services/`, repositories, model wrappers or migrations are created to illustrate the future design. JSON responses are the API representation; there are no server-rendered views.
+
+- `app.ts` composes unchanged Helmet, configured CORS, rate limiting, 100kb JSON parsing, `/api/v1` router, 404 and centralized errors in the original order.
+- `routes/index.ts` connects the API metadata controller and health subrouter. Route files only define endpoints, controller connections and endpoint-specific middleware.
+- `controllers/` handles HTTP input and output. Future input must be validated before calling services. Controllers must not contain business rules or direct Prisma queries. Express 5 forwards thrown errors/rejected handler promises to the existing error handler; callback-style asynchronous errors must call `next(error)`.
+- Add plain functions under `services/` when real business logic arrives. Keep them independent of Express request/response objects and unit-test business rules. Simple Prisma operations can live in services; introduce repositories only for actual data-access complexity.
+- `middlewares/` owns shared request/error concerns. The split preserves fixed 400, 413, 404 and safe 500 responses. Authentication/authorization middleware remains Phase 6.
+- `config/env.ts` validates server settings; secrets stay in ignored local environment files. Prisma schema/config remain unchanged and unconnected to runtime health.
+
+## Frontend feature boundaries and imports
+
+- `main.tsx` mounts React StrictMode and imports global CSS. `app/App.tsx` composes the preview banner, skip link, shared layout and portfolio page; no router or provider is required yet.
+- `features/portfolio/pages/HomePage.tsx` composes the existing public sections. Portfolio content stays in `portfolio/data/profile.ts`, preserving all wording and provisional flags. Experience and education receive typed data through props rather than importing portfolio content themselves.
+- `features/expertise/` owns its existing icons and specialty content. Experience owns the `CareerPosition` domain type; portfolio data uses a type-only import. No certification module exists because no certification UI existed before the refactor.
+- `shared/` holds presentational layout, the multi-feature section heading and unchanged global CSS. Shared components must not import feature content; Footer receives the owner's name as a prop. Keep feature-specific components in their feature rather than sharing speculatively.
+- Use explicit relative imports: frontend extensionless TS/TSX module paths; backend `.js` specifiers for NodeNext ESM output. Use `import type` for types. No aliases, barrel export layers or dependencies were added.
+- Features may consume shared UI. Page/application composition may combine features. Avoid reverse dependencies from shared code into features or from leaf sections into the portfolio composition.
 
 ## API boundaries (planned)
 
@@ -40,7 +81,7 @@ Use Prisma ORM 7 with the MySQL provider and an official-compatible MariaDB adap
 
 - Source-coded React public page with minimal runtime dependencies. No API calls on first paint.
 - Preserve approved bright white/navy/blue identity, large name, photographic focus. Avoid unverified claims.
-- Phase 4: polished component decomposition, responsive/browser testing, animation direction, SEO static/pre-render approach, image/media optimization.
+- Phase 4: polish the extracted components, responsive/browser testing, animation direction, SEO static/pre-render approach, image/media optimization.
 - Phase 6: actual admin routes and role-aware navigation; Phase 7: CMS data integration, uploads and publishing.
 
 ## Deployment direction (not selected)

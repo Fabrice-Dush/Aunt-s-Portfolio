@@ -38,3 +38,10 @@
 - Use safe fixed JSON error responses for invalid JSON (400) and excessive request bodies (413); keep unexpected errors private (500).
 - A valid, generated Prisma schema completes the setup gate. Live MySQL/migrations are explicitly Phase 5 and remain unverified because the configured local port refuses connections and credentials are placeholders.
 - Deliver the entire source/design/docs repository as a local ZIP excluding `handoff-private`, secrets, dependencies and generated outputs. This is a developer handoff, not publication permission for the synthetic portrait.
+
+## Phase 3.1 architecture decisions — 2026-11-03
+
+- Adopt pragmatic MVC with a service layer for the REST backend: routes bind endpoints, controllers handle HTTP, future services implement business rules/data access. JSON responses replace traditional views. Health/metadata are intentionally simple controllers; creating artificial services or repositories now would add no value.
+- Adopt feature-based React organization with `app/` composition, public feature modules and `shared/` layout/UI/styles. Portfolio page composition passes career/education data to leaf features, while shared Footer receives its name through props. This keeps content ownership explicit without a CMS or global state library.
+- Keep relative imports and existing compiler conventions. No dependency, router, schema, API contract, CSS or approved asset changes.
+- Preserve JSX exactly and verify rendered output equality, unchanged CSS/assets and real HTTP behavior. Browser control is unavailable in this session; disclose the limitation and carry the manual browser checklist forward rather than asserting pixel/interactive equivalence.

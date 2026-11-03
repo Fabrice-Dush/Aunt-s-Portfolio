@@ -26,7 +26,10 @@ test('API foundation over real HTTP', async (t) => {
     assert.ok(response.headers.get('content-security-policy'));
     const metadata = await fetch(`${base}/api/v1`);
     assert.equal(metadata.status, 200);
-    assert.equal((await metadata.json()).version, 'v1');
+    assert.deepEqual(await metadata.json(), {
+      service: 'seraphine-portfolio-api', version: 'v1',
+      message: 'API foundation. Content routes are planned for Phase 5.',
+    });
   });
 
   await t.test('CORS allows the configured browser origin only', async () => {
@@ -65,7 +68,7 @@ test('API foundation over real HTTP', async (t) => {
   });
 
   await t.test('unexpected errors hide internal details', async () => {
-    const { errorHandler } = await import('../src/middleware/errorHandler.ts');
+    const { errorHandler } = await import('../src/middlewares/errorHandler.ts');
     const { default: express } = await import('express');
     const failureApp = express();
     failureApp.get('/', () => { throw new Error('private internal detail'); });
