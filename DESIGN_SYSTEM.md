@@ -41,3 +41,7 @@
 ## Final QA targets
 
 Largest Contentful Paint ≤2.5s, Interaction to Next Paint ≤200ms, Cumulative Layout Shift ≤0.1 measured at p75 when deployed. Aim for high Lighthouse quality; do not claim metrics before measuring.
+
+## Phase 3 verification — 2026-11-02
+
+The approved design direction and source assets remain unchanged. One genuine rendering defect was corrected: only the heading's direct children are block-level, keeping the orange punctuation inline beside Seraphine. Chrome viewport/menu smoke checks are recorded in `docs/PHASE_03_VERIFICATION.md`; they do not replace Phase 4/8 full design, accessibility or cross-browser acceptance.

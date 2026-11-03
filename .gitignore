@@ -4,12 +4,14 @@ node_modules/
 **/coverage/
 **/.vite/
 **/.env
+**/.env.*
 **/.env.local
 **/.env.*.local
 !.env.example
 !.env.*.example
 backend/src/generated/
 *.log
+*.tsbuildinfo
 .DS_Store
 .idea/
 .vscode/*

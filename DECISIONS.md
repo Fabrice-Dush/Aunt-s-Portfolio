@@ -31,3 +31,10 @@
 - Whether to pre-render React public routes and how to invalidate/rebuild static pages after CMS publishing.
 - Actual MySQL/Node deployment provider, file storage, contact submission delivery, telemetry privacy, role auth/JWT implementation details, backup infrastructure.
 - Exact browser version support and CI runner.
+
+## Phase 3 verification decisions — 2026-11-02
+
+- Keep the existing dependency versions, Babel React plugin and lockfile. Clean `npm ci` and actual transforms/build/browser checks passed; no SWC switch or cache override is justified. Preserve the developer's existing Express range correction in the lockfile.
+- Use safe fixed JSON error responses for invalid JSON (400) and excessive request bodies (413); keep unexpected errors private (500).
+- A valid, generated Prisma schema completes the setup gate. Live MySQL/migrations are explicitly Phase 5 and remain unverified because the configured local port refuses connections and credentials are placeholders.
+- Deliver the entire source/design/docs repository as a local ZIP excluding `handoff-private`, secrets, dependencies and generated outputs. This is a developer handoff, not publication permission for the synthetic portrait.

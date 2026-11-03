@@ -31,7 +31,7 @@ This repository is **Nyirarukundo Seraphine's** bespoke portfolio website and fu
 ## Testing and delivery rule
 
 - Use tests relevant to the phase. Syntax-only tests do not prove runtime correctness.
-- Finish Phase 3 install/build/health verification before marking it COMPLETE. Npm registry was unreachable in the authoring environment.
+- Phase 3 install/build/health verification has passed on 2026-11-02; see `docs/PHASE_03_VERIFICATION.md`. The original authoring environment had no registry access; that historical limitation is resolved here.
 - At end of EVERY COMPLETED phase with code, update all memory files and create a ZIP of the **entire latest repository** (including Phase 2 designs, sources, docs), excluding node_modules and secrets. Provide verified download link immediately.
 - Maintain `PROJECT_STATUS.md`, `CHANGELOG.md`, `BACKLOG.md`, `HANDOFF.md` for multi-agent continuity.
 - Prefer small, reviewable changes and honest limitations; distinguish visual concepts from real apps.
@@ -39,6 +39,12 @@ This repository is **Nyirarukundo Seraphine's** bespoke portfolio website and fu
 ## Codex handoff update (2026-11-02)
 
 - This is the real inherited codebase, not a request for a new application. Finish Phase 3 first.
-- Local Windows Vite/Babel error: `[plugin:vite:react-babel] _lruCache is not a constructor` (details in `docs/PHASE_03_LOCAL_ERROR.md`).
+- The historical Windows Vite/Babel error is no longer reproducible after a verified clean install; its original cause is not proven. Keep the lockfile and Babel plugin. See `docs/PHASE_03_LOCAL_ERROR.md`.
 - The `handoff-private/` directory is included for private developer context only, ignored by Git and forbidden from public deployment.
 - Preserve the exact visually-approved direction from `docs/visual-approval/` and `design/prototype/`; their illustrative text is NOT authentic client content.
+
+## Verified continuation — 2026-11-02
+
+- Phase 3 acceptance evidence is in `docs/PHASE_03_VERIFICATION.md`; read current status before interpreting the historical `CODEX_PROMPT.md`. Phase 4 has not been implemented.
+- `npm ci`, `npm test`, `npm run typecheck`, `npm run build`, Prisma validate/generate and real local API/browser checks passed. A local ignored `.env` is expected and must never enter the ZIP.
+- MySQL remains unavailable; generated Prisma Client is ignored, no migrations exist, no DB-backed application behavior is implemented.

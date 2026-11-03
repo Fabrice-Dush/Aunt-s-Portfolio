@@ -1,3 +1,5 @@
+> **Current verification update — 2026-11-03:** Phase 3 is complete. The historical takeover notes below are retained for context. Read `PROJECT_STATUS.md`, `HANDOFF.md` and `docs/PHASE_03_VERIFICATION.md` for current results. Phase 4 has not started, and no database migration was performed.
+
 # Start here — Codex transition (2026-11-02)
 
 This is the **complete source handoff snapshot** from ChatGPT to Codex for **Nyirarukundo Seraphine's professional portfolio**. It contains all previously authored React/Vite and Express/Prisma sources, Phase 2 design prototypes and screenshots, developer-approved references, project memory, and private client source material.

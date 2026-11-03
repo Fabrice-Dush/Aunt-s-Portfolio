@@ -1,66 +1,62 @@
 # PROJECT_STATUS — Nyirarukundo Seraphine portfolio
 
-**Updated:** 2026-11-02 (Codex handoff prepared)
+**Updated:** 2026-11-03
 **Current phase:** **3 of 10 — Architecture & Project Setup**
-**Status:** **IN PROGRESS — source scaffold delivered; developer reports local Vite/Babel runtime failure; build and end-to-end verification pending**
-**Last approved design:** Phase 2 revision 02 — visually approved by developer on 2026-10-30. Portrait likeness still needs Seraphine's approval.
-**Current ZIP:** `seraphine-portfolio-codex-handoff-2026-11-02.zip` (entire source project, approved designs and private handoff references; Phase 3 not complete).
+**Status:** **COMPLETED — acceptance criteria passed and complete-source ZIP verified.**
+**Next phase:** Phase 4 public portfolio refinement — NOT STARTED.
+**Last approved design:** Phase 2 revision 02, developer-approved 2026-10-30. Owner portrait consent remains open.
 
-| # | Development phase | Status | Evidence / outstanding |
-|---|---|---|---|
-| 1 | Requirements & Planning | Scoped for implementation; launch details remain open | Answered questionnaire + decision log |
-| 2 | UI/UX Design | **Design direction approved** | White/light-blue name-first portfolio concept; light ADMIN and dark SUPER_ADMIN concepts |
-| 3 | Architecture & Project Setup | **IN PROGRESS — validation blocked** | Code scaffold and memory files written; tests below; npm installation and real build pending |
-| 4 | Public Portfolio Frontend | Not started | Phase 3 initial React page is a FOUNDATION, not Phase 4 completed/polished frontend |
-| 5 | Backend & Database | Not started | Proposed Prisma schema only; no Prisma Client, migrations, live DB or content APIs |
-| 6 | Authentication & Dashboards | Not started | Role names in Prisma schema only; old dashboard designs are static prototypes |
-| 7 | System Content Integration | Not started | No CMS persistence, uploads, form submissions or dynamic publish workflow |
-| 8 | Testing & Optimization | Not started | Phase 3 source checks ≠ full QA; still need browser/Lighthouse/security review |
-| 9 | Final Review & Launch Readiness | Not started | Missing owner content, media consent and factual verification |
-| 10 | Deployment & Handover | Not started | No hosted system |
+## Phase boundaries
 
-## Source code implemented in Phase 3
+| Phase | Status |
+|---|---|
+| 1 Requirements | Sufficient for implementation; launch facts remain open |
+| 2 UI/UX | Bright name-first portfolio, light ADMIN and dark SUPER_ADMIN direction approved; prototypes only |
+| 3 Setup | See acceptance evidence below and final status above |
+| 4 Public portfolio | Not started; current React page is a foundation |
+| 5 Backend/database | Not started; proposed schema validates and Client generates, but no DB connection, migration or content API |
+| 6 Authentication/dashboards | Not started; role enum only, no login, guards or working dashboards |
+| 7 CMS integration | Not started |
+| 8 Full QA/performance | Not started; Phase 3 smoke tests do not substitute for full QA |
+| 9 Owner approval/launch readiness | Not started; facts and media consent outstanding |
+| 10 Deployment/handover | Not started; nothing published |
 
-- Root npm workspace linking `frontend` and `backend`; scripts for development, build, typecheck, offline checks.
-- Responsive React 19/Vite 7/TypeScript frontend foundation using the approved name-first, light/navy/blue editorial direction.
-- Reused compressed Phase 2 synthetic standing portrait and SVG branding; keyboard-accessible mobile navigation and reduced-motion CSS.
-- Public content centralized in `frontend/src/data/profile.ts` with explicit notes for unverified experience and qualifications, and projects left as a truthful pending-content state.
-- Express 5/TypeScript API foundation with `/api/v1` and `/api/v1/health`, Helmet, CORS allowlist, simple rate limiting, body size limit and centralized 404/error responses.
-- Initial Prisma 7 MySQL schema for accounts (`SUPER_ADMIN`, `ADMIN`), profile, careers, skills, projects, certifications, media, messages, audit logs. **No migrations created or applied.**
-- Source and secret-exclusion structure checks; new `scripts/dev.mjs` to run both workspaces locally.
-- All Phase 2 static prototypes/screenshots preserved under `design/` for design fidelity; root memory files and phase-3 documentation updated.
+## Verified Phase 3 functionality
 
-## Verification actually performed on 2026-10-30
+- Existing npm workspaces install reproducibly from the retained lockfile using `npm ci`. Node 24.11.1 / npm 11.6.2 on Windows.
+- Both TypeScript checks and production builds pass. Six structure tests and seven real HTTP scenarios (eight backend test-runner results including the parent test) pass.
+- React/Vite renders the approved bright/navy/blue foundation locally with working assets, local system fonts, inline SVG icons, mobile menu and anchor navigation. Full browser scope is in `docs/PHASE_03_VERIFICATION.md`.
+- The original Babel `_lruCache` error does not reproduce in the clean install, development transforms, production build or Chrome page. Its historical root cause is not proven. No dependency/plugin changes were needed.
+- Express development and compiled servers return HTTP 200 from `http://localhost:4000/api/v1/health` with the expected service, status and timestamp. Helmet, CORS, 404, body parsing, safe errors and rate limiting have HTTP coverage.
+- Prisma CLI/Client/MariaDB adapter remain pinned together at 7.10.0. MySQL schema validation and Client generation pass. `SUPER_ADMIN` and `ADMIN` are the only account roles.
+- `npm ls --all --json` is clean; `npm audit --json` reported zero known vulnerabilities at verification time.
 
-- `node --test scripts/*.test.mjs` — **6/6 passed** (structural tests only).
-- Global TypeScript parser syntax scan — **15 TypeScript/TSX files parsed, zero syntax diagnostics**. This is not type checking or runtime testing.
-- `node --check scripts/dev.mjs` — passed.
-- JSON configuration parsing — to be validated in the final packaging step.
-- `npm view vite version` — failed with `EAI_AGAIN` (registry cannot be reached). Dependency installation, Vite production build, React runtime and Express runtime tests could **not** be executed in this session.
-- MySQL/Prisma migration and `prisma validate` — **NOT RUN**.
+## Resolved issues
 
-## Phase 3 acceptance gate — remaining
+- Released this project's running Vite/esbuild file lock before clean installation.
+- Preserved the user's lockfile Express-range correction exactly; no lockfile regeneration.
+- Corrected the offline test that prohibited a valid ignored local `.env`.
+- Invalid/oversized JSON now returns safe 400/413 responses instead of 500.
+- Narrowed the hero heading selector so its orange period remains beside Seraphine.
+- Expanded environment/cache exclusions and added a ZIP packager that checks required files, CRCs and every file hash.
 
-- [x] Workspaces and source layout created
-- [x] API and initial React source created
-- [x] Initial MySQL/Prisma model schema drafted
-- [x] Baseline docs and environment example created
-- [x] Offline structural checks and syntax scan passed
-- [ ] Install dependencies with `npm install` and commit a generated `package-lock.json`
-- [ ] Run full `npm run typecheck` and `npm run build`
-- [ ] Start Vite and Express; open the React page and verify `/api/v1/health`
-- [ ] Validate proposed Prisma schema using a compatible Prisma CLI (migration planned for Phase 5)
+## Acceptance gate
 
-**Do NOT mark Phase 3 completed until the remaining gates pass.** Package the source scaffold for review/continuation now; it is NOT yet a verified complete phase.
+- [x] Workspaces/source, API/React foundation, initial schema and docs exist.
+- [x] Clean locked root installation and valid dependency tree.
+- [x] Full TypeScript checks, production builds and relevant tests.
+- [x] Vite/React browser and asset smoke checks; real Express HTTP health checks.
+- [x] Compatible Prisma schema validation and Client generation.
+- [x] Final memory and complete ZIP verification.
 
-## Immediate next step
+## Remaining limitations
 
-On a network-enabled development machine (or Codex with npm access), run the README installation steps, fix any compiler or bundler errors, verify the API and UI locally, then record validation and complete Phase 3. Only after that begin Phase 4 public portfolio refinement.
+- Live MySQL connectivity is **BLOCKED**: local URL contains example credentials and its local TCP port returns ECONNREFUSED. No migrations were created/applied; no data was read or written. This is Phase 5 work, not a Phase 3 setup blocker.
+- Auth/JWT/cookies/CSRF guards, CMS, uploads, functional dashboards and contact delivery are not implemented.
+- Full Chrome/Edge/Firefox/Safari, real-device, accessibility, reduced-motion runtime, SEO and Lighthouse audits remain Phase 4/8 work.
+- The combined dev runner emits Node 24's shell-argument deprecation warning with fixed internal workspace names. Startup and shutdown worked in this Windows session; broader process supervision remains future maintenance.
+- Provisional employment dates, exact credentials, project claims and portrait likeness/public-use approval remain owner review items. No public contact details have been enabled.
 
-## 2026-11-02 — user switched development to Codex
+## Exact next steps
 
-- The user wants ALL subsequent implementation to continue in Codex using the existing source files and memory, not a restart in ChatGPT.
-- Packaged a Codex handoff snapshot with `CODEX_START_HERE.md`, `CODEX_PROMPT.md`, approved visual images, and private original requirements/portrait reference (ignored by Git). No new production features or verified build were added.
-- The previous environment could not install npm dependencies; the developer's own Windows installation subsequently hit **`[plugin:vite:react-babel] _lruCache is not a constructor`**. See `docs/PHASE_03_LOCAL_ERROR.md`. No confirmed resolution yet.
-- **Phase 3 remains IN PROGRESS.** Codex should diagnose and finish install/typecheck/build/frontend/API verification before calling Phase 3 complete.
-- Phase 2 designs remain approved; do not restart or replace visual direction.
+Read `HANDOFF.md`; start Phase 4 only when requested. Preserve approved design references and refine the public portfolio, accessible interaction and SEO/pre-render plan without adding fabricated content. Database migration and authentication remain later phases. See `docs/PHASE_03_VERIFICATION.md` for commands and reproducible checks.

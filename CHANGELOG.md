@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-11-03 — Phase 3 completion and verified delivery
+
+- Reinstalled the existing root lockfile successfully after releasing this project's Vite/esbuild Windows file lock. Preserved the user's prior Express-range correction; no dependency version changes, lockfile regeneration or plugin switch.
+- Verified both workspace TypeScript checks and production builds, clean full dependency tree and npm audit (zero reported vulnerabilities).
+- Fixed malformed/oversized JSON returning 500; now safe 400/413 responses. Added seven HTTP regression scenarios covering health/metadata, Helmet, CORS/preflight, 404, parser limits, safe unexpected errors and rate limiting.
+- Fixed hero CSS that put the orange period on a separate line. Preserved the approved design, content and every Phase 2 asset.
+- Corrected structure tests to accept the documented ignored local `.env`; expanded ignore/exclusion rules for environment variants and TypeScript build caches.
+- Verified development commands from root and workspace directories, real health responses from development/compiled backend, Vite transforms/assets/proxy and production preview assets. Browser review used real Chrome through Windows UI automation.
+- Prisma 7.10.0 schema validation and Client generation passed; MySQL remains unavailable with placeholder credentials and connection refused. No migration or business feature was implemented.
+- Added complete-source ZIP packaging with required-entry, exclusion, CRC and per-file SHA256 verification. Updated current memory, README, Babel diagnosis and verification log; marked old takeover prompts as historical.
+- Finalized the Phase 3 verification record, marked the phase complete, and created the verified complete-source delivery ZIP in the repository parent directory.
+- Phase 4 remains NOT STARTED. Owner content/portrait consent and later-phase database/security/QA work remain open.
+
 ## 2026-11-02 — Codex full project handoff (documentation / packaging only)
 
 - Preserved complete Phase 3 source scaffold and previous Phase 2 design prototypes and approved preview assets.

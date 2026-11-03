@@ -1,3 +1,5 @@
+> **Historical takeover prompt:** Its old Phase 3 blockers were investigated on 2026-11-02. Current results and next steps are in `PROJECT_STATUS.md`, `HANDOFF.md` and `docs/PHASE_03_VERIFICATION.md`. Do not rerun this old assignment as if verification were still pending.
+
 # Paste this into Codex (first instruction)
 
 You are taking over development of a real client project: **Nyirarukundo Seraphine's premium professional portfolio website**. The complete existing source code, approved design concepts, documentation, and history are in the attached/extracted `seraphine-portfolio/` folder. **Do not start a new app and do not redesign the approved UI.** Continue the actual repository.

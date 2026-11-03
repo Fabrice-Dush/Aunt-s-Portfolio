@@ -1,21 +1,20 @@
 # Development backlog and pre-launch checklist
 
-## Priority 0 — Codex: fix local Vite/Babel startup blocker and finish Phase 3
+## Phase 3 — verification complete
 
-- [ ] Reproduce/resolve `[plugin:vite:react-babel] _lruCache is not a constructor` from developer Windows run. See `docs/PHASE_03_LOCAL_ERROR.md`.
-
-- [ ] `npm install`; create and commit generated `package-lock.json`.
-- [ ] `npm run typecheck` and `npm run build` cleanly.
-- [ ] Run Vite at localhost:5173 and review the React page at 320/390/768/1024/1440/1920px; fix any runtime/visual bugs.
-- [ ] Run Express at localhost:4000 and verify `/api/v1/health` returns JSON HTTP 200.
-- [ ] Run `npm run prisma:validate` with a locally configured MySQL URL; fix schema issues before treating as valid.
-- [ ] Update phase status/verification notes then ZIP whole project again and mark Phase 3 COMPLETE.
+- [x] Historical Babel error absent in clean install, Vite transforms/build and Chrome runtime; no speculative dependency change.
+- [x] Root `npm ci`; existing lockfile retained with the user's Express-range correction. Git commit remains the developer's choice.
+- [x] `npm test`, `npm run typecheck`, `npm run build`; all pass.
+- [x] Real development and compiled API HTTP 200; middleware regression coverage.
+- [x] Prisma 7.10.0 validate/generate; no DB migration or application wiring.
+- [x] Basic Chrome desktop/mobile visual and menu checks; full details in `docs/PHASE_03_VERIFICATION.md`.
+- [x] Final complete-source ZIP packaged and verified (see `PROJECT_STATUS.md` for delivery status).
 
 ## Phase 4 — Public portfolio polish
 
 - [ ] Refine homepage to closely match approved light name-first visual concept.
 - [ ] Replace initial section scaffolding with finished reusable production-ready components.
-- [ ] Test real responsive behavior and implement premium yet low-cost interaction details.
+- [ ] Extend the Phase 3 Chrome viewport smoke review to full-page, keyboard, real-device and cross-browser testing; implement premium yet low-cost interaction details.
 - [ ] Choose SEO pre-render strategy for public portfolio; validate social previews.
 - [ ] Add accessible behavior and optimize page critical path.
 - [ ] Complete phase 4 tests and export full project ZIP.
@@ -63,3 +62,7 @@
 - [ ] Confirm compatible static host + Node runtime + MySQL hosting, budgets, HTTPS, secrets, backups.
 - [ ] Production verification, monitoring, recovery and handover guide.
 - [ ] Personalized email: explicitly DEFER until after the website work; user requested no discussion now.
+
+## Maintenance
+
+- [ ] Modernize the combined dev runner to remove Node 24 shell-argument deprecation warning and test cross-platform failure/shutdown supervision. Current fixed-name Windows startup/shutdown passed.

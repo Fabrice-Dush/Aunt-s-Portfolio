@@ -1,12 +1,12 @@
-> **Codex handoff (2026-11-02):** Read [`CODEX_START_HERE.md`](CODEX_START_HERE.md) and [`CODEX_PROMPT.md`](CODEX_PROMPT.md). Phase 3 remains IN PROGRESS; local Vite/Babel startup error is unresolved.
+> **Verification (2026-11-02):** Read [`PROJECT_STATUS.md`](PROJECT_STATUS.md) and [`docs/PHASE_03_VERIFICATION.md`](docs/PHASE_03_VERIFICATION.md) for current evidence. The original handoff prompt is historical; do not restart Phase 3 from its old blockers.
 
 # Nyirarukundo Seraphine — Professional Portfolio
 
-**Project phase:** Phase 3 / 10 — architecture and codebase setup (scaffold delivered for review; final install/build verification pending).
+**Project phase:** Phase 3 / 10 — architecture and codebase setup (install, builds, API and browser verified; see current status).
 
 This is a bespoke professional portfolio and a future two-role content-management system for **Nyirarukundo Seraphine**, Water Treatment Plant Engineer in Kigali, Rwanda. The light, portrait-led homepage, light `ADMIN` Studio, and dark `SUPER_ADMIN` Operations interface are the approved design direction.
 
-> **What this package is:** the first real React/Vite and Express/TypeScript project scaffold plus a proposed Prisma/MySQL schema, carrying all Phase 2 designs and handoff memory files. It is not yet a deployed, fully working CMS. The initial frontend has a source-coded React page, but a production Vite build has **not been verified in this execution environment** because the npm registry is inaccessible here.
+> **What this package is:** the first real React/Vite and Express/TypeScript project scaffold plus a proposed Prisma/MySQL schema, carrying all Phase 2 designs and handoff memory files. It is not yet a deployed, fully working CMS. The React page and Express health API have been built and run locally. Auth, dashboards, CMS, database integration and contact delivery remain future work.
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ This is a bespoke professional portfolio and a future two-role content-managemen
 cd seraphine-portfolio
 
 # 2. Install workspace dependencies (requires internet)
-npm install
+npm ci
 
 # 3. Configure a local API origin. You may start the frontend without MySQL.
 cp backend/.env.example backend/.env
@@ -41,23 +41,28 @@ npm run dev
 ```bash
 npm run typecheck
 npm run build
-npm run check:offline
+npm test
 ```
 
-When MySQL is configured for Phase 5, do the following separately:
+Prisma validation and generation require `DATABASE_URL` to be defined, but do **not** require a running MySQL server or working credentials. The example URL is enough for these two schema-only commands:
 
 ```bash
-# Edit backend/.env to use actual local MySQL credentials
 npm run prisma:validate
 npm run prisma:generate
-# Only AFTER the schema is reviewed in Phase 5: npm run prisma:migrate -w backend -- --name init
 ```
 
-### Current environment limitations
+Live MySQL connectivity and migrations require real local credentials in Phase 5. Do not run migration/reset commands until the proposed schema and target database have been reviewed.
 
-- The ZIP intentionally does **not** contain `node_modules`, real `.env` secrets, a production build, or a generated package lockfile. This environment could not reach `registry.npmjs.org` to install dependencies and generate the lockfile. `npm install` on your machine will create `package-lock.json` for reproducible subsequent installs; commit it to Git.
-- TypeScript/TSX **syntax** and the included offline `node --test` suite were checked in this session. Full TypeScript type checking, actual Vite bundling, launching Express, Prisma schema validation, MySQL migration, browser runtime validation, and Lighthouse remain unverified.
-- The approved portrait is an **AI-generated concept based on the owner-provided photograph**. It must be shown to Seraphine for likeness approval before the public launch.
+### Verified setup and limitations
+
+- Verified on Windows with Node 24.11.1 / npm 11.6.2. The existing lockfile is included; `npm ci` reproducibly installs both workspaces from root.
+- Stop this project's development servers before `npm ci` on Windows; esbuild can otherwise be locked. Do not delete the lockfile to fix that lock.
+- `npm run dev` starts both services. `npm run dev:frontend`, `npm run dev:backend`, and `npm run dev` from either workspace directory are supported. The current combined runner emits Node 24's shell-argument deprecation warning; its fixed workspace names are not user input. Both services started and stopped in verification.
+- Typechecks, production builds, six structure tests and seven HTTP scenarios passed. `npm start -w backend` serves the compiled API; `npm run preview -w frontend -- --port 4173 --strictPort` serves the frontend build.
+- Prisma 7.10.0 schema validation and Client generation passed. Generated files are ignored and omitted from delivery. Local MySQL refused the connection and the local URL still contains example credentials. No migrations or data writes were performed.
+- The ZIP omits dependencies, build outputs, real environment files, private handoff material and caches. Python 3 is needed only to rerun `scripts/package-project.py` for the release ZIP.
+- The portrait is an **AI-generated concept based on the owner-provided photograph**. Seraphine's likeness/public-use approval remains required before launch.
+- Full cross-browser, Lighthouse, accessibility and production security QA remain Phase 8 work. See the verification report for the exact scope of browser smoke checks.
 
 ## Repository layout
 

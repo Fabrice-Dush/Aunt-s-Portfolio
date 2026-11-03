@@ -1,19 +1,28 @@
-# Phase 3 local runtime bug — reported 2026-10-30
+# Phase 3 local runtime bug — verified 2026-11-02
 
-**Developer machine:** Windows, Chrome, `http://localhost:5173`.
+## Original report
 
-The user extracted the Phase 3 source ZIP, ran dependency installation, created `backend/.env` from `.env.example`, and attempted to run both frontend and backend using `npm run dev`. The frontend returned the Vite overlay:
+Windows Chrome displayed `[plugin:vite:react-babel] _lruCache is not a constructor` in `@babel/helper-compilation-targets` while transforming `frontend/src/main.tsx`. Historical evidence: `docs/vite-babel-error-screenshot.png`.
 
-```text
-[plugin:vite:react-babel] _lruCache is not a constructor
-.../frontend/src/main.tsx
-.../node_modules/@babel/helper-compilation-targets/lib/index.js:143:22
-```
+## Current diagnosis and result
 
-Evidence image in `docs/vite-babel-error-screenshot.png`.
+The original error did not reproduce in this session. The inherited installation already resolved Babel's cache correctly. A clean root `npm ci --no-audit --no-fund` then succeeded with the existing lockfile. Vite development transforms, the production build and a fresh Chrome page load all passed without that overlay.
 
-**Unknown:** exact installed Node/npm versions, lockfile, dependency tree, whether backend health endpoint worked, whether reinstall or SWC plugin switch was attempted successfully. Never assume the bug is resolved just because suggestions were offered.
+- Node 24.11.1; npm 11.6.2; Vite 7.3.7; React plugin 5.2.0.
+- Babel helper 7.29.7 resolves `lru-cache` 5.1.1, which exports a constructible function (directly checked).
+- MariaDB's separate `lru-cache` 10.4.3 is valid and must not be forced onto Babel with a global override.
+- `npm ls --all --json` returned exit 0. No workspace conflicts remain in the verified installation.
+- The existing user edit in the lockfile changes the backend Express range from `^5.3.0` to `^5.1.0`, matching `backend/package.json`. It was preserved exactly. The installed version remains 5.3.0.
+- No dependency versions were changed, no lockfile was regenerated, and no SWC switch was needed.
 
-**Suggested investigation:** inspect `node -v`, `npm -v`, `npm ls @babel/helper-compilation-targets lru-cache @vitejs/plugin-react vite`; inspect lockfile resolution; check for conflicting transitive packages, unsupported Node versions, or corrupted installation. Fix dependency issues systematically, reinstall cleanly as needed and verify with real Vite runtime. Switching to `@vitejs/plugin-react-swc` may be acceptable if validated with versions and user requirements. Do not change visual design to fix this tooling error.
+The historical cause cannot be established from the old screenshot alone. A stale or inconsistent earlier install is plausible, but not proven.
 
-Acceptance: successful install, typecheck, build, frontend load without overlay, Express health endpoint, and documented Prisma validation status. Keep Phase 3 IN PROGRESS until completed.
+## Windows installation and execution findings
+
+The first clean install failed with `EPERM` because this checkout's running Vite process held `node_modules/@esbuild/win32-x64/esbuild.exe`. Its command line was checked before stopping only the confirmed project Vite/esbuild processes. The same clean install then added 291 packages successfully.
+
+Some restricted agent subprocesses failed with `spawn EPERM` (Vite/esbuild, Node test workers and preview). Retrying the same commands with approved normal subprocess access passed. This is an execution-sandbox restriction, distinct from the original Babel error.
+
+For future clean installs: stop this project's development servers, run `npm ci` from the repository root, then `npm test`, `npm run typecheck`, `npm run build`, and `npm run dev`. Do not delete the lockfile or kill unrelated Node processes.
+
+See `PHASE_03_VERIFICATION.md` for the full runtime record and database limitations.
