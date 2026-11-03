@@ -1,6 +1,6 @@
 # AGENTS.md — mandatory instructions for ChatGPT, Codex and other agents
 
-> **Current continuation (2026-11-03):** Phase 4 frontend implementation and automated/HTTP checks are finished, but browser acceptance is BLOCKED. Phase 4 is IN PROGRESS, not complete. Read `docs/PHASE_04_VERIFICATION.md`; preserve existing work and follow its manual acceptance checklist. Older phase notes below are history.
+> **Current continuation (2026-11-03):** The project representative accepted Phase 4 for progression with browser/performance checks deferred and explicitly authorized Phase 5. Phase 5 backend/database development is complete; read `docs/PHASE_05_VERIFICATION.md`, `PROJECT_STATUS.md` and `HANDOFF.md`. Phase 6 is NOT STARTED. Historical phase notes below remain history; they do not override the latest authorization. Preserve the Phase 4 manual checklist for later QA and the planned final visual/UX revamp.
 
 This repository is **Nyirarukundo Seraphine's** bespoke portfolio website and future CMS. The design is client-specific, elegant and exceptionally fast, not a generic AI-generated template.
 
@@ -15,7 +15,7 @@ This repository is **Nyirarukundo Seraphine's** bespoke portfolio website and fu
 ## Stack and architecture
 
 - `frontend/`: React + Vite + TypeScript. Prioritize fast first paint, accessible mobile-first layouts, strong SEO/pre-rendering, high-quality but optimized images, lightweight animation, graceful fallbacks and `prefers-reduced-motion`.
-- `backend/`: Node.js + Express + TypeScript, Prisma + MySQL. Prisma 7 MySQL uses compatible driver adapter; proposed schema in `backend/prisma/schema.prisma` is NOT migrated.
+- `backend/`: Node.js + Express + TypeScript, Prisma 7.10.0 + official MariaDB adapter. Phase 5 schema is migrated to local XAMPP MariaDB; runtime and migration accounts have separate scoped permissions.
 - Authenticated roles: `SUPER_ADMIN` (developer/support) and `ADMIN` (Seraphine); GUEST is not a database account type.
 - JWT/session auth, role guards, actual dashboards, CMS, database writes, and contact delivery are NOT implemented in Phase 3.
 - No public admin signup, no default passwords, no privilege escalation, use HttpOnly cookie strategy + CSRF protection for future auth, keep audit trails.
@@ -65,3 +65,15 @@ This repository is **Nyirarukundo Seraphine's** bespoke portfolio website and fu
 - Mobile navigation uses native disclosure semantics. Preserve no-JavaScript content/navigation and reduced-motion behavior; do not initially hide content behind observers.
 - Public data/config must contain only information safe to bundle. Do not place unapproved contacts or future private CMS drafts into client code behind visibility flags. Empty project content renders no section or navigation link.
 - Questionnaire checklist options are not confirmed skills unless actually selected or supported by written answers. Official training metadata remains unconfirmed.
+
+## Phase 5 permanent conventions — 2026-11-03
+
+- Use existing XAMPP MariaDB, not a second installed server. Current dev/test/shadow databases are separate. If stopped, ask the user to start MySQL in XAMPP Control Panel. No unrelated XAMPP configuration/service changes.
+- Preserve backend/.env and never print/package credentials or MariaDB SHOW GRANTS authentication hashes. DATABASE_URL is DML runtime; MIGRATION_DATABASE_URL is scoped DDL; both target the same dev schema. SHADOW_DATABASE_URL must target a distinct disposable schema. Escape underscores in database-level grants to avoid wildcard access.
+- Never reset/truncate/drop an existing or unknown database. Inspect target/schema/data before applying migrations. Keep reviewed migrations and explicit SQL CHECK constraints; do not substitute db push for migration history.
+- Preserve route → controller validation → service → shared Prisma client boundaries. Strict allowlisted Zod input; explicit public selects/DTOs. Do not create PrismaClient per request or log raw driver errors/requests.
+- Content edits return to DRAFT; collection publication requires verification. Contacts require explicit dated consent; profile edits revoke it. Private media/storage keys, drafts, accounts, messages and logs never belong in public responses/bundles.
+- Internal CRUD/consent/media/message services are not public authorization. No mutation routes, fake auth headers/tokens, admin signup or seeded passwords before real Phase 6 auth/roles/CSRF/auditing.
+- Real DB tests use only the exact local seraphine_portfolio_test database/account, refuse existing application data and clean only IDs they created. Mocks/schema validation do not count as DB verification. Seed must be create-only/idempotent and preserve editor changes.
+- Package reviewed migration.sql under the narrow migrations allowlist, while excluding dumps, real env, private originals and generated Client/build outputs. Verify complete archive extraction, source hashes and local credential exclusion.
+- Carry Phase 4 browser/performance debt and owner content/portrait/contact approvals forward. Final visual/UX revamp is planned after major implementation; personalized email remains postponed.

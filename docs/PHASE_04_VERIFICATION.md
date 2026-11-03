@@ -1,5 +1,7 @@
 # Phase 4 — public frontend implementation and verification
 
+> **Later representative decision (2026-11-03):** The Phase 5 request accepted this frontend for progression, with browser/performance checks deferred, and authorized backend/database development. Phase 5 is now verified in PHASE_05_VERIFICATION.md. This historical report and its manual checklist remain accurate evidence of tests not yet performed; the old progression block below is superseded, not converted into a browser pass. Final comprehensive visual/UX revamp remains planned.
+
 **Date:** 2026-11-03 (Europe/Paris)
 **Assessment:** Implementation and available automated/HTTP verification finished. **Phase 4 IN PROGRESS; browser/visual acceptance BLOCKED.**
 **Delivery:** Full-source **review snapshot**, not a completed-phase ZIP. Nothing deployed.

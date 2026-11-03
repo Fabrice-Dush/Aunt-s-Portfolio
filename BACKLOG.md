@@ -21,7 +21,7 @@
 - [ ] Follow the Phase 3.1 manual browser checklist when browser access is available: screenshots, responsive layout, menu/Escape, anchors, focus/reduced motion and console. No browser visual-equivalence claim is made.
 - No remaining architectural implementation task is required for Phase 3.1. Add services/repositories only as actual later-phase business logic warrants them.
 
-## Phase 4 — Public portfolio polish
+## Phase 4 — Accepted for progression; deferred browser/performance QA
 
 - [x] Implement the light name-first hero, portrait proportions, editorial sections, native mobile disclosure and refined responsive CSS.
 - [x] Add actual training areas, typed project system (hidden while empty), public-only contact config and useful footer.
@@ -29,16 +29,19 @@
 - [x] Implement Vite/React build-time HTML with hydration, verified structured data, metadata and noindex/default absent canonical.
 - [x] Pass combined tests, TypeScript/builds, Prisma validation, production-artifact tests, privacy scan and development/compiled HTTP checks.
 - [x] Update memory and prepare full-source review ZIP with extraction verification.
-- [ ] **Acceptance blocker:** browser host/native pipe unavailable. Perform every item in `docs/PHASE_04_VERIFICATION.md` at 320/375/390/768/1024/1440/1920px, including visual comparison, menu, hydration, console, no-JS, focus, reduced motion and landscape.
+- [ ] **Deferred QA:** representative accepted progression in the Phase 5 request. Perform every item in `docs/PHASE_04_VERIFICATION.md` at 320/375/390/768/1024/1440/1920px, including visual comparison, menu, hydration, console, no-JS, focus, reduced motion and landscape.
 - [ ] Obtain real screenshots and visual review; correct observed differences. Do not mark responsive layout or browser behavior as passed from source tests alone.
 - [ ] Record Lighthouse mobile/desktop and available browser/device results; no measured LCP/INP/CLS or score exists yet.
-- [ ] After acceptance, mark Phase 4 complete and create `seraphine-portfolio-phase-04-complete.zip`. Current archive is a review snapshot.
+- [x] Representative acceptance for progression recorded; prior Phase 4 review snapshot remains historical. Current complete-source delivery is Phase 5.
 
 ## Phase 5 — Backend & database
 
-- [ ] Review and validate initial Prisma model; implement migration and Prisma Client driver adapter for MySQL.
-- [ ] Implement validated and tested REST routes, error handling and content publication states.
-- [ ] Decide safe media storage (not blobs in Git) and contact processing.
+- [x] XAMPP MariaDB 10.4.32 connection; isolated dev/test/shadow databases and scoped accounts.
+- [x] Twelve models, reviewed initial migration, shadow replay, shared Prisma adapter/client and safe seed.
+- [x] Explicit public DTOs, verified publication, contact/media privacy and validated internal content services.
+- [x] Unit/HTTP/real DB integration tests, production builds and frontend regression verification.
+- [x] API/schema/setup documentation, memory and complete source archive workflow.
+- [ ] Phase 7: select secure media storage provider and contact processing; metadata/service foundations are implemented.
 
 ## Phase 6 — Authentication and role dashboards
 
@@ -46,11 +49,13 @@
 - [ ] Password hashing, MFA consideration, login protection, JWT and secure session lifecycle.
 - [ ] Build actual responsive LIGHT Owner Studio and DARK Super Admin Operations experiences.
 - [ ] Enforce least privilege on server; audit changes; do not expose infrastructure secrets in dashboard.
+- [ ] Add authenticated mutation routes only with real role guards/CSRF; implement dashboard editing conflict handling and pagination.
 
 ## Phase 7 — CMS integration
 
 - [ ] Connect public portfolio to published and verified content without slowing first paint.
 - [ ] Support editing, drafts, publish actions, appropriate media/document uploads, and messages.
+- [ ] Confirm message retention policy and schedule expiry purge only after owner approval/public collection design.
 
 ## Phase 8 — QA and performance
 
@@ -59,6 +64,8 @@
 - [ ] Security review of auth/rate limits/uploads/CORS; API and DB integration tests.
 
 ## Phase 9 — Client content / legal / launch readiness
+
+- [ ] Conduct the agreed comprehensive visual and user-experience revamp after remaining major implementation, followed by full regression/acceptance.
 
 - [ ] **Seraphine approves synthetic portrait likeness**, or replace with an authentic approved full-length photo.
 - [ ] Confirm legal/public full name spelling (developer says Nyirarukundo Seraphine).

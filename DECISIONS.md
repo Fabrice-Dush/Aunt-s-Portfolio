@@ -1,5 +1,15 @@
 # Decisions — approved and provisional
 
+## Current Phase 5 decisions — 2026-11-03
+
+- The representative explicitly accepted Phase 4 for progression, with browser/performance checks deferred. Proceeded with Phase 5; no redesign. Comprehensive visual/UX revamp follows major implementation.
+- Use existing XAMPP MariaDB 10.4.32 at 127.0.0.1:3306. Separate dev/test/shadow schemas and local runtime/migration/test accounts; exact escaped schema grants, no global admin privilege. Keep pinned Prisma 7.10.0 and existing lockfile.
+- Preserve useful model names and add Achievement/SiteSettings, nullable year-based dates, media relations, explicit singleton CHECKs, restrictive content deletion and audit actor SetNull. DRAFT default; verified collections plus approved media and separately consented contacts.
+- Public DTO allowlists and strict Zod input; edits unpublish content. Internal services have no HTTP mutation exposure until Phase 6 auth/authorization/CSRF/audits. Retain existing health and metadata contract, including historical metadata wording.
+- Create-only stable-ID transactional seed preserves editorial edits. Uncertain jobs/education/training remain drafts; no accounts, private contacts or fabricated projects. Separate real DB tests refuse preexisting test content and clean only their fixture IDs.
+- Typed nonsecret settings, media metadata only, private message service with provisional 90-day expiry and explicit purge. Public collection/uploads/provider/email integration remain later work.
+- See docs/PHASE_05_VERIFICATION.md and docs/DATABASE_SCHEMA.md for current evidence. Earlier implementation-status statements below are historical.
+
 ## Product and creative direction (approved)
 
 - Owner: **Nyirarukundo Seraphine**, Kigali, Rwanda. Professional title **Water Treatment Plant Engineer**, work with WASAC Group, experience described as 11 years in the questionnaire.

@@ -28,7 +28,10 @@ def excluded(path):
         or path.as_posix().startswith('backend/src/generated/')
         or (name.startswith('.env') and not name.endswith('.example'))
         or name in {'.npmrc', '.netrc', 'credentials', 'credentials.json', '.ds_store'}
-        or Path(name).suffix in SECRET_SUFFIXES
+        or (Path(name).suffix in SECRET_SUFFIXES and not (
+            len(parts) == 5 and parts[:3] == ('backend', 'prisma', 'migrations')
+            and re.fullmatch(r'\d{14}_[a-z0-9_]+', parts[3]) and name == 'migration.sql'
+        ))
         or name.endswith(('.zip', '.log', '.tsbuildinfo', '.pyc'))
     )
 
@@ -53,6 +56,10 @@ def main():
             rel = path.relative_to(ROOT)
             if path.is_symlink() or excluded(rel):
                 continue
+            if path.suffix.lower() == '.sql':
+                sql = path.read_text(encoding='utf-8')
+                if re.search(r'\b(?:INSERT\s+INTO|REPLACE\s+INTO|IDENTIFIED\s+BY|CREATE\s+USER|GRANT)\b', sql, re.I):
+                    raise SystemExit(f'Migration contains data/account statements; review {rel} before packaging')
             # Fail closed on high-confidence credential markers; do not print their values.
             if path.suffix.lower() in {'.md', '.json', '.ts', '.tsx', '.js', '.mjs', '.html', '.yml', '.yaml', '.txt'}:
                 content = path.read_text(encoding='utf-8')
@@ -78,10 +85,32 @@ def main():
         'frontend/src/features/certifications/components/Training.tsx',
         'frontend/src/features/projects/types.ts', 'frontend/test/build/production.test.mjs',
         'scripts/verify-phase04.mjs',
+        'docs/PHASE_05_VERIFICATION.md', 'docs/API.md', 'docs/DATABASE_SCHEMA.md', 'docs/XAMPP_SETUP.md',
+        'backend/src/config/database.ts', 'backend/src/services/content.service.ts',
+        'backend/src/services/portfolio.service.ts', 'backend/src/services/private.service.ts',
+        'backend/src/validators/content.ts', 'backend/prisma/seed.ts',
+        'backend/prisma/migrations/20261103183624_phase05_foundation/migration.sql',
+        'backend/prisma/migrations/migration_lock.toml',
+        'backend/test/integration/database.test.mjs', 'backend/scripts/test-database.mjs',
     }
     names = {name for _, name in files}
     if required - names:
         raise SystemExit(f'Missing required files: {sorted(required - names)}')
+
+    # Compare local credentials with every eligible textual source without printing values.
+    env_path = ROOT / 'backend/.env'
+    if env_path.exists():
+        from urllib.parse import urlsplit, unquote
+        secrets = []
+        for line in env_path.read_text(encoding='utf-8').splitlines():
+            if '=' in line and line.split('=', 1)[0].endswith('_URL'):
+                value = line.split('=', 1)[1].strip().strip('\"\'')
+                password = urlsplit(value).password
+                if password and password != 'CHANGE_ME':
+                    secrets.extend([password.encode(), unquote(password).encode()])
+        for path, name in files:
+            if any(secret in path.read_bytes() for secret in secrets):
+                raise SystemExit(f'Local credential detected in eligible file: {name}')
 
     with zipfile.ZipFile(output, 'x', zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for path, name in files:

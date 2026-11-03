@@ -1,53 +1,49 @@
 # PROJECT_STATUS — Nyirarukundo Seraphine portfolio
 
 **Updated:** 2026-11-03 (Europe/Paris)
-**Current phase:** **4 — Premium public portfolio frontend**
-**Status:** **IN PROGRESS — implementation and automated verification finished; browser acceptance BLOCKED.**
-**Next phase:** Phase 5 backend/database — NOT STARTED. Do not start automatically.
-**Last approved design:** Phase 2 revision 02 bright portrait-led direction, approved 2026-10-30. New implementation visual acceptance and owner portrait consent remain open.
-
-## Phase boundaries
+**Current phase:** **5 — Backend and database development**
+**Status:** **COMPLETED — real XAMPP MariaDB integration, APIs, migrations, seed and automated acceptance verified.**
+**Next phase:** Phase 6 authentication and dashboards — NOT STARTED; do not start automatically.
 
 | Phase | Status |
 |---|---|
 | 1 Requirements | Sufficient for development; launch facts remain open |
-| 2 UI/UX | Approved bright name-first portfolio, light ADMIN and dark SUPER_ADMIN concepts |
-| 3 Setup | COMPLETED; see docs/PHASE_03_VERIFICATION.md |
-| 3.1 Architecture | COMPLETED; see docs/PHASE_03_1_VERIFICATION.md |
-| 4 Public frontend | Implementation finished; automated/HTTP checks PASS; visual and interactive browser acceptance BLOCKED |
-| 5 Backend/database | NOT STARTED; no MySQL connection, migrations or content API |
-| 6 Authentication/dashboards | NOT STARTED; prototypes and schema roles only |
-| 7 CMS | NOT STARTED |
-| 8 Full QA/performance | NOT STARTED; no Lighthouse or field Core Web Vitals results |
-| 9 Owner review | Portrait, employment dates, credentials and contact permissions outstanding |
-| 10 Deployment | NOT STARTED; nothing published |
+| 2 UI/UX | Approved bright public homepage, light ADMIN and dark SUPER_ADMIN concepts |
+| 3 / 3.1 | COMPLETED; historical verification reports retained |
+| 4 Public frontend | Accepted by project representative for progression; browser/performance checks deferred, not passed |
+| 5 Backend/database | COMPLETED; see docs/PHASE_05_VERIFICATION.md |
+| 6 Authentication/dashboards | NOT STARTED |
+| 7 CMS/content integration | NOT STARTED |
+| 8 QA/performance | NOT STARTED; deferred browser checklist remains |
+| 9 Owner review | Portrait, employment dates, credentials and contact permission outstanding |
+| 10 Deployment/handover | NOT STARTED; nothing published |
 
-## Current frontend
+The explicit Phase 5 request superseded the earlier Phase 4 progression block. No redesign was performed. A comprehensive visual/UX revamp is planned after the remaining implementation phases.
 
-- Existing feature architecture preserved. Bright navy/blue identity, prominent name, responsive standing portrait with reserved aspect ratio, editorial sections, open expertise grid, timeline, education, training, informational contact and professional footer.
-- Native mobile disclosure provides basic no-JavaScript navigation. React adds Escape, outside-pointer/focus closing, anchor focus transfer, resize cleanup and observed active-link state. Runtime browser behavior still needs verification.
-- Three questionnaire training areas implemented. Typed project presentation supports images, role, dates and outcomes; empty/unapproved data renders no public projects section or navigation link.
-- Contact config contains no private values. No fake submission form, fabricated projects, metrics or credentials.
-- Lightweight transform entrances, one-time section motion, hover/focus feedback and reduced-motion CSS. No new dependency or external font.
-- Build-time React rendering produces complete homepage HTML, then hydration. Default noindex/nofollow, robots restriction, domain-free social metadata and verified Person data. Canonical handling is configurable only when a real domain is selected.
+## Actual backend
 
-## Verification on 2026-11-03
+XAMPP MariaDB 10.4.32 at 127.0.0.1:3306. Development database seraphine_portfolio_dev, isolated test and shadow databases, three distinct local accounts with exact database scopes. Runtime uses DML only. Real credentials remain in ignored backend/.env, never in delivery.
 
-- Final `npm test`: **6 structure + 10 frontend/SEO + 7 backend HTTP scenarios PASS** (backend runner reports 8 including parent).
-- `npm run typecheck`, `npm run build`: **PASS** for both workspaces. Prisma schema validation **PASS**.
-- `npm run test:build -w frontend`: **3 PASS** for pre-rendered HTML, asset/preload and bundle budgets, and public-file exclusions.
-- `node scripts/verify-phase04.mjs`: **34 development + 7 production HTTP requests PASS**, compiled API health 200 / invalid JSON 400 / oversized JSON 413 PASS.
-- Private source hashes and two extracted private contact tokens absent from production output. Backend source, Prisma schema, dependency lockfile and design assets unchanged.
-- Artifact sizes: HTML **12,526 bytes**, JS **239,297 bytes / ~74.6 kB gzip**, CSS **16,262 bytes / ~4.6 kB gzip**. Portraits **60,280 / 106,464 bytes**. These are sizes, not loading-speed measurements.
-- Browser host and Windows native pipe unavailable before and after implementation. **No new screenshots, viewport passes, browser-console checks, hydration checks, menu interaction tests, Lighthouse or cross-browser results are claimed.**
-- Full details, content provenance and exact manual checklist: [docs/PHASE_04_VERIFICATION.md](docs/PHASE_04_VERIFICATION.md).
+Twelve migrated models: User, Profile, Experience, Education, Skill, Project, Achievement, Certificate, MediaAsset, ContactMessage, SiteSettings, AuditLog. Initial migration 20261103183624_phase05_foundation applied to development and test; shadow replay reports no drift. Shared Prisma 7.10.0 client with official MariaDB adapter. No dependency upgrades or lockfile changes.
 
-## Acceptance gate still open
+Public GET /api/v1/profile, /experience, /education, /skills, /projects, /projects/:slug, /achievements, /certifications plus preserved /health and metadata. Only explicit published/verified DTOs; safe nested relations and separate contact consent. Internal validated editing/publication/reorder/media/message/settings services exist. No public admin writes, fake auth, account provisioning, uploads, contact submission or email delivery.
 
-Run the browser checklist at 320, 375, 390, 768, 1024, 1440 and 1920px, validate keyboard/touch/no-JS/reduced-motion/hydration, compare with the bright approved collage, fix observed issues and obtain visual review. Phase 4 must remain IN PROGRESS until these checks have evidence.
+Safe non-overwriting seed: published basic profile and six supported skills; two provisional jobs, three education records and three training entries remain drafts; typed noindex site settings. No users, private contacts, projects, achievements, messages, media or analytics seeded.
 
-Source review snapshot target: `C:\Users\HP\Pictures\Aunt nyirarukundo\seraphine-portfolio-phase-04-review-snapshot.zip`. It contains the entire current source/design/docs tree, excluding private material, secrets, dependencies and generated outputs. The package command verifies CRCs, required files, extraction and source hashes; final delivery reports exact size/hash. It is **not** a completed-phase deliverable or publication permission.
+## Verification
 
-## Unchanged later-phase limitations
+- npm test PASS: 6 structure + 10 frontend/SEO + 8 backend unit/service/security + 7 backend HTTP scenarios.
+- Real isolated database suite PASS: 11 scenarios, including migration replay, CRUD, constraints, relations, privacy, seed idempotence and transactions. No skips; test fixtures removed by ID.
+- Prisma validate/generate, database/account verification, development migration + shadow drift check and seed PASS.
+- Both TypeScript checks and production builds PASS; frontend build includes prerendering. Three production-artifact tests PASS.
+- Phase 4 HTTP harness PASS: 34 development + 7 production asset/module requests and compiled 200/400/413.
+- Phase 5 compiled runtime harness PASS: eight live content/health requests using the real development database.
+- Frontend and approved design assets unchanged. No new browser/hydration/menu/Lighthouse evidence claimed.
 
-MySQL was unavailable in Phase 3 and has not been connected in Phase 4. No migration, database write, authentication, cookie/CSRF flow, CMS, dashboard logic, uploads or contact delivery exists. The historical Babel error remains unreproduced after the Phase 3 clean install; its original root cause is unproven. Custom email setup stays deferred until website completion.
+Full evidence and issues fixed: [docs/PHASE_05_VERIFICATION.md](docs/PHASE_05_VERIFICATION.md). API: [docs/API.md](docs/API.md). Setup: [docs/XAMPP_SETUP.md](docs/XAMPP_SETUP.md). Schema: [docs/DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md).
+
+## Delivery and remaining boundaries
+
+Complete-project archive: `C:\Users\HP\Pictures\Aunt nyirarukundo\seraphine-portfolio-phase-05-complete.zip`. The packager verifies exact file membership, migration inclusion, secret/private exclusions, CRC, extraction and every source hash. Final archive size/count/hash are reported at delivery, outside the archive.
+
+The public frontend remains static-first, with approved build-time HTML and no live API dependency. Phase 7 will connect published content. Phase 6 must implement authentication, secure provisioning/password hashing, sessions/cookies/CSRF, RBAC, audit events and real dashboards. No deployment or owner publication permission is implied. Keep contact/portrait/credential/date review, deferred browser QA and final visual revamp in the backlog. Personalized email stays postponed.

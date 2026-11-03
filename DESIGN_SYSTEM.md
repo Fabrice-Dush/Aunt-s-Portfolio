@@ -1,5 +1,7 @@
 # Design system — Phase 2 approved, Phase 4 implementation
 
+**Phase 5 continuation (2026-11-03):** Approved design, frontend markup/styles and assets preserved unchanged. The representative accepted Phase 4 for progression with browser/performance QA deferred. A comprehensive visual/UX revamp is planned after remaining major implementation; no new visual acceptance or performance score is claimed here.
+
 ## Visual direction
 
 **PRECISION / PEOPLE** — an elegant professional identity for a Water Treatment Plant Engineer. The developer APPROVED the 2026-10-30 revision with a light editorial homepage, very large name, modern blue and navy identity, and generous space. The old dark homepage remains archived as a Phase 2 variant, NOT the chosen production direction.

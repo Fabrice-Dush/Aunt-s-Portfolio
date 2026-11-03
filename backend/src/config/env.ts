@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import './loadEnv.js';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -7,6 +7,5 @@ const schema = z.object({
   FRONTEND_ORIGIN: z.string().url().default('http://localhost:5173'),
 });
 
-// Database credentials are intentionally not loaded by the public health route.
-// Database access will be added in Phase 5 after connection is configured.
+// Database validation is lazy so the liveness route remains independent of MariaDB.
 export const env = schema.parse(process.env);

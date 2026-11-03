@@ -1,5 +1,17 @@
 # Architecture — current source and future boundaries
 
+## Phase 5 current implementation — 2026-11-03
+
+The backend now implements route → controller validation → service → shared Prisma Client/official MariaDB adapter → XAMPP MariaDB. See [docs/DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md) for twelve final models, relationships, SQL integrity decisions, lifecycle and security boundaries; [docs/API.md](docs/API.md) for the complete contract.
+
+New modules: `config/{loadEnv,database}.ts`, `validators/content.ts`, `utils/AppError.ts`, `services/{portfolio,content,private,publication,seed}.service.ts` (publication helper is `publication.ts`), `controllers/portfolio.controller.ts`, `routes/portfolio.routes.ts`, migration SQL and `prisma/seed.ts`. Scripts provide safe local provisioning, database verification and isolated integration testing. Backend tests now include unit/service/privacy and actual DB/HTTP coverage.
+
+Runtime DATABASE_URL uses DML-only account; CLI MIGRATION_DATABASE_URL uses scoped DDL and distinct SHADOW_DATABASE_URL. One lazily shared client per process; stable backend env loading; Prisma generation is part of build/pretest; server disconnects on shutdown. Health does not query DB. Controller validation is strict; services never depend on Express. Public select/DTO mapping excludes secrets/drafts/private relations. Private services are not routed or authenticated; Phase 6 must supply real guards, CSRF and mutation audit/edit-conflict handling before exposure.
+
+Single-owner profile/settings enforced by SQL CHECK. Native media/profile/certificate/project/achievement FKs use RESTRICT; audit actor uses SetNull. Dates are nullable years. Explicit publishing, verified collections and independent contact/media consent prevent accidental release. Typed settings contain no secrets. No upload provider, message delivery, live auth or dashboard exists.
+
+Frontend source, feature architecture, approved design and prerendering remain unchanged. Public content stays static-first; Phase 7 will consume a safe published snapshot with authorized rebuilds. Phase 4 accepted for progression, browser/performance tests deferred. Historical sections below describe earlier snapshots, not the current backend implementation.
+
 ## Phase 4 additions — 2026-11-03
 
 The Phase 3.1 feature boundaries remain. Phase 4 implementation is present; browser acceptance is still pending. See `docs/PHASE_04_VERIFICATION.md`.

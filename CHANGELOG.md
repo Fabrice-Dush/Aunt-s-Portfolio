@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-11-03 — Phase 5 backend and database complete
+
+- Recorded representative Phase 4 acceptance for progression, carrying browser/performance debt and planned final visual/UX revamp forward. Frontend/design assets unchanged.
+- Inspected running XAMPP MariaDB 10.4.32/3306; created isolated dev/test/shadow databases and three scoped accounts with private random credentials. Narrowed schema grant underscores to literal names; no global grants, reset or unrelated service changes.
+- Expanded to twelve Prisma models, added reviewed migration/FKs/indexes/CHECKs, applied dev/test migrations and verified shadow drift replay. Added shared official adapter/client, safe configuration, generation in builds/tests and pool shutdown.
+- Added eight public content read routes with explicit published/verified DTOs, bounded pagination and safe contacts/media. Added strict Zod validation, internal CRUD/publication/reorder/private service foundations and consistent safe errors. No administrative mutation/contact submission/auth/upload route exposed.
+- Added create-only idempotent seed with authentic profile/skills and draft uncertain history/education/training. No users, contacts, fictional projects/achievements or default credentials seeded.
+- Passed 8 new unit/service/security tests, 11 real DB/HTTP integration scenarios, existing combined regressions, both typechecks/builds, three frontend artifact tests and live dev/compiled HTTP checks.
+- Added API/schema/XAMPP/verification docs and updated memory. Extended ZIP tooling to include reviewed migrations while excluding SQL dumps, verify local credential absence and retain full extraction/source-hash verification.
+
+Earlier entries below describe their historical phase state.
+
 ## 2026-11-03 — Phase 4 frontend implementation; browser acceptance pending
 
 - Continued the existing feature architecture and approved bright/navy/blue identity. Refined hero proportions, responsive portrait sizing, editorial expertise, career/education sections, training rows, contact and footer.

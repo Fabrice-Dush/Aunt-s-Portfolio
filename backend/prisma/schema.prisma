@@ -1,5 +1,4 @@
-// PHASE 3 FOUNDATION — This schema is PROPOSED, not migrated to a live MySQL DB.
-// MySQL via Prisma 7; use a driver adapter when introducing PrismaClient in Phase 5.
+// Phase 5: MySQL/MariaDB. Publication is explicit and defaults to private drafts.
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -39,15 +38,22 @@ model User {
 }
 
 model Profile {
-  id                String   @id @default(cuid())
+  id                String   @id @default("owner") @db.VarChar(191)
   fullName          String   @db.VarChar(150)
   professionalTitle String   @db.VarChar(200)
   location          String?  @db.VarChar(150)
+  city              String?  @db.VarChar(100)
+  country           String?  @db.VarChar(100)
+  biography         String?  @db.Text
+  experienceDescription String? @db.VarChar(255)
   motto             String?  @db.VarChar(255)
   summary           String?  @db.Text
   email             String?  @db.VarChar(191)
   phone             String?  @db.VarChar(40)
   showPublicContact Boolean  @default(false)
+  contactApprovedAt DateTime?
+  portraitId        String?
+  portrait          MediaAsset? @relation(fields: [portraitId], references: [id], onDelete: Restrict)
   status            PublicationStatus @default(DRAFT)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -57,8 +63,10 @@ model Experience {
   id               String   @id @default(cuid())
   jobTitle         String   @db.VarChar(200)
   organization     String   @db.VarChar(200)
-  startYear        Int
+  startYear        Int?
   endYear          Int?
+  isCurrent        Boolean @default(false)
+  description      String? @db.Text
   responsibilities String?  @db.Text
   isVerified       Boolean  @default(false)
   status           PublicationStatus @default(DRAFT)
@@ -72,6 +80,7 @@ model Education {
   id            String   @id @default(cuid())
   qualification String   @db.VarChar(200)
   institution   String   @db.VarChar(200)
+  country       String?  @db.VarChar(100)
   yearCompleted Int?
   notes         String?  @db.Text
   isVerified    Boolean  @default(false)
@@ -86,10 +95,13 @@ model Skill {
   id        String   @id @default(cuid())
   name      String   @db.VarChar(200)
   category  String?  @db.VarChar(100)
+  description String? @db.Text
+  isVerified Boolean @default(false)
   sortOrder Int      @default(0)
   status    PublicationStatus @default(DRAFT)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  @@index([status, sortOrder])
 }
 
 model Project {
@@ -101,11 +113,33 @@ model Project {
   role        String?  @db.VarChar(160)
   result      String?  @db.Text
   year        Int?
+  organization String? @db.VarChar(200)
+  startYear   Int?
+  endYear     Int?
+  isVerified  Boolean @default(false)
+  featured    Boolean @default(false)
+  sortOrder   Int @default(0)
   status      PublicationStatus @default(DRAFT)
   media       MediaAsset[]
+  achievements Achievement[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  @@index([status, createdAt])
+  @@index([status, sortOrder])
+}
+
+model Achievement {
+  id String @id @default(cuid())
+  title String @db.VarChar(220)
+  description String? @db.Text
+  year Int?
+  projectId String?
+  project Project? @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  isVerified Boolean @default(false)
+  status PublicationStatus @default(DRAFT)
+  sortOrder Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([status, sortOrder])
 }
 
 model Certificate {
@@ -113,10 +147,15 @@ model Certificate {
   title       String   @db.VarChar(220)
   issuer      String?  @db.VarChar(200)
   year        Int?
+  credentialDetails String? @db.Text
+  mediaId String?
+  media MediaAsset? @relation(fields: [mediaId], references: [id], onDelete: Restrict)
+  sortOrder Int @default(0)
   isVerified  Boolean  @default(false)
   status      PublicationStatus @default(DRAFT)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  @@index([status, sortOrder])
 }
 
 model MediaAsset {
@@ -127,9 +166,13 @@ model MediaAsset {
   bytes      Int
   altText    String?  @db.VarChar(255)
   approved   Boolean  @default(false)
+  publicUrl  String? @db.VarChar(500)
   projectId  String?
-  project    Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  project    Project? @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  profiles   Profile[]
+  certificates Certificate[]
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
   @@index([projectId])
 }
 
@@ -141,7 +184,18 @@ model ContactMessage {
   content    String   @db.Text
   status     MessageStatus @default(NEW)
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  expiresAt  DateTime?
   @@index([status, createdAt])
+}
+
+// Deliberately typed nonsecret settings; no arbitrary key/value secret store.
+model SiteSettings {
+  id String @id @default("site") @db.VarChar(191)
+  siteTitle String @db.VarChar(200)
+  description String? @db.VarChar(500)
+  allowIndexing Boolean @default(false)
+  updatedAt DateTime @updatedAt
 }
 
 model AuditLog {
