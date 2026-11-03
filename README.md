@@ -2,11 +2,11 @@
 
 # Nyirarukundo Seraphine — Professional Portfolio
 
-**Project phase:** Phase 3.1 — architecture refactoring COMPLETE; Phase 3 COMPLETE; Phase 4 NOT STARTED. Current verification and browser limitations: [`docs/PHASE_03_1_VERIFICATION.md`](docs/PHASE_03_1_VERIFICATION.md).
+**Project phase:** Phase 3 and 3.1 COMPLETE. Phase 4 frontend implementation and automated/HTTP verification finished; **browser acceptance BLOCKED, phase IN PROGRESS**. Current evidence and manual checklist: [`docs/PHASE_04_VERIFICATION.md`](docs/PHASE_04_VERIFICATION.md).
 
 This is a bespoke professional portfolio and a future two-role content-management system for **Nyirarukundo Seraphine**, Water Treatment Plant Engineer in Kigali, Rwanda. The light, portrait-led homepage, light `ADMIN` Studio, and dark `SUPER_ADMIN` Operations interface are the approved design direction.
 
-> **What this package is:** the first real React/Vite and Express/TypeScript project scaffold plus a proposed Prisma/MySQL schema, carrying all Phase 2 designs and handoff memory files. It is not yet a deployed, fully working CMS. The React page and Express health API have been built and run locally. Auth, dashboards, CMS, database integration and contact delivery remain future work.
+> **What this package is:** the implemented React/Vite public portfolio with build-time HTML, the Express/TypeScript API foundation and proposed Prisma/MySQL schema, carrying all Phase 2 designs and project memory. This is a local review snapshot, not a deployed site or working CMS. Auth, dashboards, CMS, database integration and contact delivery remain future work.
 
 ## Prerequisites
 
@@ -42,6 +42,8 @@ npm run dev
 npm run typecheck
 npm run build
 npm test
+npm run test:build -w frontend
+node scripts/verify-phase04.mjs
 ```
 
 Prisma validation and generation require `DATABASE_URL` to be defined, but do **not** require a running MySQL server or working credentials. The example URL is enough for these two schema-only commands:
@@ -58,7 +60,7 @@ Live MySQL connectivity and migrations require real local credentials in Phase 5
 - Verified on Windows with Node 24.11.1 / npm 11.6.2. The existing lockfile is included; `npm ci` reproducibly installs both workspaces from root.
 - Stop this project's development servers before `npm ci` on Windows; esbuild can otherwise be locked. Do not delete the lockfile to fix that lock.
 - `npm run dev` starts both services. `npm run dev:frontend`, `npm run dev:backend`, and `npm run dev` from either workspace directory are supported. The current combined runner emits Node 24's shell-argument deprecation warning; its fixed workspace names are not user input. Both services started and stopped in verification.
-- Typechecks, production builds, six structure tests, three frontend render tests and seven HTTP scenarios passed. `npm start -w backend` serves the compiled API; `npm run preview -w frontend -- --port 4173 --strictPort` serves the frontend build.
+- Typechecks, production builds, six structure tests, ten frontend/SEO tests, three build-artifact tests and seven HTTP scenarios passed. `npm start -w backend` serves the compiled API; `npm run preview -w frontend -- --port 4173 --strictPort` serves the frontend build. The HTTP harness starts/stops its own servers; port 4402 must be free.
 - Prisma 7.10.0 schema validation and Client generation passed. Generated files are ignored and omitted from delivery. Local MySQL refused the connection and the local URL still contains example credentials. No migrations or data writes were performed.
 - The ZIP omits dependencies, build outputs, real environment files, private handoff material and caches. Python 3 is needed only to rerun `scripts/package-project.py` for the release ZIP.
 - The portrait is an **AI-generated concept based on the owner-provided photograph**. Seraphine's likeness/public-use approval remains required before launch.
@@ -106,4 +108,12 @@ Read `AGENTS.md` then `PROJECT_STATUS.md` and `HANDOFF.md` before modifying any 
 
 The backend uses MVC with a service-layer boundary for future business logic; health and metadata are simple controllers. The frontend uses feature modules with shared layout/UI and application composition. See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the full source tree and ownership rules, and [`docs/PHASE_03_1_VERIFICATION.md`](docs/PHASE_03_1_VERIFICATION.md) for moved/created files, compatibility evidence and remaining manual browser checks.
 
-No live MySQL/auth/CMS/dashboard implementation or Phase 4 redesign is included. The complete local ZIP is `C:\Users\HP\Pictures\Aunt nyirarukundo\seraphine-portfolio-phase-03.1-complete.zip`; it excludes dependencies, generated/build/cache outputs, secrets and private materials.
+The Phase 3.1 ZIP is historical. The current Phase 4 source review snapshot is `C:\Users\HP\Pictures\Aunt nyirarukundo\seraphine-portfolio-phase-04-review-snapshot.zip`; it excludes dependencies, generated/build/cache outputs, secrets and private materials. No live MySQL/auth/CMS/dashboard implementation is included.
+
+## Phase 4 rendering and review
+
+Run the full `npm run build`; plain `vite build` does not run static rendering. The frontend build creates client assets, compiles a build-only SSR entry into ignored `.cache/prerender`, writes complete portfolio HTML into `frontend/dist/index.html`, then React hydrates that same tree in the browser. No backend is required to read the page. Rebuild after content changes.
+
+`frontend/site.config.mjs` defaults to no canonical domain and indexing disabled. Keep those settings until launch review. Noindex is not access control; do not deploy the review preview. Contact config has no values, project data is empty, and portrait consent remains pending. No invented credentials/projects or fake form is displayed.
+
+Real browser automation is unavailable in this session. Responsive layout, menu/keyboard/touch behavior, hydration/console, reduced motion, cross-browser compatibility and Lighthouse are **not verified**. Complete the exact seven-viewport checklist in the Phase 4 verification report before calling the phase complete. Build-size figures are not Core Web Vitals.

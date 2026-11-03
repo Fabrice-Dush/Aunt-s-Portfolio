@@ -1,74 +1,53 @@
 # PROJECT_STATUS — Nyirarukundo Seraphine portfolio
 
-**Updated:** 2026-11-03
-**Current phase:** **3.1 — Architecture Refactoring**
-**Status:** **COMPLETED — code validation passed; browser verification limitations documented.**
-**Next phase:** Phase 4 public portfolio refinement — NOT STARTED.
-**Last approved design:** Phase 2 revision 02, developer-approved 2026-10-30. Owner portrait consent remains open.
+**Updated:** 2026-11-03 (Europe/Paris)
+**Current phase:** **4 — Premium public portfolio frontend**
+**Status:** **IN PROGRESS — implementation and automated verification finished; browser acceptance BLOCKED.**
+**Next phase:** Phase 5 backend/database — NOT STARTED. Do not start automatically.
+**Last approved design:** Phase 2 revision 02 bright portrait-led direction, approved 2026-10-30. New implementation visual acceptance and owner portrait consent remain open.
 
 ## Phase boundaries
 
 | Phase | Status |
 |---|---|
-| 1 Requirements | Sufficient for implementation; launch facts remain open |
-| 2 UI/UX | Bright name-first portfolio, light ADMIN and dark SUPER_ADMIN direction approved; prototypes only |
-| 3 Setup | COMPLETED; retained acceptance evidence in `docs/PHASE_03_VERIFICATION.md` |
-| 3.1 Architecture refactor | COMPLETED; evidence and browser limitations in `docs/PHASE_03_1_VERIFICATION.md` |
-| 4 Public portfolio | Not started; current React page is a foundation |
-| 5 Backend/database | Not started; proposed schema validates and Client generates, but no DB connection, migration or content API |
-| 6 Authentication/dashboards | Not started; role enum only, no login, guards or working dashboards |
-| 7 CMS integration | Not started |
-| 8 Full QA/performance | Not started; Phase 3 smoke tests do not substitute for full QA |
-| 9 Owner approval/launch readiness | Not started; facts and media consent outstanding |
-| 10 Deployment/handover | Not started; nothing published |
+| 1 Requirements | Sufficient for development; launch facts remain open |
+| 2 UI/UX | Approved bright name-first portfolio, light ADMIN and dark SUPER_ADMIN concepts |
+| 3 Setup | COMPLETED; see docs/PHASE_03_VERIFICATION.md |
+| 3.1 Architecture | COMPLETED; see docs/PHASE_03_1_VERIFICATION.md |
+| 4 Public frontend | Implementation finished; automated/HTTP checks PASS; visual and interactive browser acceptance BLOCKED |
+| 5 Backend/database | NOT STARTED; no MySQL connection, migrations or content API |
+| 6 Authentication/dashboards | NOT STARTED; prototypes and schema roles only |
+| 7 CMS | NOT STARTED |
+| 8 Full QA/performance | NOT STARTED; no Lighthouse or field Core Web Vitals results |
+| 9 Owner review | Portrait, employment dates, credentials and contact permissions outstanding |
+| 10 Deployment | NOT STARTED; nothing published |
 
-## Verified Phase 3.1 refactoring
+## Current frontend
 
-- Backend now separates routes, controllers, shared middleware and configuration. The service-layer boundary is documented; no service is needed for the current no-DB health/metadata responses.
-- Frontend now uses `app/`, feature sections and `shared/`. Existing content, markup, section anchors, ARIA, assets and mobile navigation implementation are preserved.
-- Clean baseline at commit `8fefefee17746e6f6cc8e9c7445f305e4ea201d2`; no unrelated local changes were present. No dependency, lockfile or Prisma schema changes.
-- `npm test`: 6 structure tests, 3 rendered frontend tests and 7 HTTP scenarios pass (backend runner reports 8 including parent). Both typechecks/builds and Prisma validation pass.
-- Development frontend and API start; compiled API and frontend preview start. Health 200, malformed JSON 400, oversized JSON 413, development module/asset requests and proxy pass.
-- Before/after React static HTML matches exactly (9,430 bytes). CSS and existing interactive Header source are unchanged; approved assets preserved. This verifies markup/source preservation, **not pixel equivalence or browser event execution**.
-- Browser host and Windows native pipe were unavailable in this session. New screenshots, live mobile-menu/anchor checks and browser-console review could not run. Manual checklist is in the Phase 3.1 verification report; previous Phase 3 browser evidence remains historical.
-- Complete source ZIP target: `C:\Users\HP\Pictures\Aunt nyirarukundo\seraphine-portfolio-phase-03.1-complete.zip`. Packaging checks required entries, exclusions, CRCs and every source hash. Phase 4 remains **NOT STARTED**.
+- Existing feature architecture preserved. Bright navy/blue identity, prominent name, responsive standing portrait with reserved aspect ratio, editorial sections, open expertise grid, timeline, education, training, informational contact and professional footer.
+- Native mobile disclosure provides basic no-JavaScript navigation. React adds Escape, outside-pointer/focus closing, anchor focus transfer, resize cleanup and observed active-link state. Runtime browser behavior still needs verification.
+- Three questionnaire training areas implemented. Typed project presentation supports images, role, dates and outcomes; empty/unapproved data renders no public projects section or navigation link.
+- Contact config contains no private values. No fake submission form, fabricated projects, metrics or credentials.
+- Lightweight transform entrances, one-time section motion, hover/focus feedback and reduced-motion CSS. No new dependency or external font.
+- Build-time React rendering produces complete homepage HTML, then hydration. Default noindex/nofollow, robots restriction, domain-free social metadata and verified Person data. Canonical handling is configurable only when a real domain is selected.
 
-## Verified Phase 3 functionality
+## Verification on 2026-11-03
 
-- Existing npm workspaces install reproducibly from the retained lockfile using `npm ci`. Node 24.11.1 / npm 11.6.2 on Windows.
-- Both TypeScript checks and production builds pass. Six structure tests and seven real HTTP scenarios (eight backend test-runner results including the parent test) pass.
-- React/Vite renders the approved bright/navy/blue foundation locally with working assets, local system fonts, inline SVG icons, mobile menu and anchor navigation. Full browser scope is in `docs/PHASE_03_VERIFICATION.md`.
-- The original Babel `_lruCache` error does not reproduce in the clean install, development transforms, production build or Chrome page. Its historical root cause is not proven. No dependency/plugin changes were needed.
-- Express development and compiled servers return HTTP 200 from `http://localhost:4000/api/v1/health` with the expected service, status and timestamp. Helmet, CORS, 404, body parsing, safe errors and rate limiting have HTTP coverage.
-- Prisma CLI/Client/MariaDB adapter remain pinned together at 7.10.0. MySQL schema validation and Client generation pass. `SUPER_ADMIN` and `ADMIN` are the only account roles.
-- `npm ls --all --json` is clean; `npm audit --json` reported zero known vulnerabilities at verification time.
+- Final `npm test`: **6 structure + 10 frontend/SEO + 7 backend HTTP scenarios PASS** (backend runner reports 8 including parent).
+- `npm run typecheck`, `npm run build`: **PASS** for both workspaces. Prisma schema validation **PASS**.
+- `npm run test:build -w frontend`: **3 PASS** for pre-rendered HTML, asset/preload and bundle budgets, and public-file exclusions.
+- `node scripts/verify-phase04.mjs`: **34 development + 7 production HTTP requests PASS**, compiled API health 200 / invalid JSON 400 / oversized JSON 413 PASS.
+- Private source hashes and two extracted private contact tokens absent from production output. Backend source, Prisma schema, dependency lockfile and design assets unchanged.
+- Artifact sizes: HTML **12,526 bytes**, JS **239,297 bytes / ~74.6 kB gzip**, CSS **16,262 bytes / ~4.6 kB gzip**. Portraits **60,280 / 106,464 bytes**. These are sizes, not loading-speed measurements.
+- Browser host and Windows native pipe unavailable before and after implementation. **No new screenshots, viewport passes, browser-console checks, hydration checks, menu interaction tests, Lighthouse or cross-browser results are claimed.**
+- Full details, content provenance and exact manual checklist: [docs/PHASE_04_VERIFICATION.md](docs/PHASE_04_VERIFICATION.md).
 
-## Resolved issues
+## Acceptance gate still open
 
-- Released this project's running Vite/esbuild file lock before clean installation.
-- Preserved the user's lockfile Express-range correction exactly; no lockfile regeneration.
-- Corrected the offline test that prohibited a valid ignored local `.env`.
-- Invalid/oversized JSON now returns safe 400/413 responses instead of 500.
-- Narrowed the hero heading selector so its orange period remains beside Seraphine.
-- Expanded environment/cache exclusions and added a ZIP packager that checks required files, CRCs and every file hash.
+Run the browser checklist at 320, 375, 390, 768, 1024, 1440 and 1920px, validate keyboard/touch/no-JS/reduced-motion/hydration, compare with the bright approved collage, fix observed issues and obtain visual review. Phase 4 must remain IN PROGRESS until these checks have evidence.
 
-## Acceptance gate
+Source review snapshot target: `C:\Users\HP\Pictures\Aunt nyirarukundo\seraphine-portfolio-phase-04-review-snapshot.zip`. It contains the entire current source/design/docs tree, excluding private material, secrets, dependencies and generated outputs. The package command verifies CRCs, required files, extraction and source hashes; final delivery reports exact size/hash. It is **not** a completed-phase deliverable or publication permission.
 
-- [x] Workspaces/source, API/React foundation, initial schema and docs exist.
-- [x] Clean locked root installation and valid dependency tree.
-- [x] Full TypeScript checks, production builds and relevant tests.
-- [x] Vite/React browser and asset smoke checks; real Express HTTP health checks.
-- [x] Compatible Prisma schema validation and Client generation.
-- [x] Final memory and complete ZIP verification.
+## Unchanged later-phase limitations
 
-## Remaining limitations
-
-- Live MySQL connectivity is **BLOCKED**: local URL contains example credentials and its local TCP port returns ECONNREFUSED. No migrations were created/applied; no data was read or written. This is Phase 5 work, not a Phase 3 setup blocker.
-- Auth/JWT/cookies/CSRF guards, CMS, uploads, functional dashboards and contact delivery are not implemented.
-- Full Chrome/Edge/Firefox/Safari, real-device, accessibility, reduced-motion runtime, SEO and Lighthouse audits remain Phase 4/8 work.
-- The combined dev runner emits Node 24's shell-argument deprecation warning with fixed internal workspace names. Startup and shutdown worked in this Windows session; broader process supervision remains future maintenance.
-- Provisional employment dates, exact credentials, project claims and portrait likeness/public-use approval remain owner review items. No public contact details have been enabled.
-
-## Exact next steps
-
-Read `HANDOFF.md`; start Phase 4 only when requested. Preserve approved design references and refine the public portfolio, accessible interaction and SEO/pre-render plan without adding fabricated content. Database migration and authentication remain later phases. See `docs/PHASE_03_1_VERIFICATION.md` for current commands, architecture changes and remaining manual browser checks.
+MySQL was unavailable in Phase 3 and has not been connected in Phase 4. No migration, database write, authentication, cookie/CSRF flow, CMS, dashboard logic, uploads or contact delivery exists. The historical Babel error remains unreproduced after the Phase 3 clean install; its original root cause is unproven. Custom email setup stays deferred until website completion.

@@ -1,3 +1,5 @@
+> **Latest continuation — 2026-11-03:** Phase 4 frontend implementation and automated/HTTP checks are finished; browser acceptance remains BLOCKED and Phase 4 is IN PROGRESS. Read `docs/PHASE_04_VERIFICATION.md`, `PROJECT_STATUS.md` and `HANDOFF.md`. Preserve existing Phase 4 changes; do not restart Phase 3 or begin Phase 5. Delivery is a review snapshot.
+
 > **Latest continuation — 2026-11-03:** Phase 3.1 architecture refactoring is complete; Phase 4 has not started. Read `docs/PHASE_03_1_VERIFICATION.md`, `PROJECT_STATUS.md`, `HANDOFF.md` and `ARCHITECTURE.md` before the retained historical notes below. Browser verification limitations are explicitly recorded.
 
 > **Current verification update — 2026-11-03:** Phase 3 is complete. The historical takeover notes below are retained for context. Read `PROJECT_STATUS.md`, `HANDOFF.md` and `docs/PHASE_03_VERIFICATION.md` for current results. Phase 4 has not started, and no database migration was performed.

@@ -1,6 +1,21 @@
 # Architecture — current source and future boundaries
 
-## Source tree as of Phase 3.1 — 2026-11-03
+## Phase 4 additions — 2026-11-03
+
+The Phase 3.1 feature boundaries remain. Phase 4 implementation is present; browser acceptance is still pending. See `docs/PHASE_04_VERIFICATION.md`.
+
+- `app/App.tsx` composes typed navigation from visible features and passes links to shared Header. Header uses native mobile `details/summary`, with React effects for Escape/outside/focus/resize closing and observed active state.
+- `features/certifications/{components/Training.tsx,data/training.ts,types.ts}` owns actual training UI/data and optional confirmed certificate metadata.
+- `features/projects/{types.ts,data/projects.ts,components/Projects.tsx}` supports approved project presentation. The actual array is empty; no section or link is shown. Source data must be safe to bundle; future CMS drafts must be filtered on the server, not merely hidden in React.
+- `features/portfolio/data/contact.ts` holds only approved public contact values, currently none. Contact remains informational without a form or backend integration.
+- `shared/hooks/useSectionReveal.ts` adds one-time transform motion without initially hiding content. Global CSS remains the shared token/layout stylesheet, now readable and refined for 960px/600px layout changes.
+- `src/entry-prerender.tsx` uses React server rendering of the same App and minimal verified Person data. `frontend/scripts/prerender.mjs` uses Vite's production SSR build in ignored `.cache/prerender`, then writes meaningful HTML into `dist/index.html`. Only the static distribution is deployable; the SSR entry is build-only.
+- `src/main.tsx` hydrates populated production HTML; development uses createRoot. No browser globals run during SSR. Footer avoids wall-clock values that could diverge during hydration.
+- `frontend/site.config.mjs` contains public-only canonical/indexing settings. `scripts/seo.mjs` validates canonical URLs and escapes structured data. Default is no domain/noindex. No live API dependency for first paint.
+- `frontend/test/seo.test.mjs`, expanded render tests and `test/build/production.test.mjs` check rendering/privacy/metadata and actual production artifacts. `scripts/verify-phase04.mjs` verifies development/production HTTP assets and compiled API behavior, not browser behavior.
+- Future CMS integration should provide an approved published snapshot and trigger a rebuild. Do not place private drafts or contact details into a client bundle. No content API or deployment hook is implemented now.
+
+## Retained baseline source tree as of Phase 3.1
 
 ```text
 frontend/
@@ -56,9 +71,9 @@ REST flow: **request → route → controller → service → Prisma/data access
 
 ## Frontend feature boundaries and imports
 
-- `main.tsx` mounts React StrictMode and imports global CSS. `app/App.tsx` composes the preview banner, skip link, shared layout and portfolio page; no router or provider is required yet.
+- `main.tsx` mounts/hydrates React StrictMode and imports global CSS. `app/App.tsx` composes the preview banner, skip link, shared layout and portfolio page; no router or provider is required.
 - `features/portfolio/pages/HomePage.tsx` composes the existing public sections. Portfolio content stays in `portfolio/data/profile.ts`, preserving all wording and provisional flags. Experience and education receive typed data through props rather than importing portfolio content themselves.
-- `features/expertise/` owns its existing icons and specialty content. Experience owns the `CareerPosition` domain type; portfolio data uses a type-only import. No certification module exists because no certification UI existed before the refactor.
+- `features/expertise/` owns icons and specialty content. Experience owns the `CareerPosition` domain type; portfolio data uses a type-only import. Phase 4 adds the training module described above because actual training UI is now required.
 - `shared/` holds presentational layout, the multi-feature section heading and unchanged global CSS. Shared components must not import feature content; Footer receives the owner's name as a prop. Keep feature-specific components in their feature rather than sharing speculatively.
 - Use explicit relative imports: frontend extensionless TS/TSX module paths; backend `.js` specifiers for NodeNext ESM output. Use `import type` for types. No aliases, barrel export layers or dependencies were added.
 - Features may consume shared UI. Page/application composition may combine features. Avoid reverse dependencies from shared code into features or from leaf sections into the portfolio composition.

@@ -28,7 +28,8 @@ test('rendered page has unique IDs and every local navigation target exists', ()
   for (const match of html.matchAll(/aria-(?:controls|labelledby)="([^"]+)"/g)) {
     for (const id of match[1].split(' ')) assert.ok(ids.includes(id), `Missing ARIA target: ${id}`);
   }
-  assert.match(html, /aria-label="Open navigation" aria-expanded="false"/);
+  assert.match(html, /<details class="mobile-menu"><summary[^>]+aria-controls="mobile-nav"/);
+  assert.doesNotMatch(html, /<details[^>]+\bopen(?:=|\s|>)/);
 });
 
 test('rendered portfolio preserves identity, pending disclosures and section sequence', () => {
@@ -37,10 +38,12 @@ test('rendered portfolio preserves identity, pending disclosures and section seq
   assert.match(html, /Water Treatment Plant Engineer/);
   assert.match(html, /PORTRAIT CONCEPT \/ OWNER APPROVAL PENDING/);
   assert.match(html, /TO VERIFY/);
-  assert.match(html, /PROJECT CASE STUDIES \/ DETAILS PENDING/);
+  assert.doesNotMatch(html, /id="projects"|href="#projects"|PROJECT CASE STUDIES/);
+  assert.match(html, /Mobile laboratory testing/);
+  assert.match(html, /Official certificate titles, providers and dates are awaiting confirmation/);
   assert.doesNotMatch(html, /href="(?:mailto:|tel:)/);
   const sections = [...html.matchAll(/<section id="([^"]+)"/g)].map(match => match[1]);
-  assert.deepEqual(sections, ['about', 'expertise', 'experience', 'education', 'projects', 'contact']);
+  assert.deepEqual(sections, ['about', 'expertise', 'experience', 'education', 'training', 'contact']);
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
 });
 
@@ -53,4 +56,55 @@ test('portrait uses existing local responsive assets with accessible description
   for (const image of images) {
     assert.ok(existsSync(fileURLToPath(new URL(`../public${image}`, import.meta.url))), image);
   }
+});
+
+test('projects omit drafts and render approved content with optional fields safely', async () => {
+  const { Projects } = await server.ssrLoadModule('/src/features/projects/components/Projects.tsx');
+  const fixture = { id: 'test-only', name: 'Test fixture <not client content>', category: 'Test category',
+    description: 'Test description', role: 'Test role', publicationApproved: false };
+  assert.equal(renderToStaticMarkup(createElement(Projects, { projects: [] })), '');
+  assert.equal(renderToStaticMarkup(createElement(Projects, { projects: [fixture] })), '');
+  const rendered = renderToStaticMarkup(createElement(Projects, { projects: [{ ...fixture, publicationApproved: true,
+    period: 'Test period', outcomes: ['Test outcome'], supportingInformation: 'Test context',
+    images: [{ src: '/test-only.webp', alt: 'Test image', width: 600, height: 400 }],
+  }] }));
+  assert.match(rendered, /Test fixture &lt;not client content&gt;/);
+  assert.match(rendered, /loading="lazy"/);
+  assert.match(rendered, /Test period/);
+  assert.match(rendered, /Test outcome/);
+});
+
+test('contact has no submission claim and only renders explicitly approved links', async () => {
+  const { Contact } = await server.ssrLoadModule('/src/features/portfolio/components/Contact.tsx');
+  const empty = renderToStaticMarkup(createElement(Contact, { contact: {} }));
+  assert.doesNotMatch(empty, /<form|mailto:|tel:|message sent/i);
+  const unapproved = renderToStaticMarkup(createElement(Contact, { contact: {
+    email: { value: 'test@example.invalid', publicationApproved: false },
+  } }));
+  assert.doesNotMatch(unapproved, /test@example|mailto:/);
+  const approved = renderToStaticMarkup(createElement(Contact, { contact: {
+    email: { value: 'test@example.invalid', publicationApproved: true },
+  } }));
+  assert.match(approved, /href="mailto:test@example.invalid"/);
+});
+
+test('training does not invent certificate metadata and supports confirmed records', async () => {
+  const { Training } = await server.ssrLoadModule('/src/features/certifications/components/Training.tsx');
+  assert.equal(renderToStaticMarkup(createElement(Training, { entries: [] })), '');
+  const area = renderToStaticMarkup(createElement(Training, { entries: [{ area: 'Test training' }] }));
+  assert.match(area, /Test training/);
+  assert.doesNotMatch(area, /undefined|null/);
+  const certificate = renderToStaticMarkup(createElement(Training, { entries: [{ area: 'Test training',
+    certificate: { title: 'Test award', issuer: 'Test issuer', year: 'Test year' },
+  }] }));
+  assert.match(certificate, /Test award/);
+  assert.match(certificate, /Test issuer/);
+});
+
+test('verified career periods do not retain a provisional badge', async () => {
+  const { Experience } = await server.ssrLoadModule('/src/features/experience/components/Experience.tsx');
+  const rendered = renderToStaticMarkup(createElement(Experience, { positions: [{
+    title: 'Test role', employer: 'Test employer', period: 'Test period', responsibilities: 'Test duty', provisional: false,
+  }] }));
+  assert.doesNotMatch(rendered, /TO VERIFY/);
 });

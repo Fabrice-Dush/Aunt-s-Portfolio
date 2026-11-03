@@ -1,5 +1,7 @@
 # AGENTS.md — mandatory instructions for ChatGPT, Codex and other agents
 
+> **Current continuation (2026-11-03):** Phase 4 frontend implementation and automated/HTTP checks are finished, but browser acceptance is BLOCKED. Phase 4 is IN PROGRESS, not complete. Read `docs/PHASE_04_VERIFICATION.md`; preserve existing work and follow its manual acceptance checklist. Older phase notes below are history.
+
 This repository is **Nyirarukundo Seraphine's** bespoke portfolio website and future CMS. The design is client-specific, elegant and exceptionally fast, not a generic AI-generated template.
 
 ## On every session
@@ -56,3 +58,10 @@ This repository is **Nyirarukundo Seraphine's** bespoke portfolio website and fu
 - Frontend: `src/app/` for composition, `src/features/` for feature UI/data/types, `src/shared/` for genuinely shared UI/layout/styles. Shared code must not import feature content. Pass data into leaf sections; compose sections in portfolio `HomePage`. Use explicit relative imports and type-only imports where appropriate.
 - Do not create empty modules, speculative repositories, providers, router setup or a certification section to fill a folder diagram. Preserve current contracts/DOM/CSS/content during structural work.
 - `npm test` now runs structural, frontend render and backend HTTP suites. Static render tests do not prove browser interaction; browser checks from Phase 3.1 remain unavailable and are documented for manual follow-up.
+
+## Phase 4 permanent conventions — 2026-11-03
+
+- Production frontend builds must run the prerender step, not only `vite build`. Use `npm run build`, then `npm run test:build -w frontend`. Hydrate the same App tree; keep server build entries outside public dist and avoid time-dependent SSR/client markup.
+- Mobile navigation uses native disclosure semantics. Preserve no-JavaScript content/navigation and reduced-motion behavior; do not initially hide content behind observers.
+- Public data/config must contain only information safe to bundle. Do not place unapproved contacts or future private CMS drafts into client code behind visibility flags. Empty project content renders no section or navigation link.
+- Questionnaire checklist options are not confirmed skills unless actually selected or supported by written answers. Official training metadata remains unconfirmed.

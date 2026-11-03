@@ -4,8 +4,8 @@ import { specialties } from '../data/specialties';
 
 export function Expertise() {
   return (
-    <section id="expertise" className="section section-expertise">
-      <div className="section-topline"><SectionHeading eyebrow="02 / SPECIALIZATIONS" title="Expertise in every" accent="detail." /><p>Grounded in practical responsibilities recorded in Seraphine's professional questionnaire.</p></div>
+    <section id="expertise" tabIndex={-1} className="section section-expertise">
+      <div className="section-topline"><SectionHeading eyebrow="02 / SPECIALIZATIONS" title="Expertise in every" accent="detail." /><p>From treatment processes to team coordination: the science and daily work behind water quality.</p></div>
       <div className="expertise-grid">
         {specialties.map(({ icon, title, body }, index) => (
           <article className="expertise-card" key={title}>

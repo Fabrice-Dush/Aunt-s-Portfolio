@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
+    headers: { 'X-Robots-Tag': 'noindex, nofollow' },
     port: 5173,
     strictPort: true,
     proxy: {

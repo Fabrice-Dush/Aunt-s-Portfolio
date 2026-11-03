@@ -9,6 +9,7 @@ import hashlib
 import os
 import re
 import sys
+import tempfile
 import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -71,7 +72,12 @@ def main():
         'backend/prisma/schema.prisma', 'backend/prisma.config.ts', 'backend/test/http.test.mjs',
         'design/prototype/index.html', 'design/prototype/admin.html', 'design/prototype/super-admin.html',
         'docs/visual-approval/approved-homepage-mockup.png', 'docs/PHASE_03_VERIFICATION.md',
-        'docs/PHASE_03_1_VERIFICATION.md',
+        'docs/PHASE_03_1_VERIFICATION.md', 'docs/PHASE_04_VERIFICATION.md',
+        'frontend/src/entry-prerender.tsx', 'frontend/scripts/prerender.mjs',
+        'frontend/scripts/seo.mjs', 'frontend/site.config.mjs',
+        'frontend/src/features/certifications/components/Training.tsx',
+        'frontend/src/features/projects/types.ts', 'frontend/test/build/production.test.mjs',
+        'scripts/verify-phase04.mjs',
     }
     names = {name for _, name in files}
     if required - names:
@@ -86,7 +92,19 @@ def main():
         assert not any(excluded(Path(name)) for name in archive.namelist())
         for path, name in files:
             assert hashlib.sha256(archive.read(name)).digest() == hashlib.sha256(path.read_bytes()).digest(), name
-    print(f'Verified {len(files)} files; CRC, required files, exclusions and every source hash match.')
+        # Verify a real extraction. All paths are our own relative repository entries.
+        cache = (ROOT / '.cache').resolve()
+        cache.mkdir(exist_ok=True)
+        assert cache.is_relative_to(ROOT.resolve())
+        with tempfile.TemporaryDirectory(prefix='zip-verification-', dir=cache) as directory:
+            extraction = Path(directory).resolve()
+            assert extraction.is_relative_to(cache)  # constrain extraction and automatic cleanup
+            for name in archive.namelist():
+                assert (extraction / name).resolve().is_relative_to(extraction)
+            archive.extractall(extraction)
+            for path, name in files:
+                assert hashlib.sha256((extraction / name).read_bytes()).digest() == hashlib.sha256(path.read_bytes()).digest(), name
+    print(f'Verified {len(files)} files; CRC, required files, exclusions, extraction and every source hash match.')
     print(f'ZIP: {output}')
     print(f'Bytes: {output.stat().st_size}')
     print(f'SHA256: {hashlib.sha256(output.read_bytes()).hexdigest()}')

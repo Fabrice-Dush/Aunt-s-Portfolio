@@ -1,46 +1,61 @@
-# Handoff — verified Phase 3.1 architecture
+# Handoff — Phase 4 frontend implementation, browser acceptance pending
 
-**Updated:** 2026-11-03. Phase 3 and 3.1 complete; Phase 4 NOT STARTED. Read `PROJECT_STATUS.md` and `docs/PHASE_03_1_VERIFICATION.md` for current evidence and browser limitations.
+**Updated:** 2026-11-03. Phase 3 and 3.1 COMPLETED. Phase 4 IN PROGRESS because visual/browser acceptance is blocked. Phase 5 NOT STARTED.
 
-## Where new functionality belongs
+## Resume here
 
-- Backend endpoint bindings go in `src/routes/`; HTTP handlers in `src/controllers/`; actual future business logic in `src/services/` with Prisma access only after Phase 5 database setup. No service/repository scaffolding is needed for existing health/metadata. Shared middleware is in `src/middlewares/`; environment validation remains `src/config/env.ts`.
-- Frontend root composition is `src/app/App.tsx`; public section composition is `src/features/portfolio/pages/HomePage.tsx`. Hero/About/Overview/Contact and owner profile content belong to portfolio; expertise, experience, education and projects own their existing sections. Shared layout/heading/global CSS live in `src/shared/` and do not import feature data.
-- Keep imports relative (frontend extensionless, backend `.js`); type-only domain imports are allowed. Pass profile data to leaf sections through props. Do not duplicate content into shared modules.
-- `npm test` runs 6 structural tests, 3 frontend render tests and 7 HTTP scenarios (8 backend runner results). No browser test framework was added. Preserve the existing header behavior/CSS and follow the manual browser checklist in the current verification report when browser access is restored.
-- No live MySQL, migration, auth/dashboard/CMS/contact functionality was added. Current source ZIP is `seraphine-portfolio-phase-03.1-complete.zip` in the repository parent.
+Read `docs/PHASE_04_VERIFICATION.md` and current Git diff before editing. Preserve the uncommitted Phase 4 work. No dependency versions, lockfile, backend source, Prisma schema or approved design files were changed.
 
-## What works (Phase 3 baseline retained)
+The new public frontend and build-time rendering are implemented. Do not recreate the page or redo the architecture refactor. The next required work is real browser verification and corrections arising from it; current source/render/HTTP tests do not prove interaction or pixel quality.
 
-The inherited React/Vite/TypeScript and Express/TypeScript workspaces now install, typecheck, build and run locally. Chrome rendered the page without the historical Babel overlay. Real development and compiled backend requests returned HTTP 200. Prisma 7.10.0 schema validation and Client generation passed; there is no DB integration or migration. All Phase 2 source/prototypes/approved references are retained.
+## Run and verify
 
-Fixes are small: correct hero-period CSS selector; return 400/413 for malformed/oversized JSON; permit the documented ignored local `.env` in structure checks; improve exclusion rules. New real HTTP tests cover the API foundation. The user's pre-existing Express-range lockfile edit was preserved, and no dependency version was changed.
+From the root:
 
-## Reproduce the verified setup
+```powershell
+npm test
+npm run typecheck
+npm run build
+npm run test:build -w frontend
+npm run prisma:validate
+node scripts/verify-phase04.mjs
+```
 
-1. Stop this project's existing servers before a clean Windows install (esbuild may be locked).
-2. From root run `npm ci`. Keep `package-lock.json`.
-3. If missing, copy `backend/.env.example` to `backend/.env`; never overwrite an existing local file or package it.
-4. Run `npm test`, `npm run typecheck`, `npm run build`, `npm run prisma:validate`, `npm run prisma:generate`.
-5. Run `npm run dev`; open `http://localhost:5173` and request `http://localhost:4000/api/v1/health`. Alternatively use `npm run dev:frontend` / `npm run dev:backend`, or `npm run dev` inside the relevant workspace.
-6. For compiled runtime use `npm start -w backend`; frontend preview: `npm run preview -w frontend -- --port 4173 --strictPort`.
-7. If the agent's restricted subprocess sandbox reports `spawn EPERM`, retry with the normal approved execution permission. Do not change application dependencies to compensate for that sandbox restriction.
+The HTTP harness starts/stops its own development/preview servers and the compiled API on isolated port 4402. Keep that port free. It tests modules/assets and compiled 200/400/413 responses, not a browser.
 
-## Phase 4 preparation — do not implement without the next request
+For manual review: `npm run dev:frontend` (5173), or `npm run preview -w frontend -- --port 4173 --strictPort` after building. Follow every browser checklist item in the verification report. Production HTML must be checked for hydration warnings, not just development mode. Test JavaScript disabled as well.
 
-- Compare the current foundation to `docs/visual-approval/` and `design/prototype/`; maintain the bright, large navy/blue name and portrait-led composition.
-- Refine section/component layout, typography, responsive behavior and lightweight interaction. Preserve keyboard access, reduced-motion fallback and static-first loading.
-- Choose and document SEO/pre-rendering and social-preview behavior before adding a CMS dependency to first paint.
-- Use existing truthful content and explicit pending states. Obtain real projects/qualifications/verified dates as needed; never copy illustrative prototype metrics.
-- Keep the synthetic portrait flagged as pending consent and public contact details withheld.
-- Extend browser, accessibility and performance testing for Phase 4; repeat the full current checks after changes. Deliver the entire updated repository ZIP after Phase 4 is complete.
+If clean installation is needed, stop project servers and run `npm ci`; retain the lockfile and Babel plugin. Existing local `backend/.env` stays ignored and private. Never overwrite it or package it.
 
-## Deferred boundaries
+## Current implementation ownership
 
-MySQL is unavailable locally (placeholder credentials, connection refused). In Phase 5 review the proposed relations/model and configure a real local MySQL instance, wire PrismaClient with the MariaDB adapter, then plan migrations safely. No database reset or migration has been attempted.
+- `app/App.tsx` owns layout composition/navigation data; shared Header receives links and never imports feature content.
+- Portfolio owns Hero/About/Overview/Contact and profile/contact data; `HomePage` composes features.
+- Expertise owns its supported capabilities and SVG motifs; career/education receive typed data.
+- `certifications/` owns three training areas and optional confirmed certificate metadata.
+- `projects/` owns typed reusable project presentation. The actual array is empty. Only approved items render. Do not add example projects to application data.
+- `shared/hooks/useSectionReveal.ts` applies one-time transform motion. Content remains visible without JavaScript/IntersectionObserver; reduced motion disables effects.
+- `entry-prerender.tsx` renders the same App tree. `scripts/prerender.mjs` compiles a build-only entry into ignored `.cache/prerender` and fills `dist/index.html`. `main.tsx` hydrates populated HTML and mounts normally in development.
+- `site.config.mjs` contains public build settings, currently no domain and indexing disabled. Portrait social image is intentionally absent pending consent. Rebuild on content/config changes; future CMS publishing should trigger an approved rebuild of published content.
 
-Phase 6 adds real secure authentication and role guards, LIGHT ADMIN and DARK SUPER_ADMIN dashboards. Existing dashboard files are static visual prototypes. Phase 7 adds CMS integration. Custom email setup remains postponed until website completion.
+## Content safeguards
 
-## Delivery
+The original questionnaire's skills checklist is unticked. Only written responsibilities and supplied training answers are treated as confirmed; do not expand skills from the checklist without confirmation. The original first job answer overlaps the later role, so the documented 2015–2021 split remains provisional. No inferred promotion.
 
-`scripts/package-project.py` creates a source ZIP in the parent directory and verifies required entries, CRCs, exclusions and every source hash. It refuses to overwrite an existing ZIP. Exclude secrets, `handoff-private`, node_modules, generated Prisma, build/cache outputs and Git metadata. The ZIP is a local developer handoff, not a deployable authorization to publish the portrait or prototype text.
+Contact values remain absent from source and build. Add only explicitly publication-approved values to `portfolio/data/contact.ts`; never store unapproved values there behind a flag. Project source must likewise contain only content safe to bundle; future unpublished CMS records need server-side filtering.
+
+Keep synthetic portrait disclosure until owner likeness/public-use approval, verify credentials and dates, and obtain launch permission. Noindex is not access control. Do not publish the preview.
+
+## Close Phase 4
+
+1. Restore browser access or perform the exact manual checks at all seven widths.
+2. Capture real desktop/tablet/mobile evidence and review the bright approved collage.
+3. Fix any visual, focus, menu, hydration or reduced-motion failures; rerun affected tests.
+4. Record evidence in the verification report and update memory.
+5. Only then mark Phase 4 COMPLETED and create `seraphine-portfolio-phase-04-complete.zip`.
+
+Current delivery is the **review snapshot**, `seraphine-portfolio-phase-04-review-snapshot.zip` in the repository parent. Packaging verifies CRC, entries, exclusions, extraction and per-file hashes.
+
+## Phase 5 preparation only
+
+When authorized after frontend acceptance, review the provisional Prisma model, configure a real MySQL environment and compatible adapter, plan migrations and validated published-content APIs. Keep route → controller → service → Prisma boundaries. Auth/roles/dashboards belong to Phase 6; CMS to Phase 7. No automatic Phase 5 work, credentials or database actions have occurred.

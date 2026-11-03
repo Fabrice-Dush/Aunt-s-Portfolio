@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-03 — Phase 4 frontend implementation; browser acceptance pending
+
+- Continued the existing feature architecture and approved bright/navy/blue identity. Refined hero proportions, responsive portrait sizing, editorial expertise, career/education sections, training rows, contact and footer.
+- Added typed project presentation that omits empty/unapproved records and navigation, three factual training areas, and empty public-only contact configuration. Narrowed unsupported expertise after reviewing unticked questionnaire options.
+- Replaced JavaScript-only mobile menu with native disclosure, enhanced dismissal/focus/active links, sticky navigation, touch targets and visible focus. Added lightweight transform entrances/section motion and reduced-motion/forced-color/print rules.
+- Added build-time Vite/React prerendering and hydration, verified Person JSON-LD, social metadata, safe canonical configuration and default noindex/robots settings. No domain, contact delivery, database or dashboard functionality invented.
+- Expanded to 10 frontend/SEO tests plus 3 production-artifact checks. Final combined tests/typechecks/builds and Prisma validation pass; HTTP harness verifies 34 development/7 production requests and compiled API 200/400/413. Private contact values/original-file hashes absent from build.
+- Final output about 74.6 kB gzip JS, 4.6 kB gzip CSS and 12.5 kB pre-rendered HTML. No new dependency or lockfile/backend/Prisma/design-asset change.
+- Browser host/native pipe unavailable; no new screenshots, responsive passes, hydration/menu/console results, Lighthouse scores or Core Web Vitals claimed. Phase 4 stays IN PROGRESS; full-source review snapshot includes updated memory and verified ZIP extraction.
+
 ## 2026-11-03 — Phase 3.1 architecture refactoring
 
 - Extracted health and API metadata controllers, composed `/api/v1` routes and split 404/error middleware under `middlewares/`. Existing endpoints, statuses, security configuration, 100kb body limit and server startup retained.

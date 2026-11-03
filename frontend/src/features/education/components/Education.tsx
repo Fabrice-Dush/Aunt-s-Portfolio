@@ -9,7 +9,7 @@ type EducationEntry = {
 
 export function Education({ entries }: { entries: readonly EducationEntry[] }) {
   return (
-    <section id="education" className="section section-education">
+    <section id="education" tabIndex={-1} className="section section-education">
       <div className="two-column">
         <SectionHeading eyebrow="04 / EDUCATION" title="Scientific foundations." accent="Leadership ambitions." />
         <div className="education-list">

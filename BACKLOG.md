@@ -23,12 +23,16 @@
 
 ## Phase 4 — Public portfolio polish
 
-- [ ] Refine homepage to closely match approved light name-first visual concept.
-- [ ] Polish the extracted feature components into the approved finished public portfolio; architecture extraction is complete.
-- [ ] Extend the Phase 3 Chrome viewport smoke review to full-page, keyboard, real-device and cross-browser testing; implement premium yet low-cost interaction details.
-- [ ] Choose SEO pre-render strategy for public portfolio; validate social previews.
-- [ ] Add accessible behavior and optimize page critical path.
-- [ ] Complete phase 4 tests and export full project ZIP.
+- [x] Implement the light name-first hero, portrait proportions, editorial sections, native mobile disclosure and refined responsive CSS.
+- [x] Add actual training areas, typed project system (hidden while empty), public-only contact config and useful footer.
+- [x] Add low-cost entrances/reveals, focus/hover states and reduced-motion fallbacks.
+- [x] Implement Vite/React build-time HTML with hydration, verified structured data, metadata and noindex/default absent canonical.
+- [x] Pass combined tests, TypeScript/builds, Prisma validation, production-artifact tests, privacy scan and development/compiled HTTP checks.
+- [x] Update memory and prepare full-source review ZIP with extraction verification.
+- [ ] **Acceptance blocker:** browser host/native pipe unavailable. Perform every item in `docs/PHASE_04_VERIFICATION.md` at 320/375/390/768/1024/1440/1920px, including visual comparison, menu, hydration, console, no-JS, focus, reduced motion and landscape.
+- [ ] Obtain real screenshots and visual review; correct observed differences. Do not mark responsive layout or browser behavior as passed from source tests alone.
+- [ ] Record Lighthouse mobile/desktop and available browser/device results; no measured LCP/INP/CLS or score exists yet.
+- [ ] After acceptance, mark Phase 4 complete and create `seraphine-portfolio-phase-04-complete.zip`. Current archive is a review snapshot.
 
 ## Phase 5 — Backend & database
 
@@ -59,6 +63,8 @@
 - [ ] **Seraphine approves synthetic portrait likeness**, or replace with an authentic approved full-length photo.
 - [ ] Confirm legal/public full name spelling (developer says Nyirarukundo Seraphine).
 - [ ] Confirm exact WASAC positions and periods; 2015–2021 / 2022–present are provisional.
+- [ ] Resolve questionnaire overlap: first role says January 2015–present, later role January 2022–present. Do not infer a promotion or an end date.
+- [ ] Confirm optional skills explicitly: the questionnaire checklist is unticked. No chemical dosing/chlorination, sampling, QA, reporting or Office proficiency is claimed solely from its prompt list.
 - [ ] Obtain actual projects, achievements, measurable results (or omit sections).
 - [ ] Confirm official education qualification titles and dates.
 - [ ] Obtain certificate issuers, dates and copies for IT training, mobile laboratory testing and calibration.
@@ -67,6 +73,7 @@
 - [ ] Verify permission to publish email, phone/WhatsApp, workplace photos and any project documents.
 - [ ] Consider optional memberships, awards, recommendations and references only if real and authorized.
 - [ ] Obtain owner acceptance and shipping authorization.
+- [ ] Select a real domain before setting canonicalUrl/enabling indexing. Rebuild after approved changes; choose an approved social image and verify previews.
 
 ## Phase 10 — Deployment and handover
 

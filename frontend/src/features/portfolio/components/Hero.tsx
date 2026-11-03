@@ -21,7 +21,7 @@ export function Hero() {
             <img
               src="/images/seraphine-portrait.webp"
               srcSet="/images/seraphine-portrait-small.webp 780w, /images/seraphine-portrait.webp 1122w"
-              sizes="(max-width: 820px) 100vw, 45vw"
+              sizes="(max-width: 600px) calc(100vw - 44px), (max-width: 960px) 480px, (max-width: 1440px) 40vw, 520px"
               width="1122" height="1402"
               alt="Concept standing portrait based on Seraphine's supplied photograph; awaiting her approval"
               fetchPriority="high"

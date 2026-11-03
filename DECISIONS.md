@@ -28,7 +28,7 @@
 
 ## Outstanding decisions
 
-- Whether to pre-render React public routes and how to invalidate/rebuild static pages after CMS publishing.
+- How to trigger and authorize rebuilds after future CMS publishing; build-time rendering itself was selected in Phase 4 below.
 - Actual MySQL/Node deployment provider, file storage, contact submission delivery, telemetry privacy, role auth/JWT implementation details, backup infrastructure.
 - Exact browser version support and CI runner.
 
@@ -45,3 +45,13 @@
 - Adopt feature-based React organization with `app/` composition, public feature modules and `shared/` layout/UI/styles. Portfolio page composition passes career/education data to leaf features, while shared Footer receives its name through props. This keeps content ownership explicit without a CMS or global state library.
 - Keep relative imports and existing compiler conventions. No dependency, router, schema, API contract, CSS or approved asset changes.
 - Preserve JSX exactly and verify rendered output equality, unchanged CSS/assets and real HTTP behavior. Browser control is unavailable in this session; disclose the limitation and carry the manual browser checklist forward rather than asserting pixel/interactive equivalence.
+
+## Phase 4 implementation decisions — 2026-11-03
+
+- Continue the bright approved collage and written direction; the separately named dark homepage mockup/prototype remains a historical variant. Do not copy illustrative titles, numbers or dashboard data.
+- Use Vite production SSR as a build step with React renderToString/hydrateRoot, retaining the existing stack. Render the same App tree, keep the server entry outside dist, and rebuild static HTML when approved content changes. No runtime API or new dependency is needed for the homepage.
+- Keep canonicalUrl null and allowIndexing false until a real domain and launch permissions exist. Emit minimal verified Person data, text social metadata and no portrait social image pending consent. Noindex is not access control.
+- Use native details/summary for mobile navigation so basic interaction survives absent JavaScript. React enhances focus, dismissal and active links. Content motion never gates visibility; reduced motion disables it.
+- Omit the projects section and its navigation until approved data exists. Keep reusable typed components. Contact config contains only publication-approved values, currently none, and no simulated send form.
+- The actual questionnaire skills checklist is unticked; narrow expertise to written answers, rather than treating suggested skills as confirmed. Add only the three supplied training areas with missing official metadata clearly identified.
+- Browser access remains unavailable. Automated/source/HTTP checks cannot satisfy visual, hydration or menu-runtime acceptance. Phase 4 stays IN PROGRESS and delivery is a review snapshot until manual/browser evidence closes the gate.
