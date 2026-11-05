@@ -19,3 +19,4 @@ function run(args) {
 run(['../node_modules/prisma/build/index.js', 'migrate', 'deploy']);
 run(['--import', 'tsx', '--test', 'test/integration/database.test.mjs']);
 run(['--import', 'tsx', '--test', 'test/integration/auth.test.mjs']);
+run(['--import', 'tsx', '--test', 'test/integration/cms.test.mjs']);

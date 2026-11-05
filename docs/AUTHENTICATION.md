@@ -1,3 +1,5 @@
+> **Phase 7 continuation — 2026-11-05:** Existing authentication, session, role and reauthentication policies remain intact. Guarded CMS/media/message/settings/synchronization routes now reuse them; see CMS_API_REFERENCE.md. No real administrators were provisioned. The exact hidden-input setup below remains the authorized local procedure. Dedicated port 13312/.env/JWT are preserved; do not repeat key generation/cutover unnecessarily.
+
 # Authentication and administrator setup — Phase 6
 
 > **Verified development setup - 2026-11-05:** Phase 6 COMPLETED after authorized dedicated normal-mode cutover at 127.0.0.1:13312. All 18 auth/session/authorization/dashboard HTTP scenarios and final restarts passed. No recovered sessions or real accounts were activated; synthetic test fixtures were cleaned. Only four database URLs changed; JWT and all unrelated settings were preserved. Follow XAMPP_SETUP.md for this machine, not the historical Control Panel setup. Real administrator creation still requires the authorized operator and separate permission; the agent did not provision any. Browser checks remain deferred.

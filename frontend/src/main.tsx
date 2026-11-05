@@ -2,13 +2,16 @@ import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './app/App';
 import './shared/styles/global.css';
+import type { PublicContent } from './features/portfolio/types';
 
 const mountNode = document.getElementById('root');
 if (!mountNode) throw new Error('Missing #root mount element');
 
+const embedded = document.getElementById('public-content')?.textContent;
+const initialContent: PublicContent | null = embedded ? JSON.parse(embedded).data : null;
 const application = (
   <React.StrictMode>
-    <App />
+    <App initialContent={initialContent} />
   </React.StrictMode>
 );
 

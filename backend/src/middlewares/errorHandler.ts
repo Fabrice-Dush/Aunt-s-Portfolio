@@ -17,6 +17,7 @@ export const errorHandler: ErrorRequestHandler = (error: unknown, _request, resp
       P2002: [409, 'CONFLICT', 'A unique value is already in use'],
       P2003: [409, 'RELATION_CONFLICT', 'A related record prevents this operation'],
       P2025: [404, 'NOT_FOUND', 'Record not found'],
+      P2034: [409, 'EDIT_CONFLICT', 'Another change overlapped this request. Reload the record and try again.'],
       P1001: [503, 'SERVICE_UNAVAILABLE', 'Content is temporarily unavailable'],
       P1002: [503, 'SERVICE_UNAVAILABLE', 'Content is temporarily unavailable'],
       P2024: [503, 'SERVICE_UNAVAILABLE', 'Content is temporarily unavailable'],

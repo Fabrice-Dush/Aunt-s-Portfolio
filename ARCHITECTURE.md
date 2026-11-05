@@ -1,3 +1,19 @@
+# Phase 7 architecture — 2026-11-05
+
+Final review correction: backend delivery and synchronization status share one HTML existence/hash/revision verifier. Preview sends captured verified bytes directly. CMS input validation precedes create fingerprinting; PDF subtype checks resolve indirect references. Ordering arrows load complete collections within the existing 100-item atomic API bound and retain version checks. See the final review in docs/PHASE_07_VERIFICATION.md for executed regression evidence and residual limitations.
+
+Current implementation is documented in [CMS architecture](docs/CMS_ARCHITECTURE.md), [publishing](docs/CONTENT_PUBLISHING.md) and [API](docs/CMS_API_REFERENCE.md). Earlier architectural phase descriptions below are retained history.
+
+Backend adds CMS/media/message/settings/synchronization controllers and services on existing authentication/CSRF guards and content managers. Row locks + expected versions + transactional audits protect changes; create receipts protect retries. Thirteen existing models/two migrations retained. Media originals live outside static roots; public media checks approval and current published relations.
+
+Frontend adds feature-owned CMS editors/library/messages/settings within existing Studio/Operations. Public App/HomePage and leaf sections receive only published DTOs. Former independent content arrays are removed. The frontend build exports sanitized database content, then uses the same React tree/snapshot for static HTML and hydration. Private code remains lazy; private shells remain neutral.
+
+Express serves the built public HTML only after current-revision and HTML-integrity checks. Static access is narrowly scoped. Vite preview gates its HTML using the configured API target; unknown public paths do not use an unrestricted SPA fallback. Local development refreshes published API data. Read CONTENT_PUBLISHING.md before any hosting change; ungated static hosting and automatic provider deployment are not implemented.
+
+No runtime React SSR, framework migration, DB schema change, credential/config rewrite, recovery/cutover or real-account provisioning. Dedicated normal-mode port 13312 remains; exact recovered rows match. Preserve recovery freshness limits and all manual browser checklists. Phase 8 not started.
+
+---
+
 # Current Phase 6 architecture - COMPLETED 2026-11-05
 
 > **Verified development database:** Authorized dedicated normal-mode MariaDB 10.4.32 at 127.0.0.1:13312 uses the existing XAMPP binary with private 2026-11-05-rehearsal-02 config/data. Four local URLs changed; JWT/unrelated settings preserved. Scoped dev/test/shadow connections, migrations, auth/API tests and post-workload restarts passed; original shared XAMPP data/configs are untouched. No Windows service installed. See docs/XAMPP_SETUP.md for lifecycle and docs/PHASE_06_DATABASE_INCIDENT.md for recovery limits. Phase 6 COMPLETED; Phase 7 NOT STARTED.

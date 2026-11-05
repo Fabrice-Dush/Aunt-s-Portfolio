@@ -4,12 +4,27 @@ import { healthRouter } from './health.routes.js';
 import { portfolioRouter } from './portfolio.routes.js';
 import { authRouter, accountsRouter } from './auth.routes.js';
 import { dashboardRouter } from './dashboard.routes.js';
+import { cmsRouter } from './cms.routes.js';
+import { privateMediaRouter, publicMediaRouter } from './media.routes.js';
+import { messagesRouter } from './messages.routes.js';
+import { authenticate, csrf, noStore } from '../middlewares/auth.js';
+import { getPublicContent, getSynchronization, rebuildWebsite } from '../controllers/public-site.controller.js';
+import { getSettings, saveSettings } from '../controllers/settings.controller.js';
 
 export const apiRouter = Router();
 
 apiRouter.get('/', getApiMetadata);
+apiRouter.get('/public-content', getPublicContent);
+apiRouter.get('/cms-sync', noStore, authenticate(), getSynchronization);
+apiRouter.post('/cms-sync', noStore, authenticate(), csrf, rebuildWebsite);
+apiRouter.get('/cms-settings', noStore, authenticate(), getSettings);
+apiRouter.patch('/cms-settings', noStore, authenticate(), csrf, saveSettings);
 apiRouter.use('/health', healthRouter);
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/administrators', accountsRouter);
 apiRouter.use('/dashboard', dashboardRouter);
+apiRouter.use('/cms', cmsRouter);
+apiRouter.use('/cms-media', privateMediaRouter);
+apiRouter.use('/media', publicMediaRouter);
+apiRouter.use(messagesRouter);
 apiRouter.use(portfolioRouter);

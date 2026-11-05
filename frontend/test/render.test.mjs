@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { createServer } from 'vite';
+import { content } from './fixtures/public-content.mjs';
 
 let server;
 let html;
@@ -16,7 +17,7 @@ before(async () => {
     appType: 'custom',
   });
   const { default: App } = await server.ssrLoadModule('/src/app/App.tsx');
-  html = renderToStaticMarkup(createElement(App));
+  html = renderToStaticMarkup(createElement(App, { initialContent: content }));
 });
 after(async () => { await server?.close(); });
 
@@ -38,13 +39,13 @@ test('rendered portfolio preserves identity, pending disclosures and section seq
   assert.match(html, /Seraphine/);
   assert.match(html, /Water Treatment Plant Engineer/);
   assert.match(html, /PORTRAIT CONCEPT \/ OWNER APPROVAL PENDING/);
-  assert.match(html, /TO VERIFY/);
+  assert.doesNotMatch(html, /TO VERIFY|2015|2022|Kigali Independent University/);
   assert.doesNotMatch(html, /id="projects"|href="#projects"|PROJECT CASE STUDIES/);
-  assert.match(html, /Mobile laboratory testing/);
-  assert.match(html, /Official certificate titles, providers and dates are awaiting confirmation/);
+  assert.match(html, /TEST ONLY skill/);
+  assert.doesNotMatch(html, /Mobile laboratory testing|id="training"/);
   assert.doesNotMatch(html, /href="(?:mailto:|tel:)/);
   const sections = [...html.matchAll(/<section id="([^"]+)"/g)].map(match => match[1]);
-  assert.deepEqual(sections, ['about', 'expertise', 'experience', 'education', 'training', 'contact']);
+  assert.deepEqual(sections, ['about', 'expertise', 'contact']);
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
 });
 
@@ -108,4 +109,12 @@ test('verified career periods do not retain a provisional badge', async () => {
     title: 'Test role', employer: 'Test employer', period: 'Test period', responsibilities: 'Test duty', provisional: false,
   }] }));
   assert.doesNotMatch(rendered, /TO VERIFY/);
+});
+test('database-shaped published content renders safely and unavailable content has no stale sections',async()=>{
+  const {default:App}=await server.ssrLoadModule('/src/app/App.tsx');
+  const hostile='<script>STORED_XSS_SENTINEL</script>';
+  const rendered=renderToStaticMarkup(createElement(App,{initialContent:{...content,profile:{...content.profile,biography:hostile},projects:[{id:'test',slug:'test',title:'TEST ONLY project',summary:hostile,body:null,role:null,result:null,year:null,organization:null,startYear:null,endYear:null,featured:false,media:[]}],achievements:[{id:'test',title:'TEST ONLY milestone',description:hostile,year:null,project:null}],certifications:[{id:'test',title:'TEST ONLY training',issuer:null,year:null,credentialDetails:hostile,media:null}]}}));
+  assert.doesNotMatch(rendered,/<script>STORED_XSS_SENTINEL/);assert.match(rendered,/&lt;script&gt;STORED_XSS_SENTINEL/);
+  assert.match(rendered,/id="projects"/);assert.match(rendered,/id="achievements"/);assert.match(rendered,/id="training"/);
+  const unavailable=renderToStaticMarkup(createElement(App));assert.match(unavailable,/Portfolio temporarily unavailable/);assert.doesNotMatch(unavailable,/TEST ONLY|id="about"|id="expertise"|\/images\//);
 });

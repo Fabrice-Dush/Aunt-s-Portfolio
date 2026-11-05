@@ -1,3 +1,35 @@
+# Final Phase 7 review checkpoint — 2026-11-05
+
+Phase 7 remains **COMPLETED for implementation and automated acceptance** after independent source/database/build review and safe corrections. Phase 8 is **NOT STARTED**. Read docs/PHASE_07_VERIFICATION.md for reproduced failures, fixes and exact evidence. Final source suites: 6 structure, 18 frontend, 20 backend unit/service + 7 HTTP cases; real DB/auth/CMS: 11/18/14 scenarios; all passed with zero skips. Both typechecks/builds, four artifact tests, compiled serving and dev/test schema/constraint checks passed; all 16 recovered rows match and test tables are empty.
+
+Synchronization must verify actual HTML bytes/existence as well as revision; serving sends those checked bytes. Validate CMS create input before fingerprinting. Resolve indirect PDF annotation subtypes. Ordering arrows preserve the complete collection up to 100 records and reject stale versions; larger/cross-page moves use Display order. Public-media errors must also be no-store.
+
+Browser host/native pipe remain unavailable. Preserve exact manual checklists, hosting/content/account/retention dependencies and recovery caveats. Native Back/Forward currently bypasses unsaved-change prompts; save/cancel first. No new archive/commit/tag/push was made. Historical ZIP remains unchanged and predates these corrections. Preserve all uncommitted work and the current Phase 8 version-control policy.
+
+---
+
+# Backup and version control policy — effective Phase 8
+
+The project representative approved [docs/VERSION_CONTROL_POLICY.md](docs/VERSION_CONTROL_POLICY.md) on 2026-11-05. Starting with Phase 8, develop in the existing project folder, preserve changes with Git commits, create a tag after each successfully verified phase, and push completed commits/tags to the configured private GitHub repository after verifying its privacy/access. Keep project memory and phase verification reports current. Never commit secrets, private files or sensitive database backups; preserve the MariaDB recovery environment and maintain separate verified database backups.
+
+Do not automatically generate phase ZIPs from Phase 8 onward. ZIPs require an explicit request or final handover. Do not delete earlier ZIPs without permission or revise completed phases solely to change their backup arrangements. This future policy overrides older automatic-ZIP instructions below without changing historical deliveries. Phase 8 remains NOT STARTED.
+
+---
+
+# Latest Phase 7 checkpoint — 2026-11-05
+
+Phase 7 is explicitly authorized and now IMPLEMENTED with automated CMS/database/build acceptance. Read PROJECT_STATUS.md, HANDOFF.md and docs/PHASE_07_VERIFICATION.md first. These current instructions override older Phase 7-not-started checkpoints retained below. Phase 8 is NOT STARTED and needs a new instruction.
+
+Preserve all Phase 6 authentication rules and the dedicated normal-mode MariaDB at 127.0.0.1:13312. No Phase 7 schema change, recovery/cutover/restart/reset, .env/JWT/URL rewrite or real account creation was needed. All 16 recovered development records still match the private exports field-for-field; test fixtures are cleaned. Keep level-6 freshness uncertainty and the unexplained first-rehearsal Aria evidence.
+
+CMS edits return to DRAFT and withdraw the old public version. Row locks, expectedUpdatedAt, transactional audits, create idempotency receipts, immutable project slugs, verification and separate contact/media consent are mandatory. Both roles support the same single-owner CMS; technical-only access rules remain.
+
+Public content is database canonical. Retain matching prerender/hydration snapshots, live DTO refresh and fail-closed HTML freshness gates. Never deploy dist to an ungated static host. Hosting automation remains pending. Private original uploads, cache inputs and test releases must stay ignored and excluded from archives.
+
+Browser/native hosts remain unavailable; exact Phase 4/6 checklists and Phase 7 manual additions remain open. No visual/browser/CWV pass is implied. Real accounts require private hidden-input CLI setup. Final visual/UX revamp and personalized email remain deferred.
+
+---
+
 # Current Phase 6 completion - 2026-11-05
 
 > **Latest completed checkpoint - 2026-11-05:** Phase 6 COMPLETED after explicitly authorized dedicated development cutover and final acceptance. Actual backend/.env now targets normal-mode MariaDB 10.4.32 at 127.0.0.1:13312, private 2026-11-05-rehearsal-02/data; only four database URL lines changed, with JWT and all unrelated bytes preserved. Complete owner-restricted offline snapshot and original .env backup verified at C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-05-pre-cutover-01. All 28 dev/test tables and 16 recovered records, migrations/drift/shadow replay, 11 DB + 18 auth scenarios, TypeScript/tests/production builds/API/artifact checks and two post-cutover workload restarts passed. Shared XAMPP data/data-old, unrelated databases, original backups and 176 private export files remain unchanged. Dedicated instance left running; XAMPP Control Panel does not manage it. Level-6 freshness remains unproven; first-rehearsal Aria failure remains unexplained and retained. No real administrator accounts. Manual browser QA remains deferred. Phase 7 NOT STARTED. See docs/PHASE_06_DATABASE_INCIDENT.md, docs/PHASE_06_VERIFICATION.md and docs/XAMPP_SETUP.md. Do not repeat recovery, initialization or cutover; use documented start/stop commands.

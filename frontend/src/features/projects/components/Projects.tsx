@@ -10,7 +10,7 @@ export function Projects({ projects }: { projects: readonly PortfolioProject[] }
         <SectionHeading eyebrow="SELECTED WORK" title="Science put into" accent="practice." />
         <div className="project-list">
           {published.map(project => (
-            <article className="project" key={project.id}>
+            <article className="project" key={project.id} id={project.slug ? 'project-' + project.slug : undefined}>
               <p className="eyebrow">{project.category}</p><h3>{project.name}</h3>
               <p>{project.description}</p>
               <dl><div><dt>Role</dt><dd>{project.role}</dd></div>{project.period && <div><dt>Period</dt><dd>{project.period}</dd></div>}</dl>

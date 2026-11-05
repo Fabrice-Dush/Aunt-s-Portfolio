@@ -15,7 +15,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parent.parent
 EXCLUDED_DIRS = {
     'node_modules', '.git', 'handoff-private', 'dist', 'coverage', '.vite',
-    '.cache', '.npm-cache', '__pycache__', '.aws', '.codex', '.agents', '.idea',
+    '.cache', '.npm-cache', '__pycache__', '.aws', '.codex', '.agents', '.idea', '.private-media',
 }
 SECRET_SUFFIXES = {'.pem', '.key', '.pfx', '.p12', '.sqlite', '.db', '.sql'}
 
@@ -104,6 +104,22 @@ def main():
         'docs/PHASE_06_DATABASE_INCIDENT.md', 'docs/PHASE_06_RESTORATION_REHEARSAL.md',
         'scripts/cutover-database.mjs', 'scripts/restart-database-rehearsal.ps1',
         'scripts/checkpoint-database-rehearsal.mjs', 'scripts/validate-database-rehearsal.mjs',
+        'backend/src/services/cms.service.ts', 'backend/src/services/media.service.ts',
+        'backend/src/services/messages.service.ts', 'backend/src/services/public-site.service.ts',
+        'backend/src/controllers/cms.controller.ts', 'backend/src/controllers/media.controller.ts',
+        'backend/src/controllers/messages.controller.ts', 'backend/src/controllers/public-site.controller.ts',
+        'backend/src/controllers/settings.controller.ts', 'backend/src/validators/cms.ts',
+        'backend/src/routes/cms.routes.ts', 'backend/src/routes/media.routes.ts',
+        'backend/src/routes/messages.routes.ts', 'backend/src/middlewares/public-site.ts',
+        'backend/scripts/export-public.ts', 'backend/scripts/reconcile-media.ts',
+        'backend/test/cms.test.mjs', 'backend/test/integration/cms.test.mjs',
+        'frontend/src/features/dashboard/Cms.tsx', 'frontend/src/features/dashboard/cmsFields.ts',
+        'frontend/src/features/dashboard/MediaLibrary.tsx', 'frontend/src/features/dashboard/Messages.tsx',
+        'frontend/src/features/dashboard/Settings.tsx', 'frontend/src/features/portfolio/types.ts',
+        'frontend/src/features/portfolio/components/ContactForm.tsx', 'frontend/scripts/build.mjs',
+        'scripts/rebuild-public.mjs', 'scripts/verify-phase07.mjs',
+        'docs/CMS_ARCHITECTURE.md', 'docs/CMS_API_REFERENCE.md', 'docs/CONTENT_PUBLISHING.md',
+        'docs/MEDIA_MANAGEMENT.md', 'docs/CMS_USER_GUIDE.md', 'docs/PHASE_07_VERIFICATION.md',
     }
     names = {name for _, name in files}
     if required - names:

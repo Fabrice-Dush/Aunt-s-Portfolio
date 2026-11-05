@@ -4,9 +4,9 @@ export class ApiError extends Error {
   constructor(public status: number, public code: string, message: string) { super(message); }
 }
 let refreshing: Promise<void> | undefined;
-async function send(path: string, method: string, body?: unknown) {
+async function send(path: string, method: string, body?: unknown, headers: Record<string,string> = {}) {
   return fetch('/api/v1' + path, { method, credentials: 'same-origin', cache: 'no-store',
-    headers: { 'X-Portfolio-Request': '1', ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}) },
+    headers: { 'X-Portfolio-Request': '1', ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}), ...headers },
     ...(body !== undefined ? { body: JSON.stringify(body) } : {}) });
 }
 async function rotate() {
@@ -19,11 +19,11 @@ async function rotate() {
   if (navigator.locks) await navigator.locks.request('portfolio-session-refresh', operation);
   else await operation();
 }
-export async function api<T>(path: string, method = 'GET', body?: unknown, retry = true): Promise<Result<T>> {
-  let response = await send(path, method, body);
+export async function api<T>(path: string, method = 'GET', body?: unknown, retry = true, headers: Record<string,string> = {}): Promise<Result<T>> {
+  let response = await send(path, method, body, headers);
   const failedAuth = response.status === 401 ? await response.clone().json().catch(() => ({})) : null;
   if (failedAuth?.error?.code === 'UNAUTHENTICATED' && retry && !['/auth/login', '/auth/logout'].includes(path)) {
-    try { await (refreshing ??= rotate().finally(() => { refreshing = undefined; })); response = await send(path, method, body); }
+    try { await (refreshing ??= rotate().finally(() => { refreshing = undefined; })); response = await send(path, method, body, headers); }
     catch (error) { window.dispatchEvent(new Event('portfolio-session-ended')); throw error; }
   }
   if (!response.ok) {
@@ -34,6 +34,7 @@ export async function api<T>(path: string, method = 'GET', body?: unknown, retry
   return response.status === 204 ? { data: undefined as T } : response.json();
 }
 export function navigate(path: string, replace = false) {
+  if (!window.dispatchEvent(new Event('portfolio-before-navigate', { cancelable: true }))) return;
   window.history[replace ? 'replaceState' : 'pushState']({}, '', path);
   window.dispatchEvent(new PopStateEvent('popstate'));
 }

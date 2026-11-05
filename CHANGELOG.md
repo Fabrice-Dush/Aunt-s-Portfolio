@@ -1,3 +1,35 @@
+# 2026-11-05 — Final Phase 7 review and corrections
+
+- Independently reviewed existing CMS/public/media/auth source and reran actual test/database/build acceptance without starting Phase 8.
+- Fixed false-current synchronization status for altered/missing HTML, preview's verified/read-again race, empty-create 500 responses, indirect active PDF subtype validation, ordering across tied-rank pages and media error cache headers; reload editor lists on cancel.
+- Added meaningful PDF, preview, collection-order, synchronization-integrity and message-state regression coverage. Final suites: 6 structure, 18 frontend, 20 backend unit/service + 7 HTTP, 11 DB + 18 auth + 14 CMS, zero failures/skips; both types/builds and four artifact tests pass.
+- Verified compiled serving, zero audit vulnerabilities, unchanged dev/test schema/migrations, six foreign keys/five domain checks per schema, all 16 recovered development records and empty test application tables.
+- Updated final report, memory, publishing and owner guide. Browser hosts remain unavailable; documented native-history unsaved-edit limitation and pending production/content/operational dependencies. No new ZIP/commit/tag/push; historical ZIP preserved.
+
+---
+
+# 2026-11-05 — Future backup and version control policy
+
+- Recorded the representative's policy effective Phase 8: Git commits, tags after successful phase verification and pushes to the configured private GitHub repository, with privacy/access and secret-exclusion checks.
+- Discontinued automatic future phase ZIPs; retain explicit-request/final-handover archives and preserve all existing phase ZIPs and historical deliveries.
+- Kept separate verified database backups/recovery preservation mandatory. Documentation only; no Phase 8 implementation, retroactive phase commit/tag, push, archive or database change.
+- Updated AGENTS, status, decisions and handoff; added docs/VERSION_CONTROL_POLICY.md.
+
+---
+
+# 2026-11-05 — Phase 7 CMS and public integration
+
+- Extended existing light Studio/dark Operations with profile, experience, education, skills, projects, achievements and certification editors; real drafts/previews/publish/unpublish/order/removal, messages, media library and metadata settings.
+- Added guarded validated CMS APIs around existing services, row/version locks, monotonic conflict checks, atomic audits, idempotent creates, immutable slugs and explicit contact/media permissions.
+- Added secure private original/media storage, signatures/decoding, optimized metadata-free image variants, conservative PDF processing, publication-gated serving, attachments and safe lifecycle/reconciliation.
+- Connected real contact submission/storage/read/unread/archive/removal with Origin/header/rate/honeypot/time checks; no email or scheduled retention purge.
+- Made database public DTOs canonical; removed independent frontend content arrays. Preserved React/Vite prerender and exact snapshot hydration/metadata, public bundle budget and lazy private code.
+- Added fixed local rebuild API/CLI/status and fail-closed HTML freshness/integrity gates for Express and Vite preview. Hosting automation remains pending; ungated static hosting unsupported.
+- Passed source/TypeScript/build/artifact and real isolated DB/auth/CMS acceptance, actual isolated public build/failure/withdrawal workflow, compiled serving/privacy checks and exact all-field comparison of 16 recovered development records. No dev writes/real accounts, DDL, env/JWT/URL change or recovery repeat.
+- Updated CMS architecture/API/publishing/media/user/verification docs and memory; full-source ZIP excludes originals/private uploads, caches, secrets and recovery data. Browser hosts still unavailable; exact manual lists, recovery caveats, content approvals and final visual revamp retained. Phase 8 NOT STARTED.
+
+---
+
 # 2026-11-05 - Phase 6 COMPLETED after authorized development cutover
 
 - Verified a complete owner-restricted offline snapshot (229 files / 187,752,520 bytes) and exact original .env backup before changes. Adopted clean normal-mode MariaDB at loopback port 13312 using existing XAMPP binaries; changed only four database URL lines and preserved JWT/all unrelated environment bytes. Shared XAMPP originals, unrelated databases, preservation trees and private exports remain unchanged.

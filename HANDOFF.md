@@ -1,37 +1,48 @@
-# Handoff - Phase 6 COMPLETED; Phase 7 awaits authorization
+> **Final independent Phase 7 review — 2026-11-05:** Phase 7 **COMPLETED for implementation/automated acceptance**; Phase 8 **NOT STARTED**. Fresh suites passed: structure 6, frontend 18, backend 20 unit/service + 7 HTTP (runner 28), DB/auth/CMS 11/18/14, four artifacts, both types/builds, 46 dev/7 preview requests and compiled API/19 Phase 7 checks. Both Prisma schema comparisons show no differences; migration checksums, six relationships/five domain checks per schema, exact 16 recovered rows and empty test tables verified. Dependency audits report zero vulnerabilities.
 
-**Resume here, before historical instructions below:** Phase 6 COMPLETED after explicitly authorized dedicated development cutover and final acceptance. Actual backend/.env now targets normal-mode MariaDB 10.4.32 at 127.0.0.1:13312, private 2026-11-05-rehearsal-02/data; only four database URL lines changed, with JWT and all unrelated bytes preserved. Complete owner-restricted offline snapshot and original .env backup verified at C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-05-pre-cutover-01. All 28 dev/test tables and 16 recovered records, migrations/drift/shadow replay, 11 DB + 18 auth scenarios, TypeScript/tests/production builds/API/artifact checks and two post-cutover workload restarts passed. Shared XAMPP data/data-old, unrelated databases, original backups and 176 private export files remain unchanged. Dedicated instance left running; XAMPP Control Panel does not manage it. Level-6 freshness remains unproven; first-rehearsal Aria failure remains unexplained and retained. No real administrator accounts. Manual browser QA remains deferred. Phase 7 NOT STARTED. See docs/PHASE_06_DATABASE_INCIDENT.md, docs/PHASE_06_VERIFICATION.md and docs/XAMPP_SETUP.md. Do not repeat recovery, initialization or cutover; use documented start/stop commands.
+Review corrections: actual HTML integrity/existence determines synchronization status; preview sends the verified bytes; create validation precedes idempotency hashing; active PDF subtype references resolve before checking; arrows reorder the complete bounded collection and preserve other pages; public-media errors are no-store; cancel reloads current list versions. See docs/PHASE_07_VERIFICATION.md for original failing regressions and final results.
 
-**Updated:** 2026-11-05 (Europe/Paris). The user's explicit Phase 6 request supersedes older startup restrictions. Do not restart earlier phases or overwrite current uncommitted work. Phase 7 NOT STARTED.
+Browser hosts remain unavailable. Native Back/Forward bypasses unsaved-edit prompts; save/cancel first and carry into browser QA. Over 100 records/cross-page ordering uses Display order. Preserve all manual lists and hosting/HTTPS/shared limits/media backup/content consent/account/retention dependencies. No new ZIP/commit/tag/push: the old ZIP is preserved unchanged, predates corrections, and the workspace is current. Do not repeat recovery or modify secrets/backups.
 
-Read PROJECT_STATUS.md, docs/PHASE_06_VERIFICATION.md, docs/PHASE_06_DATABASE_INCIDENT.md and docs/XAMPP_SETUP.md first. Development now uses the adopted port-13312 normal-mode database; it was left running after final restart and acceptance. Do not rerun snapshot/configure/recovery operations or the suspended historical shared-XAMPP restart instructions. Next work needs Phase 7 authorization or an explicit manual-QA request.
+---
 
-## Historical pre-incident verification instructions - suspended
+# Handoff — Phase 7 CMS implemented and verified
 
-After MySQL is running, first run `npm run db:verify -w backend` from the repository root. Confirm original dev record counts and both applied migrations. For a read-only live schema comparison, run `npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma` from backend/. Inspect the separate disposable shadow state before retrying replay; the failed replay is not evidence of dev data loss. Do not repeatedly run a failing reset against an unknown schema. Resolve or precisely document any remaining migration-engine/server limitation before completion.
+Updated 2026-11-05 (Europe/Paris). **Phase 7 COMPLETED for implementation/automated acceptance; browser QA deferred. Phase 8 NOT STARTED.**
 
-Already passed: npm test (6 structure, 14 frontend, 14 backend unit/service, 7 HTTP), test:db (11 public + 18 authentication scenarios), both typechecks/builds, four artifact tests, dev/production HTTP 42/7 and compiled 200/400/413, additive migration deployment and zero-audit result. DB tests use exact local test schema/account, reject application data and clean only IDs created by the run. Do not run two DB suites concurrently. Synthetic test passwords are generated in memory; no real accounts exist.
+**New policy for Phase 8 onward:** Read [docs/VERSION_CONTROL_POLICY.md](docs/VERSION_CONTROL_POLICY.md). Use Git commits, tags after successful phase verification, and pushes to the configured private GitHub repository after privacy/access verification. Do not automatically generate phase ZIPs; only explicit requests/final handover require one. Preserve existing archives and historical phase arrangements. Keep secrets/private files out of Git and maintain separate verified database backups. No retroactive Phase 7 commit/tag/push or Phase 8 implementation was requested by this policy update.
 
-## Implementation
+Start with PROJECT_STATUS.md and docs/PHASE_07_VERIFICATION.md. The attached Phase 7 instruction authorized the implementation; historical Phase 7-not-started statements elsewhere describe earlier checkpoints. Do not recreate the project or restart recovery.
 
-- Backend route → controller validation → service → shared Prisma. AuthSession stores only refresh hashes. Every protected request rereads current session/account/role. Short JWTs do not permit continued access after revocation.
-- Exact trusted Origin plus X-Portfolio-Request header protects all mutations including login/refresh/logout. HttpOnly/Strict/production Secure cookies. No wildcard/missing-Origin exception or localStorage tokens.
-- Credential/session mutations lock the target user and transactionally audit changes. Refresh replay revokes the whole session; no grace window. Session cap ten, absolute lifetime seven days. Password changes revoke all sessions and force sign-in again.
-- SUPER_ADMIN local CLI bootstrap only; ADMIN account workflows require maintainer reauthentication. No role changes or SUPER_ADMIN management through HTTP. New/recovered accounts must change password before seeing protected content.
-- CLI: auth:key, auth:bootstrap, auth:recover, auth:cleanup. Existing backend/.env is preserved; key is already configured. Never print/package it or real credentials. Real account setup is left to the authorized people using a private TTY.
-- Frontend features/auth owns login/API/route gate; features/dashboard owns read-only views, account controls, administrator management and isolated CSS. Public App unchanged. Private module dynamic import; public prerender remains. Generated route shells contain no authenticated data. Same-origin deployment required.
-- Prisma CLI/Client/adapter now pinned together at 7.10.1, compatible security patch after six advisories in inherited 7.10.0 tree. Do not move to Prisma 8; preserve the updated lockfile.
+## Continue from this state
 
-## Browser and deployment debt
+All seven owner content areas now have real guarded editors/CRUD, draft previews, verification/publication, order and safe removal. Media library, attachments, approval, processed/private/public file serving, contact submissions, message management and metadata settings are integrated into the existing light Studio/dark Operations.
 
-Browser/native hosts were unavailable. No interactive/visual responsive passes, cross-browser results or Lighthouse scores. Follow the seven-viewport Phase 6 checklist and preserve the exact Phase 4 manual checklist. Maintain light owner Studio and dark Operations; synthetic portrait not newly inserted into private views. Final comprehensive visual/UX revamp is still planned.
+The database is canonical. Old independent frontend professional-content arrays were removed. The build exports only existing public DTOs inside a transaction, prerenders the same React App, embeds the same snapshot for hydration, and writes a revision/HTML receipt. Express serves current valid HTML; stale/missing/tampered output or DB downtime returns neutral 503. Vite preview has the same gate. Never deploy dist on an ungated static host.
 
-Production needs trusted HTTPS same-origin frontend/API, proxy/rate-limit review, secret distribution, browser cookie/CSRF verification, deployment backups and monitoring. In-process rate limits are for the current single-process application; shared hosting scaling needs shared storage. No email setup or infrastructure-secret dashboard.
+See docs/CMS_ARCHITECTURE.md, CMS_API_REFERENCE.md, CONTENT_PUBLISHING.md, MEDIA_MANAGEMENT.md and CMS_USER_GUIDE.md. The fixed local rebuild interface is `node scripts/rebuild-public.mjs`; the guarded dashboard control reports started/completed/failed separately. Hosting integration remains pending. Builds require a reachable DB and installed build dependencies. One exclusive lock prevents overlap.
 
-## Phase 7 next, only after authorization
+## Permanent implementation rules
 
-Build validated CMS editing/concurrency/publishing on these guards; keep edits draft and explicit owner consent rules. Add approved media/contact workflows and safe public snapshot rebuilds without hurting first paint. No fake editing controls are shipped in Phase 6. Preserve owner portrait/contact/credential/date approvals, genuine projects/achievements and retention-policy review.
+- Keep Phase 6 cookies, exact Origin/header CSRF, JWT validation, live DB sessions/roles, forced password replacement and reauthenticated technical account operations. No local/session storage tokens, public registration or role/header bypass.
+- Every CMS mutation must retain its input allowlist, row/version check and transactional audit. Creates use UUID Idempotency-Key receipts. Reorder is atomic; project slugs stay fixed.
+- Edits withdraw a published record until republished. No simultaneous public draft revision. Profile edits revoke contact consent; publication requires separate explicit dated consent. No automatic verification of provisional jobs/education/training.
+- Original files remain outside static roots in ignored backend/.private-media; only processed variants can be served. Public files require approval plus a published eligible attachment on each request. No raw storage path input/DTO, SVG upload or referenced-file deletion.
+- New contact messages have no automatic expiry/purge pending owner retention approval. No email sending. Audit logs never store private message/content bodies or credentials.
+- Test DB suites run sequentially and refuse existing application rows; preserve their exact local test-schema/account guards, captured-ID cleanup and isolated test storage/build directories.
 
-## Delivery
+## Database protection
 
-Phase 6 delivery is `seraphine-portfolio-phase-06-complete.zip` in the repository parent. The full-source packager verifies required files, credential exclusions, CRC, extraction and every source hash. Private receipt and final response carry exact count/size/SHA256. The old review snapshot is retained. No deployment, real account provisioning or Phase 7 authorization is implied.
+Dedicated MariaDB 10.4.32, normal mode 0, loopback port 13312, private rehearsal-02 datadir/config and existing scoped accounts remain. No Phase 7 schema change/migration, .env/JWT/URL change, database restart/reset, shared XAMPP repair, recovery export/backup modification or real users. Both original migrations/source checksums match; all fields of the 16 development records match the private recovery exports; test application tables are empty.
+
+Keep level-6 skipped-redo freshness uncertainty and the unexplained first-rehearsal Aria failure. Matching recovered rows do not prove latest original transactions survived. Use documented lifecycle in docs/XAMPP_SETUP.md. XAMPP Control Panel does not manage this instance.
+
+## Verification and next work
+
+Passed source suites, both typechecks/builds, four artifact tests, 11 DB + 18 auth + 14 CMS scenarios, actual isolated full public build and failure/stale withdrawal checks, compiled API/shell checks and recovered-field comparison. Full report carries command/count details. Production dependency audit: zero reported vulnerabilities.
+
+Browser host/native pipe are still unavailable. Keep exact Phase 4 and Phase 6 manual checklists and the Phase 7 additions at all seven widths. No browser interaction, screenshots, console, pixel/visual equivalence, Lighthouse or CWV pass exists for this work. Final visual/UX revamp remains later.
+
+No real administrators: authorized people must privately follow docs/AUTHENTICATION.md. Do not ask for real credentials. Owner content/portrait/contact approvals, hosting/HTTPS/proxy/shared rate storage, private media backups and message retention remain open. Personalized email postponed.
+
+Complete ZIP: `C:/Users/HP/Pictures/Aunt nyirarukundo/seraphine-portfolio-phase-07-complete.zip`; verified full eligible source/design/docs/migrations/tests with private/generated material excluded. Final receipt carries size/count/SHA256. Phase 8 requires a new instruction.

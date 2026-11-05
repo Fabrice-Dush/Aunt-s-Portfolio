@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "media:reconcile": "tsx scripts/reconcile-media.ts",
     "auth:key": "node scripts/auth-key.mjs",
     "auth:bootstrap": "tsx scripts/provision.ts bootstrap",
     "auth:recover": "tsx scripts/provision.ts recover",
@@ -33,6 +34,8 @@
     "express-rate-limit": "^8.0.0",
     "helmet": "^8.1.0",
     "jose": "^6.2.15",
+    "pdf-lib": "^1.17.1",
+    "sharp": "^0.35.5",
     "zod": "^4.0.0"
   },
   "devDependencies": {

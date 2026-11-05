@@ -12,9 +12,15 @@ test('production contains meaningful portfolio HTML before JavaScript', () => {
   assert.doesNotMatch(html, /<!--app-html-->|<!--site-meta-->/);
   assert.match(html, /<main id="main-content"/);
   assert.match(html, /Water Treatment Plant Engineer/);
-  for (const id of ['about', 'expertise', 'experience', 'education', 'training', 'contact']) {
+  for (const id of ['about', 'expertise', 'contact']) {
     assert.match(html, new RegExp('id="' + id + '"'));
   }
+  assert.doesNotMatch(html, /TO VERIFY|id="experience"|id="education"|id="training"/);
+  const snapshot = JSON.parse(html.match(/<script id="public-content" type="application\/json">(.*?)<\/script>/s)[1]);
+  assert.equal(snapshot.data.skills.length, 6);
+  assert.equal(snapshot.data.experience.length, 0);
+  assert.equal(snapshot.data.education.length, 0);
+  assert.equal(snapshot.data.certifications.length, 0);
   assert.match(html, /<details class="mobile-menu"><summary/);
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
   assert.doesNotMatch(html, /mailto:|tel:|id="projects"|href="#projects"/);
@@ -49,7 +55,7 @@ test('built assets resolve locally, portrait preload matches, and bundles stay s
 });
 
 test('public distribution contains only expected web files, no private source or build entry', () => {
-  assert.deepEqual(readdirSync(dist).sort(), ['admin', 'assets', 'favicon.svg', 'images', 'index.html', 'login', 'robots.txt', 'super-admin']);
+  assert.deepEqual(readdirSync(dist).sort(), ['.publication.json', 'admin', 'assets', 'favicon.svg', 'images', 'index.html', 'login', 'robots.txt', 'super-admin']);
   assert.deepEqual(readdirSync(join(dist, 'images')).sort(), ['seraphine-portrait-small.webp', 'seraphine-portrait.webp']);
   for (const file of readdirSync(join(dist, 'assets'))) {
     assert.match(file, /^(index|Workspace)-[\w-]+\.(js|css)$/);

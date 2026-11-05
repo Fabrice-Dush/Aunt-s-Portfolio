@@ -11,6 +11,11 @@ export async function dashboardSummary(technical: boolean) {
     db.contactMessage.count(), db.profile.findUnique({ where: { id: 'owner' }, select: { fullName: true, professionalTitle: true, status: true, city: true, country: true } }),
   ]);
   return { experience: counts[0], education: counts[1], skills: counts[2], certifications: counts[3], publishedProjects: counts[4], draftProjects: counts[5], messages: counts[6], profile: counts[7],
+    contentStates: await Promise.all(['experience','education','skill','project','achievement','certificate'].map(async model => ({
+      area: model, states: await (db[model as 'skill'] as typeof db.skill).groupBy({ by: ['status'], _count: { _all: true } }),
+    }))),
+    media: await db.mediaAsset.aggregate({ _count: { id: true }, _sum: { bytes: true } }),
+    recentPublications: await db.auditLog.findMany({ where: { action: { in: ['CONTENT_PUBLISH','CONTENT_UNPUBLISH'] } }, take: 8, orderBy: [{ createdAt: 'desc' }, { id: 'desc' }], select: { action: true, entity: true, createdAt: true } }),
     ...(technical ? { activeAdmins: await db.user.count({ where: { role: 'ADMIN', isActive: true } }) } : {}) };
 }
 export async function dashboardContent(section: string, page: number) {
@@ -34,5 +39,5 @@ export async function securityEvents(page: number) {
 }
 export async function systemStatus() {
   await getDatabase().$queryRaw`SELECT 1`;
-  return { api: 'Responding', database: 'Connected', checkedAt: new Date().toISOString(), contentEditing: 'Available in Phase 7', analytics: 'Not collected' };
+  return { api: 'Responding', database: 'Connected', checkedAt: new Date().toISOString(), contentEditing: 'Available', analytics: 'Not collected' };
 }

@@ -12,9 +12,19 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const frontend = resolve(root, 'frontend');
 let development, production, api;
 try {
-  development = await createServer({ root: frontend, server: { host: '127.0.0.1', port: 0, strictPort: false, hmr: false } });
+  // Use the real compiled server on an isolated port; no existing process is touched.
+  api = spawn(process.execPath, [resolve(root, 'backend/dist/server.js')], {
+    cwd: resolve(root, 'backend'), env: { ...process.env, PORT: '4402' }, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true,
+  });
+  let started = false;
+  let startup = '';
+  api.stdout.on('data', chunk => { startup += chunk; if (startup.includes('Portfolio API available')) started = true; });
+  api.on('error', error => { startup = error.message; });
+  for (let attempt = 0; attempt < 50 && !started && api.exitCode === null; attempt++) await delay(100);
+  assert.ok(started, 'Compiled API could not start on isolated port 4402');
+  development = await createServer({ root: frontend, server: { host: '127.0.0.1', port: 0, strictPort: false, hmr: false }, optimizeDeps: { noDiscovery: true, include: [] } });
   await development.listen();
-  production = await preview({ root: frontend, preview: { host: '127.0.0.1', port: 0, strictPort: false } });
+  production = await preview({ root: frontend, preview: { host: '127.0.0.1', port: 0, strictPort: false, proxy: { '/api': { target: 'http://127.0.0.1:4402' } } } });
   for (const [label, server] of [['development', development], ['production', production]]) {
     const origin = `http://127.0.0.1:${server.httpServer.address().port}`;
     const response = await fetch(origin);
@@ -38,16 +48,6 @@ try {
     }
     console.log(`${label}: ${paths.size + 1} HTTP 200 page/module/asset requests passed.`);
   }
-  // Use the real compiled server on an isolated port; no existing process is touched.
-  api = spawn(process.execPath, [resolve(root, 'backend/dist/server.js')], {
-    cwd: resolve(root, 'backend'), env: { ...process.env, PORT: '4402' }, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true,
-  });
-  let started = false;
-  let startup = '';
-  api.stdout.on('data', chunk => { startup += chunk; if (startup.includes('Portfolio API available')) started = true; });
-  api.on('error', error => { startup = error.message; });
-  for (let attempt = 0; attempt < 50 && !started && api.exitCode === null; attempt++) await delay(100);
-  assert.ok(started, 'Compiled API could not start on isolated port 4402');
   const url = 'http://127.0.0.1:4402/api/v1/health';
   for (const [body, status, error] of [[undefined, 200, undefined], ['{', 400, 'INVALID_JSON'],
     [JSON.stringify({ data: 'x'.repeat(110_000) }), 413, 'PAYLOAD_TOO_LARGE']]) {

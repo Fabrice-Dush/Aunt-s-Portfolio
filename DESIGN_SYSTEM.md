@@ -1,3 +1,11 @@
+# Phase 7 CMS extension — 2026-11-05
+
+Approved bright portrait-led identity, navy/blue name, light Studio and dark Operations remain. CMS forms, previews, library, messages, feedback and confirmations extend existing tokens/native controls; no final visual/UX revamp was performed. Private UI/CSS remain separate from the public first-load bundle.
+
+Public sections now reflect published database content; unverified jobs/education/training are omitted until explicitly published. This intentional content change is not a new design approval. Existing concept portrait/disclaimer remains until approved replacement publication. Browser/native hosts are unavailable: no screenshot, pixel-equivalence, seven-viewport interaction or new accessibility/performance score is claimed. Retain exact Phase 4/6 checklists plus the Phase 7 additions.
+
+---
+
 > **2026-11-05 final acceptance:** Public portfolio and dashboard source/assets hash-match the pre-cutover baseline. Phase 6 critical automated acceptance is complete; manual browser/visual checks remain deferred and no redesign was performed.
 
 # Phase 6 dashboard implementation — 2026-11-04

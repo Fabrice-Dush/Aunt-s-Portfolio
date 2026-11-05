@@ -1,6 +1,6 @@
 import type { PublicContact } from '../data/contact';
 
-export function Contact({ contact }: { contact: PublicContact }) {
+export function Contact({ contact, location }: { contact: PublicContact; location?: string }) {
   return (
     <section id="contact" tabIndex={-1} className="section section-contact">
       <div className="section-inner">
@@ -8,7 +8,7 @@ export function Contact({ contact }: { contact: PublicContact }) {
         <h2>Let's make a <em>meaningful impact.</em></h2>
         <div className="contact-bottom">
           <div><p>Interested in professional opportunities in water operations, quality and management.</p>
-            <p className="contact-location">Kigali, Rwanda</p>
+            {location && <p className="contact-location">{location}</p>}
             <div className="contact-links">
               {contact.email?.publicationApproved && <a href={`mailto:${contact.email.value}`}>{contact.email.value}</a>}
               {contact.phone?.publicationApproved && <a href={`tel:${contact.phone.international}`}>{contact.phone.display}</a>}

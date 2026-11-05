@@ -6,6 +6,7 @@ import { env } from './config/env.js';
 import { apiRouter } from './routes/index.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFound } from './middlewares/notFound.js';
+import { publicSiteRouter } from './middlewares/public-site.js';
 
 export const app = express();
 app.disable('x-powered-by');
@@ -15,5 +16,6 @@ app.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 120, standardHeaders: 'draf
   message: { error: { code: 'RATE_LIMITED', message: 'Too many requests; try again later' } } }));
 app.use(express.json({ limit: '100kb' }));
 app.use('/api/v1', apiRouter);
+app.use(publicSiteRouter);
 app.use(notFound);
 app.use(errorHandler);

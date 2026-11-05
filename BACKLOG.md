@@ -1,3 +1,18 @@
+> **Final Phase 7 review — 2026-11-05:** Implementation/automated acceptance **COMPLETED**, Phase 8 **NOT STARTED**. Reproduced defects were corrected and all final suites passed; details in docs/PHASE_07_VERIFICATION.md. No new ZIP/tag/push or database recovery operations.
+
+- [x] Fix synchronization status for missing/tampered HTML and preview check/serve reread.
+- [x] Return validation errors for empty creates; reject indirect active PDF annotation subtypes.
+- [x] Preserve other pages during ordering with tied ranks; keep existing versioned atomic API and 100-record bound/manual-field fallback.
+- [x] Set no-store on public-media errors; verify explicit message read/unread/archive and reload lists after editor cancel.
+- [x] Rerun source, isolated DB/auth/CMS, types/builds/artifacts, live serving, audits, dev/test Prisma comparisons, constraints and recovered-record/fixture preservation.
+- [ ] Native browser Back/Forward currently bypasses unsaved-edit prompts. Save/cancel first; review during authorized browser follow-up.
+- [ ] Preserve exact Phase 4/6 and Phase 7 browser/viewport/accessibility/console/performance lists. Hosts remain unavailable.
+- [ ] Production host/rebuild integration, HTTPS/origin/proxy/shared limits, private media/database backup operations, real private accounts, owner content/consent and message-retention policy remain pending.
+
+---
+
+> **Latest checkpoint — 2026-11-05: Phase 7 implementation and automated acceptance complete.** Full CMS/media/messages/database public integration and controlled local rebuilding are implemented; see docs/PHASE_07_VERIFICATION.md. Dedicated database/recovered records and authentication preserved. Browser, hosting, owner content approvals, retention policy and final visual/UX revamp remain open. Phase 8 NOT STARTED; a new instruction is required. Older phase notes are history.
+
 # Development backlog and pre-launch checklist
 
 > **Phase 6 COMPLETED - 2026-11-05:** Preservation, recovery extraction, clean normal-mode restoration, separately authorized dedicated cutover, schema/shadow/record/constraint checks, 11 database + 18 auth scenarios, final type/test/build/API/artifact checks and restart persistence passed. Offline snapshot/original .env backup verified; shared XAMPP and exports remain untouched. Keep browser/performance/manual QA, level-6 freshness uncertainty and first-rehearsal failure evidence visible. Phase 7 NOT STARTED; requires authorization.
@@ -43,7 +58,7 @@
 - [x] Explicit public DTOs, verified publication, contact/media privacy and validated internal content services.
 - [x] Unit/HTTP/real DB integration tests, production builds and frontend regression verification.
 - [x] API/schema/setup documentation, memory and complete source archive workflow.
-- [ ] Phase 7: select secure media storage provider and contact processing; metadata/service foundations are implemented.
+- [x] Phase 7 added a secure private local media provider and real contact processing; production storage backup/hosting remains open.
 
 ## Phase 6 — Authentication and role dashboards
 
@@ -58,11 +73,19 @@
 - [ ] Execute Phase 6 seven-viewport/browser/keyboard/modal/route/refresh checklist. No browser pass claimed.
 - [ ] Predeployment: HTTPS/proxy/shared limiter/key management review; consider MFA and stronger local breach-password screening.
 
-## Phase 7 — CMS integration
+## Phase 7 — CMS integration complete (2026-11-05)
 
-- [ ] Connect public portfolio to published and verified content without slowing first paint.
-- [ ] Support editing, drafts, publish actions, appropriate media/document uploads, and messages.
-- [ ] Confirm message retention policy and schedule expiry purge only after owner approval/public collection design.
+- [x] Seven real content editors and guarded CRUD, drafts, private preview, verification, publication, order and safe removal.
+- [x] Transactional versions/locks/audits, create idempotency, immutable slugs and independent contact/media consent.
+- [x] Secure private media uploads, processing, approval, attachments, serving, lifecycle and reconciliation.
+- [x] Real contact submission, private message read/unread/archive/remove and metadata settings.
+- [x] Database-canonical public sections, exact prerender/hydration snapshot, metadata and local rebuild/status.
+- [x] Fail-closed stale HTML/media checks and real DB/auth/CMS/full-build/source/artifact/API acceptance.
+- [x] Exact all-field preservation of 16 development records; no real users, schema/env change or recovery repeat.
+- [x] Architecture/API/publishing/media/owner/verification docs, memory and verified full-source delivery.
+- [ ] Carry forward exact manual Phase 4/6/7 browser, viewport, keyboard, hydration, visual and performance checks.
+- [ ] Configure hosting/HTTPS/proxy/shared limits, private media backups and rebuild/deployment integration; ungated static hosting unsupported.
+- [ ] Approve retention before scheduling message expiry/deletion; public submissions currently persist until removed.
 
 ## Phase 8 — QA and performance
 

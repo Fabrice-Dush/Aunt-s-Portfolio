@@ -1,3 +1,9 @@
+# Phase 7 API continuation — 2026-11-05
+
+Existing Phase 5 public DTO endpoints and Phase 6 auth/technical contracts remain. New guarded content/media/messages/settings/synchronization endpoints and the specifically approved public contact submission are documented in [CMS_API_REFERENCE.md](CMS_API_REFERENCE.md). All mutations retain exact Origin/header safeguards; binary uploads check them before parsing. The public aggregate reuses existing DTO services for consistent prerender/hydration. Older statements below that these routes do not exist describe historical phases.
+
+---
+
 # Phase 6 API continuation — 2026-11-04
 
 Public Phase 5 routes/contracts below are preserved. Authentication and private administrative APIs now exist; see [AUTHENTICATION.md](AUTHENTICATION.md#api) for every route, permission, body, cookie/CSRF and pagination contract. `/auth`, `/administrators` and `/dashboard` are mounted under `/api/v1`; all private responses are no-store. No public signup/bootstrap/reset, SUPER_ADMIN mutation, CMS write, media upload or contact-submission route. Older statements below that auth has not started describe Phase 5 history.

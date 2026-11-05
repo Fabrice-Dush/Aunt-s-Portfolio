@@ -1,3 +1,21 @@
+# Current Phase 7 — content-managed portfolio
+
+Phase 7 implementation and automated acceptance are complete. [Full verification/report](docs/PHASE_07_VERIFICATION.md), [owner guide](docs/CMS_USER_GUIDE.md), [CMS API](docs/CMS_API_REFERENCE.md), [media](docs/MEDIA_MANAGEMENT.md), [publishing](docs/CONTENT_PUBLISHING.md), [current status](PROJECT_STATUS.md). Phase 8 NOT STARTED. Browser QA and hosting automation remain pending.
+
+Run the existing dedicated MariaDB at port 13312 using docs/XAMPP_SETUP.md, preserve backend/.env/JWT, then `npm run dev`. Real accounts require the private CLI procedure in docs/AUTHENTICATION.md; none were created. The owner can now edit all content, upload/approve/attach media, preview/publish, handle messages and update page metadata without source edits.
+
+`npm run build` requires a reachable database and exports only published public DTOs before Vite/prerender. Supported production serving is the compiled Express application under the same HTTPS origin as the API. It gates HTML against current public data; **do not deploy frontend/dist on an ungated static host**. `npm run preview -w frontend` also requires the API for freshness checking. The guarded dashboard Update public website control and `node scripts/rebuild-public.mjs` provide a local rebuild interface; they do not deploy to a provider.
+
+Verify with `npm test`, `npm run test:db -w backend`, `npm run typecheck`, `npm run build`, `npm run test:build -w frontend`, and `node scripts/verify-phase07.mjs`. The latter is this restored workstation's read-only preservation/compiled check. Test DB suites run sequentially and refuse existing application data. Media source files are private; use the maintenance instructions in MEDIA_MANAGEMENT.md for reconciliation and private backups.
+
+All thirteen models/two migrations and all recovered development fields are preserved. No real users, new migration, recovery/cutover or .env rewrite. Level-6 freshness remains unproven and the first-rehearsal failure remains unexplained. Keep manual Phase 4/6/7 checklists and the agreed later visual/UX revamp. Personalized email postponed.
+
+Delivery: `C:/Users/HP/Pictures/Aunt nyirarukundo/seraphine-portfolio-phase-07-complete.zip`, full eligible latest repository with verified extraction/hashes and private/secret/generated exclusions.
+
+---
+
+## Retained Phase 6 setup/history
+
 # Nyirarukundo Seraphine — professional portfolio
 
 > **Phase 6 COMPLETED:** Authorized dedicated normal-mode development database at 127.0.0.1:13312 passed final migration/shadow/auth/API/integrity/build and restart acceptance. [Lifecycle/setup](docs/XAMPP_SETUP.md), [verification](docs/PHASE_06_VERIFICATION.md), and [incident/remaining recovery limits](docs/PHASE_06_DATABASE_INCIDENT.md). Shared XAMPP data and private backups/exports remain preserved. Level-6 freshness uncertainty and the first failed rehearsal remain documented. Manual browser QA is deferred; Phase 7 NOT STARTED.

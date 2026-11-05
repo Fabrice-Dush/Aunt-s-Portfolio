@@ -1,24 +1,24 @@
-import { profile } from '../data/profile';
+import type { PublicProfile } from '../types';
 
-export function Hero() {
+export function Hero({ profile, hasExperience }: { profile: PublicProfile; hasExperience: boolean }) {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-container">
         <div className="hero-copy">
-          <p className="eyebrow hero-eyebrow"><span className="eyebrow-rule" /> WATER TREATMENT ENGINEERING / KIGALI</p>
+          <p className="eyebrow hero-eyebrow"><span className="eyebrow-rule" /> {[profile.professionalTitle,profile.city].filter(Boolean).join(' / ')}</p>
           <h1 id="hero-title"><span>Nyirarukundo</span><strong>Seraphine<span className="hero-period">.</span></strong></h1>
-          <p className="hero-role">{profile.title} <span aria-hidden="true">·</span> {profile.field}</p>
+          <p className="hero-role">{profile.professionalTitle}</p>
           <p className="hero-summary">{profile.summary}</p>
           <div className="hero-actions">
-            <a className="button-primary" href="#experience">Explore experience <span aria-hidden="true">↗</span></a>
+            {hasExperience && <a className="button-primary" href="#experience">Explore experience <span aria-hidden="true">↗</span></a>}
             <a className="button-text" href="#about">Discover my story <span aria-hidden="true">↓</span></a>
           </div>
-          <div className="hero-signoff"><span className="fine-line"/> <span>“{profile.statement}”</span><span className="signoff-label">A PERSONAL BELIEF</span></div>
+          {profile.motto && <div className="hero-signoff"><span className="fine-line"/> <span>“{profile.motto}”</span><span className="signoff-label">A PERSONAL BELIEF</span></div>}
         </div>
         <div className="hero-media">
           <div className="hero-aura" aria-hidden="true" />
           <div className="hero-photo-frame">
-            <img
+            {profile.portrait ? <img src={profile.portrait.publicUrl} srcSet={`${profile.portrait.publicUrl}?size=small 640w, ${profile.portrait.publicUrl} 1600w`} sizes="(max-width: 600px) calc(100vw - 44px), 40vw" width="1122" height="1402" alt={profile.portrait.altText ?? ''} fetchPriority="high" decoding="async" /> : <img
               src="/images/seraphine-portrait.webp"
               srcSet="/images/seraphine-portrait-small.webp 780w, /images/seraphine-portrait.webp 1122w"
               sizes="(max-width: 600px) calc(100vw - 44px), (max-width: 960px) 480px, (max-width: 1440px) 40vw, 520px"
@@ -26,9 +26,9 @@ export function Hero() {
               alt="Concept standing portrait based on Seraphine's supplied photograph; awaiting her approval"
               fetchPriority="high"
               decoding="async"
-            />
+            />}
           </div>
-          <span className="image-caption">PORTRAIT CONCEPT / OWNER APPROVAL PENDING</span>
+          {!profile.portrait && <span className="image-caption">PORTRAIT CONCEPT / OWNER APPROVAL PENDING</span>}
           <span className="hero-vertical-text" aria-hidden="true">SCIENCE × PEOPLE × PURPOSE</span>
         </div>
       </div>

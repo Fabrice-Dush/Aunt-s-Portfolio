@@ -1,3 +1,35 @@
+# Final Phase 7 review decisions — 2026-11-05
+
+- Treat actual page existence/hash plus live revision as authoritative for synchronization and serve the checked bytes. Share the backend verifier; retain fail-closed delivery and pending provider integration.
+- Validate/normalize creates before idempotency hashing. Resolve indirect PDF annotation subtypes without traversing cyclic page trees. Set media cache policy before errors can occur.
+- Reorder the complete collection within the existing 100-item transaction limit, preserving other pages and selected versions. Keep numeric Display order for larger collections/cross-page moves; no new schema/endpoints.
+- Mark Phase 7 COMPLETED only for its implemented/automated scope after fresh passing checks. Record browser unavailability, native-history unsaved-edit limitation and operational/content dependencies explicitly. Phase 8 remains not started.
+- Preserve the existing ZIP as a historical checkpoint; no automatic replacement or retroactive commit/tag/push. Keep current corrections in the existing workspace and apply the documented Git policy from Phase 8.
+
+---
+
+# Backup/version control decision — effective Phase 8
+
+On 2026-11-05 the representative replaced automatic future phase ZIPs with Git commits, successfully verified phase tags and pushes to the configured private GitHub repository. Verify remote privacy/access before pushing. Continue memory/verification updates and separate verified database backups; exclude secrets/private files from Git. ZIPs are now only for explicit requests or final handover. Earlier ZIPs and completed-phase backup arrangements remain unchanged. This decision starts with Phase 8 and does not authorize beginning that phase or retroactively changing Phase 7 delivery. Full policy: [docs/VERSION_CONTROL_POLICY.md](docs/VERSION_CONTROL_POLICY.md).
+
+---
+
+# Phase 7 decisions — 2026-11-05
+
+- Explicit Phase 7 authorization accepted; existing stack, bespoke design, feature/MVC boundaries and Phase 6 auth extended. Phase 8 remains not started.
+- Reuse all thirteen models and two migrations without DDL. Keep single-version editing: save returns to DRAFT and withdraws the public version, with explicit UI guidance. No unnecessary revision schema.
+- Wrap existing managers in transactional row/version locks and audits; monotonic updatedAt prevents same-millisecond conflicts. UUID create receipts serialize identical retries. Keep immutable project slugs and restrictive relationships.
+- Single-owner support permission: both roles manage portfolio/media/messages; technical account/log/status permissions remain SUPER_ADMIN-only. No validation/consent bypass.
+- Private local media provider with real image decoding/metadata stripping, processed variants, conservative PDF parsing, explicit public approval plus live published-reference checks. Original/private bytes excluded from serving/source archives. No email.
+- Database public DTOs are canonical. Export consistent public data at build time, render/embed the same hydration snapshot, and refresh it at runtime. Remove conflicting independent frontend arrays.
+- Use no-store and a dynamic revision/HTML gate for supported Express/preview serving; fail closed on stale HTML/build failure/DB downtime. This requires DB availability for production pages but avoids runtime React SSR. Ungated static hosting unsupported. Provide fixed local rebuild API/CLI; provider deployment automation remains pending.
+- New public messages have null expiry and a clear storage notice; owner-approved automatic retention remains pending. Metadata settings exclude secrets/domain/indexing writes.
+- Keep exact recovered data, dedicated port 13312, .env/JWT, grants, recovery caveats, manual browser debt and deferred final visual revamp. No real accounts.
+
+Earlier decisions below retain their historical phase boundaries.
+
+---
+
 # Current Phase 6 decisions - COMPLETED 2026-11-05
 
 > **Authorized cutover decision:** Adopted the verified dedicated normal-mode instance at port 13312, using existing XAMPP binaries and private rehearsal-02 data/config. Complete offline snapshot and original .env backup verified first; only four database URLs changed, preserving JWT/unrelated bytes. Final DB/auth/schema/shadow/content/build/API/constraint and restart gates passed. Shared XAMPP originals/unrelated databases were not repaired or modified. Retain level-6 freshness uncertainty and unexplained failed first-rehearsal Aria evidence. Phase 6 COMPLETED with manual browser QA deferred; Phase 7 and real administrator creation remain unauthorized.

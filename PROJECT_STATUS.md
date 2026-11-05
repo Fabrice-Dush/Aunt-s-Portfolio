@@ -1,50 +1,47 @@
+> **Final review — 2026-11-05:** Phase 7 **COMPLETED for implementation/automated acceptance**, Phase 8 **NOT STARTED**. Independently reran source, real DB/auth/CMS, types, builds, artifacts, compiled serving, audits and dev/test schema/constraint/preservation checks. Corrected synchronization integrity/status, preview reread, empty-create validation, indirect active PDF checks, cross-page ordering and media error caching. All final checks passed; manual browser acceptance remains blocked. Native history lacks an unsaved-edit prompt; production hosting automation and owner/operational approvals remain pending. Full evidence: [Phase 7 final review](docs/PHASE_07_VERIFICATION.md). No new ZIP/commit/tag/push.
+
 # PROJECT_STATUS — Nyirarukundo Seraphine portfolio
 
 **Updated:** 2026-11-05 (Europe/Paris)
-**Current phase:** **6 — Authentication, authorization and dashboards**
-**Status:** **COMPLETED - authorized dedicated development cutover and critical acceptance passed; manual browser QA explicitly deferred.**
-**Next phase:** Phase 7 CMS/content integration — NOT STARTED; requires authorization.
+**Current phase:** **7 — CMS and full portfolio integration**
+**Status:** **COMPLETED — implementation and automated application/database/build acceptance; browser QA remains deferred.**
+**Next phase:** Phase 8 — NOT STARTED; requires a new instruction.
 
-**Latest completed checkpoint:** Phase 6 COMPLETED after explicitly authorized dedicated development cutover and final acceptance. Actual backend/.env now targets normal-mode MariaDB 10.4.32 at 127.0.0.1:13312, private 2026-11-05-rehearsal-02/data; only four database URL lines changed, with JWT and all unrelated bytes preserved. Complete owner-restricted offline snapshot and original .env backup verified at C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-05-pre-cutover-01. All 28 dev/test tables and 16 recovered records, migrations/drift/shadow replay, 11 DB + 18 auth scenarios, TypeScript/tests/production builds/API/artifact checks and two post-cutover workload restarts passed. Shared XAMPP data/data-old, unrelated databases, original backups and 176 private export files remain unchanged. Dedicated instance left running; XAMPP Control Panel does not manage it. Level-6 freshness remains unproven; first-rehearsal Aria failure remains unexplained and retained. No real administrator accounts. Manual browser QA remains deferred. Phase 7 NOT STARTED. See docs/PHASE_06_DATABASE_INCIDENT.md, docs/PHASE_06_VERIFICATION.md and docs/XAMPP_SETUP.md. Do not repeat recovery, initialization or cutover; use documented start/stop commands.
+**Future backup policy:** From Phase 8 onward, use Git commits, verified phase tags and pushes to the configured private GitHub repository. Automatic phase ZIP generation is discontinued; ZIPs require an explicit request or final handover. Preserve earlier archives and completed-phase arrangements, exclude secrets/private files, and maintain separate verified database backups. See [the approved policy](docs/VERSION_CONTROL_POLICY.md). Recording this policy does not start Phase 8 or retroactively commit/tag/push Phase 7.
 
-The representative explicitly authorized Phase 6 in the current request. Phase 4 remains accepted for progression with browser/performance debt. The final comprehensive visual/UX revamp is still planned after major implementation. Nothing is deployed.
+The representative explicitly authorized Phase 7 in the attached request. The existing application, feature/MVC architecture, bright portrait-led homepage, light Studio and dark Operations were extended. No final visual revamp, deployment or real-account provisioning was performed.
 
-| Phase | Status |
-|---|---|
-| 1 Requirements | Sufficient for development; launch facts open |
-| 2 UI/UX | Approved bright homepage, light Studio and dark Operations references preserved |
-| 3 / 3.1 | COMPLETED |
-| 4 Public frontend | Accepted for progression; browser/performance checks deferred |
-| 5 Backend/database | COMPLETED; historical evidence retained |
-| 6 Authentication/dashboards | COMPLETED; dedicated normal-mode database and final acceptance verified |
-| 7 CMS/content integration | NOT STARTED |
-| 8 QA/performance | NOT STARTED; manual browser checklist remains |
-| 9 Owner review | Portrait, dates, credentials and contacts outstanding |
-| 10 Deployment/handover | NOT STARTED |
+## Delivered
 
-## Actual Phase 6 implementation
+- Authenticated CRUD for profile, experience, education, skills, projects, achievements and certifications; real forms, drafts, private previews, verification, publish/unpublish, display order and safe removal.
+- Existing content services wrapped in transaction-coupled audits, row locks and optimistic edit versions. Content create retries use idempotency receipts. Editing a published record withdraws it until republished; project slugs are immutable.
+- Secure local media uploads, actual signature/decoder checks, optimized metadata-free image variants, conservative PDF processing, private originals, explicit approval, guarded serving, attachment/replacement/detach/removal and orphan reconciliation tooling.
+- Real public contact submissions and private read/unread/archive/removal, plus page metadata settings. No email delivery or automatic retention purge.
+- All public portfolio sections originate from published database DTOs. Independent frontend content arrays removed. Existing React/Vite prerender/hydration uses the same sanitized snapshot and metadata; private UI stays lazy and private shells empty.
+- Explicit local website rebuild/status interface. Supported Express serving and Vite preview block stale/tampered HTML and DB outages. Production hosting automation is pending; ungated static hosting is unsupported.
 
-Argon2id, JOSE HS256 JWT access/refresh HttpOnly cookies, rotating hashed refresh sessions, replay revocation, absolute expiry, live DB role/status/session validation, logout, password replacement, secure local maintainer bootstrap/emergency recovery, regular ADMIN provisioning/recovery/status/session controls, exact-Origin/header CSRF, rate limiting and transactional audit events. No public signup, role-changing endpoint, default passwords or seeded real users.
+Read [the complete verification/report](docs/PHASE_07_VERIFICATION.md), [CMS owner guide](docs/CMS_USER_GUIDE.md), [architecture](docs/CMS_ARCHITECTURE.md), [publishing contract](docs/CONTENT_PUBLISHING.md) and [API](docs/CMS_API_REFERENCE.md).
 
-Real light ADMIN Portfolio Studio and dark SUPER_ADMIN System Operations. Authenticated read-only content/profile/publication summaries/messages, real counts, account password/session controls; technical account administration, audit activity and on-demand API/database status. CMS writes, media uploads, contact submission/delivery and personalized email are not implemented here.
+## Verified environment and preservation
 
-Public homepage source/data/styles/assets preserved. Dashboard code/CSS lazy-loaded only on workspace routes; neutral static private route shells; public prerender/hydration retained. Actual browser interaction and layout have NOT been verified.
+Dedicated normal-mode MariaDB 10.4.32 remains at 127.0.0.1:13312, adopted rehearsal-02 data/config, existing scoped dev/test/shadow accounts. No Phase 7 migration or schema change: thirteen existing models, two original source-matching migrations. All fields of all 16 recovered development application records still match the retained private logical exports. Test application tables are empty. Development users/messages/media/projects/achievements remain zero.
 
-Prisma CLI/Client/adapter patched together to 7.10.1 to resolve inherited dependency advisories; npm audit now reports zero. Added argon2/jose only to backend. XAMPP MariaDB 10.4.32; additive session migration applied to dev/test, existing portfolio records preserved. Thirteen models including AuthSession. Local JWT signing key generated in ignored backend/.env, never printed; no actual accounts provisioned. Developer must use the private interactive setup in docs/AUTHENTICATION.md.
+No backend/.env/JWT/URL rewrite, database restart/reset, shared XAMPP modification, preservation-backup/export change or real-account provisioning. Recovery level-6 skipped-redo freshness remains unproven; the first rehearsal's Aria failure remains unexplained. Do not repeat recovery/cutover. Use docs/XAMPP_SETUP.md for the dedicated instance lifecycle.
 
-## Final verification
+## Acceptance
 
-- PASS: 6 structural, 14 frontend, 14 backend unit/service + 7 HTTP scenarios.
-- PASS: 11 Phase 5 and 18 Phase 6 real isolated DB/HTTP scenarios; no skips; fixtures cleaned by recorded IDs.
-- PASS: both TypeScript checks/builds, four production artifact tests, 42 dev/7 production HTTP requests and compiled API 200/400/413.
-- PASS: dev/test additive migration deploy, pre-final DB scope/data verification and zero-vulnerability dependency audit.
-- Historical shared-XAMPP shadow replay failed P3016/P1017 then P1001. The 2026-11-05 second clean rehearsal now passes fresh shadow replay, schema consistency, actual auth/database tests and restart persistence. Authorized dedicated development cutover and final acceptance now pass; original shared XAMPP files remain untouched.
-- Browser host and native computer-use pipe unavailable. Seven viewport, responsive interaction, visual comparison, cross-browser and Lighthouse checks are pending; exact manual checklists retained.
+- PASS: final review: 6 structural, 18 frontend, 20 backend unit/service plus 7 HTTP scenarios (backend runner 28 including parent), zero failures/skips.
+- PASS: sequential real isolated DB suites: 11 database + 18 auth + 14 CMS scenarios (runners 12/19/15), zero failures/skips.
+- PASS: both TypeScript checks/production builds; four production artifact/privacy/budget tests; actual isolated full Vite build from test-database content.
+- PASS: 46 dev / 7 production HTTP assets; compiled health/parser/public/private regressions; 19 Phase 7 compiled serving/privacy checks; exact recovered-field preservation and fixture cleanup; no Prisma differences on dev/test, six foreign keys and five domain checks verified on each.
+- PASS: production dependency audit reports zero vulnerabilities.
+- PASS: local-credential/private-key scan of 208 eligible source files and 39 public build files; baseline hashes for environment, schema, both migrations and historical ZIP unchanged.
+- NOT RUN: browser/screenshot/viewport/keyboard/real hydration/console/Lighthouse/CWV. Browser host and native pipe remain unavailable. Exact Phase 4/6 manual lists retained; Phase 7 additions are in its verification report.
 
-See [Phase 6 verification](docs/PHASE_06_VERIFICATION.md), [authentication/setup/API](docs/AUTHENTICATION.md), [public API](docs/API.md) and [schema](docs/DATABASE_SCHEMA.md).
+## Phase and release boundaries
 
-## Delivery
+Phases 1–3.1, 5, 6 and Phase 7 implementation are complete. Phase 4 was accepted for progression with manual browser/performance debt. Phase 8 has not started. Owner portrait/contact/date/credential approval, genuine projects/achievements, final visual/UX revamp, hosting/HTTPS/proxy/shared limits/media backups and owner-approved message retention remain dependencies. Personalized email stays postponed.
 
-Complete-source delivery: `C:/Users/HP/Pictures/Aunt nyirarukundo/seraphine-portfolio-phase-06-complete.zip`. Packaging verifies required full source/design/docs/migrations/tests, CRC, membership, exclusions, actual extraction and every source hash; local credential/JWT values are scanned without printing. Private env, backups/exports, dependencies, Git, caches and generated/build output are excluded. Final archive count/size/SHA256 are reported with delivery and retained in the private delivery receipt. The prior review snapshot remains historical.
+Real accounts must be provisioned privately through docs/AUTHENTICATION.md. No passwords should be sent to the agent.
 
-Owner publication/portrait/contact/date/credential review, real projects/achievements, deferred Phase 4 QA and the final visual/UX revamp remain open. Phase 7 must wait for instruction. Personalized email remains postponed.
+Historical archive: `C:/Users/HP/Pictures/Aunt nyirarukundo/seraphine-portfolio-phase-07-complete.zip`, preserved unchanged. It predates the final review corrections; current work remains in this project folder, uncommitted. No new ZIP, tag or push was made for the review. See the final-review section of docs/PHASE_07_VERIFICATION.md for fixes and residual limitations.

@@ -1,3 +1,11 @@
+# Phase 7 schema checkpoint — 2026-11-05
+
+All thirteen existing models and both migrations are reused unchanged. No Phase 7 DDL, migration reset, new account or seed was required. The CMS uses updatedAt as a locked optimistic version with explicit monotonic changes, and transaction-coupled AuditLog create receipts for idempotency. Edits return to DRAFT and withdraw the public version; no simultaneous draft/public revision model was added. New public ContactMessage submissions have null expiry until an owner-approved retention policy exists; the legacy internal default remains for historical callers.
+
+All fields of all 16 recovered development records still match private exports; both migration checksums match on dev/test, and test application tables are empty. Dedicated normal-mode port 13312 remains. Prior schema descriptions below are historical; current workflows are in CMS_ARCHITECTURE.md and CMS_API_REFERENCE.md. Recovery freshness and first-rehearsal caveats remain in the incident/rehearsal reports.
+
+---
+
 # Phase 6 additive schema — 2026-11-04
 
 Current Prisma CLI/Client/adapter: 7.10.1 compatible security patch. AuthSession is the thirteenth model. Migration 20261104090000_phase06_sessions applied to existing dev/test without removing records. User gains mustChangePassword (false default), nullable unique bootstrapSlot and sessions relation. AuthSession: ID, userId FK, refreshHash CHAR(64), createdAt/refreshedAt/expiresAt/revokedAt; indexes on userId/revokedAt and expiresAt. User deletion cascades only its sessions; no user deletion API exists, and audit history still uses SetNull. Original SQL CHECK constraints preserved.

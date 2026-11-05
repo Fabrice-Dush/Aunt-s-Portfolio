@@ -7,7 +7,7 @@ import { AppError } from '../utils/AppError.js';
 type RecordState = { id: string; status: PublicationStatus; isVerified?: boolean; startYear?: number | null; endYear?: number | null; isCurrent?: boolean };
 type Change<T> = T & { status: 'DRAFT' };
 
-// Internal only. Phase 6 must authenticate/authorize and audit before exposing these operations.
+// Internal managers. Phase 7 HTTP wrappers add authentication, concurrency and transactional audits.
 function manager<S extends z.ZodObject, R extends RecordState>(schema: S, adapter: {
   create(data: Change<z.output<S>>): Promise<R>;
   get(id: string): Promise<R | null>;

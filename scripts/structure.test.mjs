@@ -28,7 +28,7 @@ test('project role names are declared but no public GUEST account role', () => {
 });
 
 test('approved homepage uses the correct client identity', () => {
-  const profile = get('frontend/src/features/portfolio/data/profile.ts');
+  const profile = get('backend/src/services/cms.service.ts');
   assert.match(profile, /Nyirarukundo Seraphine/);
   assert.match(profile, /Water Treatment Plant Engineer/);
   assert.doesNotMatch(profile, /Environmental Engineer/);
