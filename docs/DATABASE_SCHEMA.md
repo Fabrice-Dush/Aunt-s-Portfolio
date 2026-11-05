@@ -1,3 +1,11 @@
+# Phase 6 additive schema — 2026-11-04
+
+Current Prisma CLI/Client/adapter: 7.10.1 compatible security patch. AuthSession is the thirteenth model. Migration 20261104090000_phase06_sessions applied to existing dev/test without removing records. User gains mustChangePassword (false default), nullable unique bootstrapSlot and sessions relation. AuthSession: ID, userId FK, refreshHash CHAR(64), createdAt/refreshedAt/expiresAt/revokedAt; indexes on userId/revokedAt and expiresAt. User deletion cascades only its sessions; no user deletion API exists, and audit history still uses SetNull. Original SQL CHECK constraints preserved.
+
+Only refresh token hashes stored; actual passwords use Argon2id. No role history is trusted from JWTs. Session/credential mutations serialize on the user row and record safe transactional AuditLog events. Unique bootstrap slot prevents simultaneous initial maintainers; no seeded accounts. See AUTHENTICATION.md for lifecycles, cleanup and private DTOs. Final shadow replay lost database connectivity; follow PHASE_06_VERIFICATION.md before claiming consistency acceptance.
+
+---
+
 # Phase 5 database design
 
 XAMPP MariaDB 10.4.32; Prisma CLI/Client/adapter 7.10.0 unchanged. `mysql` provider, native foreign keys, utf8mb4/utf8mb4_unicode_ci. Initial migration: `20261103183624_phase05_foundation`.

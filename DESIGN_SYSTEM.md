@@ -1,3 +1,15 @@
+> **2026-11-05 final acceptance:** Public portfolio and dashboard source/assets hash-match the pre-cutover baseline. Phase 6 critical automated acceptance is complete; manual browser/visual checks remain deferred and no redesign was performed.
+
+# Phase 6 dashboard implementation — 2026-11-04
+
+Approved references in docs/visual-approval were visually inspected. The real dashboards now use their light Studio/dark Operations direction; final visual acceptance remains pending because the browser host is unavailable. Public homepage CSS/content/assets unchanged.
+
+Studio: pale #f7f9f8 canvas, white panels, #edf2f1 sidebar, #123342 ink, #17727b accent, large Georgia editorial heading, profile introduction band and an approachable record inventory. A typographic NS monogram is used instead of introducing an unapproved portrait. Operations: #092333 canvas, #061a27 sidebar, #0c2c3e square panels, #e2f0f5 text, #8bd8d1 accent, separate access/security/status composition and real audit list. No fake charts or analytics.
+
+Scoped features/dashboard/dashboard.css defines these tokens; no global public style replacement. Local system body fonts/Georgia headings, small inline SVGs, 44px controls, labelled forms, semantic headings, role/status feedback, native modal dialogs, clear empty/loading states, responsive navigation and content-driven rows. Breakpoints at 1100/760px, with large-screen refinements. Only short CSS entrances/feedback; reduced motion disables them. Check all seven required widths, keyboard/focus/dialog/touch and contrast in a real browser before visual acceptance. Styling/source tests are not browser evidence.
+
+---
+
 # Design system — Phase 2 approved, Phase 4 implementation
 
 **Phase 5 continuation (2026-11-03):** Approved design, frontend markup/styles and assets preserved unchanged. The representative accepted Phase 4 for progression with browser/performance QA deferred. A comprehensive visual/UX revamp is planned after remaining major implementation; no new visual acceptance or performance score is claimed here.

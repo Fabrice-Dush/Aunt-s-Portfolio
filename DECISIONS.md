@@ -1,3 +1,19 @@
+# Current Phase 6 decisions - COMPLETED 2026-11-05
+
+> **Authorized cutover decision:** Adopted the verified dedicated normal-mode instance at port 13312, using existing XAMPP binaries and private rehearsal-02 data/config. Complete offline snapshot and original .env backup verified first; only four database URLs changed, preserving JWT/unrelated bytes. Final DB/auth/schema/shadow/content/build/API/constraint and restart gates passed. Shared XAMPP originals/unrelated databases were not repaired or modified. Retain level-6 freshness uncertainty and unexplained failed first-rehearsal Aria evidence. Phase 6 COMPLETED with manual browser QA deferred; Phase 7 and real administrator creation remain unauthorized.
+
+- Explicit Phase 6 authorization accepted; Phase 7 not started. Keep Phase 4 browser/performance debt and final visual/UX revamp.
+- Argon2id 19 MiB/2/1, JOSE HS256 with 64-byte random environment secret, five-minute access/seven-day absolute refresh, strict claims, server sessions and immediate DB revocation checks. Refresh replay fails closed; Web Locks reduces cross-tab races, with re-login fallback on unsupported browsers.
+- Mandatory exact Origin + custom header CSRF, same-origin frontend/API, Strict HttpOnly cookies, production Secure/HTTPS origin. No wildcard, token storage, fake auth or public reset.
+- Reauthenticate technical account actions. Regular ADMIN only through API; all SUPER_ADMIN changes remain local CLI. Unique bootstrap slot prevents races. Temporary passwords force replacement; password change/recovery revoke sessions transactionally with audits. No real accounts provisioned by the agent.
+- At most ten active sessions. Retain revoked rows until expiry; explicit expiry-only cleanup CLI. No fabricated device/IP telemetry.
+- Keep read-only portfolio management in Phase 6; real publication states/messages/counts, no mock analytics or decorative edit buttons. Distinct approved Studio/Operations identities; monogram avoids implying portrait approval.
+- Patch pinned Prisma 7.10.0 family to 7.10.1 after six inherited dependency advisories; zero reported afterward. Preserve stack and updated lockfile.
+- Private UI loaded only on its routes; neutral shells never prerender private data. Preserve public App and artifact budgets.
+- Browser host unavailable; manual acceptance remains documented. Clean isolated shadow/auth/persistence acceptance now passes. Authorized cutover and final acceptance now passed; do not restart/reset shared XAMPP or infer the cause of the first rehearsal privilege-table failure.
+
+---
+
 # Decisions — approved and provisional
 
 ## Current Phase 5 decisions — 2026-11-03

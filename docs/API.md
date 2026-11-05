@@ -1,3 +1,9 @@
+# Phase 6 API continuation — 2026-11-04
+
+Public Phase 5 routes/contracts below are preserved. Authentication and private administrative APIs now exist; see [AUTHENTICATION.md](AUTHENTICATION.md#api) for every route, permission, body, cookie/CSRF and pagination contract. `/auth`, `/administrators` and `/dashboard` are mounted under `/api/v1`; all private responses are no-store. No public signup/bootstrap/reset, SUPER_ADMIN mutation, CMS write, media upload or contact-submission route. Older statements below that auth has not started describe Phase 5 history.
+
+---
+
 # Phase 5 REST API
 
 Base: `http://localhost:4000/api/v1`. JSON, UTF-8. No authentication or administrative HTTP routes exist yet. The frontend still uses its approved static content; API integration belongs to Phase 7.

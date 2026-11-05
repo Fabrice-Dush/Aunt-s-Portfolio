@@ -1,49 +1,50 @@
 # PROJECT_STATUS — Nyirarukundo Seraphine portfolio
 
-**Updated:** 2026-11-03 (Europe/Paris)
-**Current phase:** **5 — Backend and database development**
-**Status:** **COMPLETED — real XAMPP MariaDB integration, APIs, migrations, seed and automated acceptance verified.**
-**Next phase:** Phase 6 authentication and dashboards — NOT STARTED; do not start automatically.
+**Updated:** 2026-11-05 (Europe/Paris)
+**Current phase:** **6 — Authentication, authorization and dashboards**
+**Status:** **COMPLETED - authorized dedicated development cutover and critical acceptance passed; manual browser QA explicitly deferred.**
+**Next phase:** Phase 7 CMS/content integration — NOT STARTED; requires authorization.
+
+**Latest completed checkpoint:** Phase 6 COMPLETED after explicitly authorized dedicated development cutover and final acceptance. Actual backend/.env now targets normal-mode MariaDB 10.4.32 at 127.0.0.1:13312, private 2026-11-05-rehearsal-02/data; only four database URL lines changed, with JWT and all unrelated bytes preserved. Complete owner-restricted offline snapshot and original .env backup verified at C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-05-pre-cutover-01. All 28 dev/test tables and 16 recovered records, migrations/drift/shadow replay, 11 DB + 18 auth scenarios, TypeScript/tests/production builds/API/artifact checks and two post-cutover workload restarts passed. Shared XAMPP data/data-old, unrelated databases, original backups and 176 private export files remain unchanged. Dedicated instance left running; XAMPP Control Panel does not manage it. Level-6 freshness remains unproven; first-rehearsal Aria failure remains unexplained and retained. No real administrator accounts. Manual browser QA remains deferred. Phase 7 NOT STARTED. See docs/PHASE_06_DATABASE_INCIDENT.md, docs/PHASE_06_VERIFICATION.md and docs/XAMPP_SETUP.md. Do not repeat recovery, initialization or cutover; use documented start/stop commands.
+
+The representative explicitly authorized Phase 6 in the current request. Phase 4 remains accepted for progression with browser/performance debt. The final comprehensive visual/UX revamp is still planned after major implementation. Nothing is deployed.
 
 | Phase | Status |
 |---|---|
-| 1 Requirements | Sufficient for development; launch facts remain open |
-| 2 UI/UX | Approved bright public homepage, light ADMIN and dark SUPER_ADMIN concepts |
-| 3 / 3.1 | COMPLETED; historical verification reports retained |
-| 4 Public frontend | Accepted by project representative for progression; browser/performance checks deferred, not passed |
-| 5 Backend/database | COMPLETED; see docs/PHASE_05_VERIFICATION.md |
-| 6 Authentication/dashboards | NOT STARTED |
+| 1 Requirements | Sufficient for development; launch facts open |
+| 2 UI/UX | Approved bright homepage, light Studio and dark Operations references preserved |
+| 3 / 3.1 | COMPLETED |
+| 4 Public frontend | Accepted for progression; browser/performance checks deferred |
+| 5 Backend/database | COMPLETED; historical evidence retained |
+| 6 Authentication/dashboards | COMPLETED; dedicated normal-mode database and final acceptance verified |
 | 7 CMS/content integration | NOT STARTED |
-| 8 QA/performance | NOT STARTED; deferred browser checklist remains |
-| 9 Owner review | Portrait, employment dates, credentials and contact permission outstanding |
-| 10 Deployment/handover | NOT STARTED; nothing published |
+| 8 QA/performance | NOT STARTED; manual browser checklist remains |
+| 9 Owner review | Portrait, dates, credentials and contacts outstanding |
+| 10 Deployment/handover | NOT STARTED |
 
-The explicit Phase 5 request superseded the earlier Phase 4 progression block. No redesign was performed. A comprehensive visual/UX revamp is planned after the remaining implementation phases.
+## Actual Phase 6 implementation
 
-## Actual backend
+Argon2id, JOSE HS256 JWT access/refresh HttpOnly cookies, rotating hashed refresh sessions, replay revocation, absolute expiry, live DB role/status/session validation, logout, password replacement, secure local maintainer bootstrap/emergency recovery, regular ADMIN provisioning/recovery/status/session controls, exact-Origin/header CSRF, rate limiting and transactional audit events. No public signup, role-changing endpoint, default passwords or seeded real users.
 
-XAMPP MariaDB 10.4.32 at 127.0.0.1:3306. Development database seraphine_portfolio_dev, isolated test and shadow databases, three distinct local accounts with exact database scopes. Runtime uses DML only. Real credentials remain in ignored backend/.env, never in delivery.
+Real light ADMIN Portfolio Studio and dark SUPER_ADMIN System Operations. Authenticated read-only content/profile/publication summaries/messages, real counts, account password/session controls; technical account administration, audit activity and on-demand API/database status. CMS writes, media uploads, contact submission/delivery and personalized email are not implemented here.
 
-Twelve migrated models: User, Profile, Experience, Education, Skill, Project, Achievement, Certificate, MediaAsset, ContactMessage, SiteSettings, AuditLog. Initial migration 20261103183624_phase05_foundation applied to development and test; shadow replay reports no drift. Shared Prisma 7.10.0 client with official MariaDB adapter. No dependency upgrades or lockfile changes.
+Public homepage source/data/styles/assets preserved. Dashboard code/CSS lazy-loaded only on workspace routes; neutral static private route shells; public prerender/hydration retained. Actual browser interaction and layout have NOT been verified.
 
-Public GET /api/v1/profile, /experience, /education, /skills, /projects, /projects/:slug, /achievements, /certifications plus preserved /health and metadata. Only explicit published/verified DTOs; safe nested relations and separate contact consent. Internal validated editing/publication/reorder/media/message/settings services exist. No public admin writes, fake auth, account provisioning, uploads, contact submission or email delivery.
+Prisma CLI/Client/adapter patched together to 7.10.1 to resolve inherited dependency advisories; npm audit now reports zero. Added argon2/jose only to backend. XAMPP MariaDB 10.4.32; additive session migration applied to dev/test, existing portfolio records preserved. Thirteen models including AuthSession. Local JWT signing key generated in ignored backend/.env, never printed; no actual accounts provisioned. Developer must use the private interactive setup in docs/AUTHENTICATION.md.
 
-Safe non-overwriting seed: published basic profile and six supported skills; two provisional jobs, three education records and three training entries remain drafts; typed noindex site settings. No users, private contacts, projects, achievements, messages, media or analytics seeded.
+## Final verification
 
-## Verification
+- PASS: 6 structural, 14 frontend, 14 backend unit/service + 7 HTTP scenarios.
+- PASS: 11 Phase 5 and 18 Phase 6 real isolated DB/HTTP scenarios; no skips; fixtures cleaned by recorded IDs.
+- PASS: both TypeScript checks/builds, four production artifact tests, 42 dev/7 production HTTP requests and compiled API 200/400/413.
+- PASS: dev/test additive migration deploy, pre-final DB scope/data verification and zero-vulnerability dependency audit.
+- Historical shared-XAMPP shadow replay failed P3016/P1017 then P1001. The 2026-11-05 second clean rehearsal now passes fresh shadow replay, schema consistency, actual auth/database tests and restart persistence. Authorized dedicated development cutover and final acceptance now pass; original shared XAMPP files remain untouched.
+- Browser host and native computer-use pipe unavailable. Seven viewport, responsive interaction, visual comparison, cross-browser and Lighthouse checks are pending; exact manual checklists retained.
 
-- npm test PASS: 6 structure + 10 frontend/SEO + 8 backend unit/service/security + 7 backend HTTP scenarios.
-- Real isolated database suite PASS: 11 scenarios, including migration replay, CRUD, constraints, relations, privacy, seed idempotence and transactions. No skips; test fixtures removed by ID.
-- Prisma validate/generate, database/account verification, development migration + shadow drift check and seed PASS.
-- Both TypeScript checks and production builds PASS; frontend build includes prerendering. Three production-artifact tests PASS.
-- Phase 4 HTTP harness PASS: 34 development + 7 production asset/module requests and compiled 200/400/413.
-- Phase 5 compiled runtime harness PASS: eight live content/health requests using the real development database.
-- Frontend and approved design assets unchanged. No new browser/hydration/menu/Lighthouse evidence claimed.
+See [Phase 6 verification](docs/PHASE_06_VERIFICATION.md), [authentication/setup/API](docs/AUTHENTICATION.md), [public API](docs/API.md) and [schema](docs/DATABASE_SCHEMA.md).
 
-Full evidence and issues fixed: [docs/PHASE_05_VERIFICATION.md](docs/PHASE_05_VERIFICATION.md). API: [docs/API.md](docs/API.md). Setup: [docs/XAMPP_SETUP.md](docs/XAMPP_SETUP.md). Schema: [docs/DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md).
+## Delivery
 
-## Delivery and remaining boundaries
+Complete-source delivery: `C:/Users/HP/Pictures/Aunt nyirarukundo/seraphine-portfolio-phase-06-complete.zip`. Packaging verifies required full source/design/docs/migrations/tests, CRC, membership, exclusions, actual extraction and every source hash; local credential/JWT values are scanned without printing. Private env, backups/exports, dependencies, Git, caches and generated/build output are excluded. Final archive count/size/SHA256 are reported with delivery and retained in the private delivery receipt. The prior review snapshot remains historical.
 
-Complete-project archive: `C:\Users\HP\Pictures\Aunt nyirarukundo\seraphine-portfolio-phase-05-complete.zip`. The packager verifies exact file membership, migration inclusion, secret/private exclusions, CRC, extraction and every source hash. Final archive size/count/hash are reported at delivery, outside the archive.
-
-The public frontend remains static-first, with approved build-time HTML and no live API dependency. Phase 7 will connect published content. Phase 6 must implement authentication, secure provisioning/password hashing, sessions/cookies/CSRF, RBAC, audit events and real dashboards. No deployment or owner publication permission is implied. Keep contact/portrait/credential/date review, deferred browser QA and final visual revamp in the backlog. Personalized email stays postponed.
+Owner publication/portrait/contact/date/credential review, real projects/achievements, deferred Phase 4 QA and the final visual/UX revamp remain open. Phase 7 must wait for instruction. Personalized email remains postponed.

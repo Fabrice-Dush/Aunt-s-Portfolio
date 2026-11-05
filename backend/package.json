@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "auth:key": "node scripts/auth-key.mjs",
+    "auth:bootstrap": "tsx scripts/provision.ts bootstrap",
+    "auth:recover": "tsx scripts/provision.ts recover",
+    "auth:cleanup": "tsx scripts/provision.ts cleanup",
     "dev": "tsx watch src/server.ts",
     "build": "prisma generate && tsc -p tsconfig.json",
     "start": "node dist/server.js",
@@ -20,20 +24,22 @@
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/adapter-mariadb": "7.10.0",
-    "@prisma/client": "7.10.0",
+    "@prisma/adapter-mariadb": "7.10.1",
+    "@prisma/client": "7.10.1",
+    "argon2": "^0.45.2",
     "cors": "^2.8.5",
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
     "express-rate-limit": "^8.0.0",
     "helmet": "^8.1.0",
+    "jose": "^6.2.15",
     "zod": "^4.0.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.0.0",
-    "prisma": "7.10.0",
+    "prisma": "7.10.1",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0"
   }

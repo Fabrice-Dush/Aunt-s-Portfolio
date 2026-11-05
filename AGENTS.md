@@ -1,3 +1,22 @@
+# Current Phase 6 completion - 2026-11-05
+
+> **Latest completed checkpoint - 2026-11-05:** Phase 6 COMPLETED after explicitly authorized dedicated development cutover and final acceptance. Actual backend/.env now targets normal-mode MariaDB 10.4.32 at 127.0.0.1:13312, private 2026-11-05-rehearsal-02/data; only four database URL lines changed, with JWT and all unrelated bytes preserved. Complete owner-restricted offline snapshot and original .env backup verified at C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-05-pre-cutover-01. All 28 dev/test tables and 16 recovered records, migrations/drift/shadow replay, 11 DB + 18 auth scenarios, TypeScript/tests/production builds/API/artifact checks and two post-cutover workload restarts passed. Shared XAMPP data/data-old, unrelated databases, original backups and 176 private export files remain unchanged. Dedicated instance left running; XAMPP Control Panel does not manage it. Level-6 freshness remains unproven; first-rehearsal Aria failure remains unexplained and retained. No real administrator accounts. Manual browser QA remains deferred. Phase 7 NOT STARTED. See docs/PHASE_06_DATABASE_INCIDENT.md, docs/PHASE_06_VERIFICATION.md and docs/XAMPP_SETUP.md. Do not repeat recovery, initialization or cutover; use documented start/stop commands.
+
+Phase 6 is COMPLETED. The latest completed checkpoint above overrides historical phase/restart restrictions below. Preserve all current modifications, private configuration, scoped grants, authentication conventions and deferred manual checklists. Phase 7 still requires explicit authorization.
+
+## Permanent authentication/dashboard conventions
+
+- Prisma CLI/Client/official MariaDB adapter now locked together at 7.10.1 (security patch). Keep current lockfile and Prisma 7; old 7.10.0 references are historical.
+- Tokens only in HttpOnly/Strict cookies, Secure in production; no localStorage/sessionStorage or JSON token responses. Exact configured Origin + X-Portfolio-Request header required for ALL mutations including login/refresh/logout. No exceptions for absent Origin.
+- Validate JWT algorithm/issuer/audience/expiry/purpose/session identity and read current DB session/account/role on every protected request. Temporary-password users cannot access dashboard data. No role header, mock token or auth bypass.
+- User-row locks and transactions protect credential/session mutations and audits. Refresh rotation stores hashes only, replay revokes session, absolute seven-day expiry never extends. Password change/recovery/deactivation invalidate sessions. Never log credentials, raw tokens or driver errors.
+- Maintainer bootstrap/emergency recovery are explicit local hidden-input CLI workflows. No public signup/reset/bootstrap or SUPER_ADMIN HTTP changes; ADMIN account operations require current SUPER_ADMIN password. No real credentials in commands, docs, tests or archive.
+- Keep authenticated data out of public source/prerender. Private route modules lazy-load, neutral shells contain no private HTML. Light owner Studio and dark Operations remain distinct. Real read-only summaries/messages in Phase 6; all CMS editing/publishing stays Phase 7.
+- Auth tests use only exact isolated test DB/account, refuse application data, run sequentially and clean recorded IDs. Keep seed account-free. Preserve local backend/.env and JWT key; ZIP secret scan includes signing secrets as well as DB passwords.
+- Browser host/native pipe unavailable in this session; no visual/interaction pass implied by SSR/API tests. Carry exact Phase 4 and Phase 6 manual lists and final visual/UX revamp forward. Personalized email remains postponed.
+
+---
+
 # AGENTS.md — mandatory instructions for ChatGPT, Codex and other agents
 
 > **Current continuation (2026-11-03):** The project representative accepted Phase 4 for progression with browser/performance checks deferred and explicitly authorized Phase 5. Phase 5 backend/database development is complete; read `docs/PHASE_05_VERIFICATION.md`, `PROJECT_STATUS.md` and `HANDOFF.md`. Phase 6 is NOT STARTED. Historical phase notes below remain history; they do not override the latest authorization. Preserve the Phase 4 manual checklist for later QA and the planned final visual/UX revamp.

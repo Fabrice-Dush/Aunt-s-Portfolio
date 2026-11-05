@@ -11,7 +11,8 @@ let html;
 before(async () => {
   server = await createServer({
     root: fileURLToPath(new URL('../', import.meta.url)),
-    server: { middlewareMode: true, hmr: false },
+    server: { middlewareMode: true, hmr: false, ws: false },
+    optimizeDeps: { noDiscovery: true, include: [] },
     appType: 'custom',
   });
   const { default: App } = await server.ssrLoadModule('/src/app/App.tsx');

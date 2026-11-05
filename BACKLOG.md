@@ -1,5 +1,7 @@
 # Development backlog and pre-launch checklist
 
+> **Phase 6 COMPLETED - 2026-11-05:** Preservation, recovery extraction, clean normal-mode restoration, separately authorized dedicated cutover, schema/shadow/record/constraint checks, 11 database + 18 auth scenarios, final type/test/build/API/artifact checks and restart persistence passed. Offline snapshot/original .env backup verified; shared XAMPP and exports remain untouched. Keep browser/performance/manual QA, level-6 freshness uncertainty and first-rehearsal failure evidence visible. Phase 7 NOT STARTED; requires authorization.
+
 ## Phase 3 — verification complete
 
 - [x] Historical Babel error absent in clean install, Vite transforms/build and Chrome runtime; no speculative dependency change.
@@ -45,11 +47,16 @@
 
 ## Phase 6 — Authentication and role dashboards
 
-- [ ] Secure invitation/creation of SUPER_ADMIN (developer) and ADMIN (Seraphine).
-- [ ] Password hashing, MFA consideration, login protection, JWT and secure session lifecycle.
-- [ ] Build actual responsive LIGHT Owner Studio and DARK Super Admin Operations experiences.
-- [ ] Enforce least privilege on server; audit changes; do not expose infrastructure secrets in dashboard.
-- [ ] Add authenticated mutation routes only with real role guards/CSRF; implement dashboard editing conflict handling and pagination.
+- [x] Argon2id, strict JWT access/rotating refresh, revocation/expiry, live account/role checks, CSRF, limits and audits.
+- [x] Local hidden-input maintainer bootstrap/emergency recovery; reauthenticated ADMIN creation/status/recovery/session controls; forced replacement, no seeded credentials.
+- [x] Real LIGHT Studio and DARK Operations, private read-only data/counts/messages, account settings, audit and status; neutral shells/lazy code.
+- [x] Unit/HTTP/real DB tests, typechecks/builds and artifact/privacy checks; zero reported dependency vulnerabilities after compatible Prisma patch.
+- [x] Clean isolated logical restoration, migration/shadow replay, DB/auth acceptance and post-workload restart persistence.
+- [x] Separately authorized dedicated development cutover; verified offline instance/.env backups, actual configuration, final acceptance and complete-source delivery.
+- [x] Final critical checks passed; complete-source Phase 6 ZIP finalized with required-file, secret-exclusion, CRC, extraction and source-hash verification at delivery.
+- [ ] Authorized maintainer/owner privately provision real accounts; no credentials sent to the agent.
+- [ ] Execute Phase 6 seven-viewport/browser/keyboard/modal/route/refresh checklist. No browser pass claimed.
+- [ ] Predeployment: HTTPS/proxy/shared limiter/key management review; consider MFA and stronger local breach-password screening.
 
 ## Phase 7 — CMS integration
 

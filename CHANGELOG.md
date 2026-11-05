@@ -1,3 +1,35 @@
+# 2026-11-05 - Phase 6 COMPLETED after authorized development cutover
+
+- Verified a complete owner-restricted offline snapshot (229 files / 187,752,520 bytes) and exact original .env backup before changes. Adopted clean normal-mode MariaDB at loopback port 13312 using existing XAMPP binaries; changed only four database URL lines and preserved JWT/all unrelated environment bytes. Shared XAMPP originals, unrelated databases, preservation trees and private exports remain unchanged.
+- Final actual-configuration Prisma connections, dev/test status, all-schema drift and disposable shadow replay passed. All 28 dev/test tables and 16 recovered records match exports; constraints, migrations, privilege health and two post-cutover workload shutdown/restarts passed.
+- Passed 11 DB and 18 auth/session/authorization/dashboard HTTP scenarios, 6 structure/14 frontend/backend runner 22 tests, typechecks/builds, 4 artifact checks, runtime scopes and compiled public/private APIs. Fixtures cleaned; no real accounts. Public/dashboard source/assets unchanged.
+- Dedicated database left running; documented local lifecycle and rollback. Retained level-6 skipped-redo freshness uncertainty, failed first-rehearsal Aria evidence and deferred browser/manual QA. Updated completion memory/verification/incident/setup and complete-source packaging requirements. Phase 7 NOT STARTED.
+
+---
+
+# 2026-11-05 - Clean isolated restoration rehearsal passed; cutover pending
+
+- Restored dev/test into fresh normal-mode MariaDB using reviewed migrations and parameterized logical records; all 16 recovered application rows match, with fresh migration history and no accounts/sessions imported. Rebuilt disposable shadow; all schema/constraint/history checks passed.
+- Second rehearsal passed normal restart after grants, import, shadow replay and authentication workload. Real DB regression (11 scenarios), Phase 6 auth/HTTP acceptance (18 scenarios), fixture cleanup and recovered-content application checks passed. Earlier successful unit/type/build/artifact/API evidence retained.
+- Retained first-rehearsal mysql.db privilege-table restart failure as unexplained evidence; no repair or original-file modification. Corrected build-environment and comparison-method harness issues, without application/security/schema changes.
+- All protected original/backup/export/config hashes and backend/.env remain unchanged; all database processes stopped. Recorded separate dedicated-development adoption proposal/rollback; awaiting authorization. No complete ZIP, real administrators or Phase 7. See docs/PHASE_06_RESTORATION_REHEARSAL.md.
+
+---
+
+# 2026-11-04 — Phase 6 implementation; final DB check pending
+
+> **Later recovery continuation:** Completed explicitly authorized sequential recovery tests on fresh original-backup clones; reviewed/documented levels 1-3 before higher modes. Levels 1-5 failed; level 6 yielded all 28 dev/test tables, 16 dev application rows and matching two-migration histories. Shadow user fails 1030. Private JSON/SQL exports passed stated record/relationship/constraint checks and read-only Prisma diffs; final 176-file private manifest verified. No restored instance or auth test pass claimed. Graceful level-6 shutdown stalled after closing its port; stopped only its verified disposable process. All original/backup/config hashes remain unchanged and no database processes remain.
+
+- Added Argon2id and JOSE JWT authentication, access/rotating refresh cookies, AuthSession storage, strict verification, live role/account/session guards, expiry/replay revocation, logout/password/session workflows, CSRF and login/action limits.
+- Added hidden-input local bootstrap/recovery/expiry-cleanup tools and ignored signing-key initialization; real accounts not provisioned. Added reauthenticated regular ADMIN creation/status/recovery/session management with forced password replacement and transactional audit events. No privilege-changing API.
+- Added real light Portfolio Studio and dark System Operations, protected direct routes, read-only data/messages/status, genuine counts, audit list, account controls and accessible confirmation/forms/loading/error/empty states.
+- Kept public App/content/styles/approved assets, prerender and privacy boundaries. Split private code/CSS; emit neutral private route shells. No Phase 7 content editor/email work.
+- Applied additive Phase 6 migration on dev/test. Patched Prisma family to compatible 7.10.1 to resolve six inherited dependency advisories; final audit zero.
+- Passed 6 structure, 14 frontend, 14 backend unit/service, 7 HTTP, 11 prior DB and 18 auth DB scenarios, typechecks/builds and four artifact checks. Browser/native host unavailable; manual checklist retained. Later shadow replay lost DB connection; XAMPP restart/final verification pending, completion not yet claimed.
+- Updated setup/API/schema/verification/memory and archive secret scanning/required entries. Review-snapshot delivery until final DB state is resolved.
+
+---
+
 # Changelog
 
 ## 2026-11-03 — Phase 5 backend and database complete

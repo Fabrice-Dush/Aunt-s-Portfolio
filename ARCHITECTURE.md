@@ -1,3 +1,19 @@
+# Current Phase 6 architecture - COMPLETED 2026-11-05
+
+> **Verified development database:** Authorized dedicated normal-mode MariaDB 10.4.32 at 127.0.0.1:13312 uses the existing XAMPP binary with private 2026-11-05-rehearsal-02 config/data. Four local URLs changed; JWT/unrelated settings preserved. Scoped dev/test/shadow connections, migrations, auth/API tests and post-workload restarts passed; original shared XAMPP data/configs are untouched. No Windows service installed. See docs/XAMPP_SETUP.md for lifecycle and docs/PHASE_06_DATABASE_INCIDENT.md for recovery limits. Phase 6 COMPLETED; Phase 7 NOT STARTED.
+
+Actual authentication and dashboard modules now exist; older sections below are retained history. See docs/AUTHENTICATION.md for complete flow, APIs, cookies/CSRF and account procedures; docs/PHASE_06_VERIFICATION.md for evidence and the final DB availability check.
+
+Backend additions: config/auth; validators/auth; password/token/auth/accounts/dashboard services; auth/dashboard controllers and routes; shared auth middleware. Route → validation/controller → service → Prisma remains. Prisma CLI/Client/MariaDB adapter pinned together at 7.10.1. Additive AuthSession and User mustChangePassword/bootstrapSlot migration preserves prior data.
+
+Five-minute access JWT + seven-day absolute rotating refresh JWT in host-only HttpOnly/Strict cookies; Secure in production. DB refresh hash only, user-row transaction locks, replay revocation, session cap ten and live session/account/role checks. Exact trusted Origin plus custom preflight-required header on all mutations. Reauthentication for technical account mutations, strict allowlisted bodies, safe DTOs and transaction-coupled audit events. Temporary-password users cannot access dashboard data. No public registration or SUPER_ADMIN HTTP management.
+
+Local TTY CLI provisions/recover maintainer without exposed credentials; dashboard provisions regular ADMIN with forced password change. Public content APIs remain unchanged. Dashboard read APIs have explicit projections and bounded pagination; editing stays Phase 7.
+
+Frontend main dynamically imports features/auth/Workspace only for login/admin/super-admin routes. Public App prerender and hydration remain unchanged. Auth API wrapper uses same-origin cookies, coalesced refresh and optional Web Locks; no token storage. Dashboard navigation uses History API with back/forward support and generated neutral HTML shells for direct routes. Distinct light owner and dark technical composition, shared practical UI components, forms and native confirmation dialogs; no framework/router/chart dependency added. Runtime browser verification remains pending.
+
+---
+
 # Architecture — current source and future boundaries
 
 ## Phase 5 current implementation — 2026-11-03

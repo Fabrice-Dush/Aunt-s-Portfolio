@@ -92,6 +92,18 @@ def main():
         'backend/prisma/migrations/20261103183624_phase05_foundation/migration.sql',
         'backend/prisma/migrations/migration_lock.toml',
         'backend/test/integration/database.test.mjs', 'backend/scripts/test-database.mjs',
+        'backend/prisma/migrations/20261104090000_phase06_sessions/migration.sql',
+        'backend/src/services/auth.service.ts', 'backend/src/services/accounts.service.ts',
+        'backend/src/services/token.service.ts', 'backend/src/services/password.service.ts',
+        'backend/src/middlewares/auth.ts', 'backend/scripts/provision.ts',
+        'backend/scripts/auth-key.mjs', 'backend/test/auth.test.mjs',
+        'backend/test/integration/auth.test.mjs', 'frontend/test/auth.test.mjs',
+        'frontend/src/features/auth/Workspace.tsx', 'frontend/src/features/dashboard/Dashboard.tsx',
+        'frontend/src/features/dashboard/dashboard.css',
+        'docs/PHASE_06_VERIFICATION.md', 'docs/AUTHENTICATION.md',
+        'docs/PHASE_06_DATABASE_INCIDENT.md', 'docs/PHASE_06_RESTORATION_REHEARSAL.md',
+        'scripts/cutover-database.mjs', 'scripts/restart-database-rehearsal.ps1',
+        'scripts/checkpoint-database-rehearsal.mjs', 'scripts/validate-database-rehearsal.mjs',
     }
     names = {name for _, name in files}
     if required - names:
@@ -103,6 +115,10 @@ def main():
         from urllib.parse import urlsplit, unquote
         secrets = []
         for line in env_path.read_text(encoding='utf-8').splitlines():
+            if '=' in line and line.split('=', 1)[0].endswith(('_SECRET', '_KEY', '_TOKEN')):
+                value = line.split('=', 1)[1].strip().strip('\"\'')
+                if value:
+                    secrets.append(value.encode())
             if '=' in line and line.split('=', 1)[0].endswith('_URL'):
                 value = line.split('=', 1)[1].strip().strip('\"\'')
                 password = urlsplit(value).password

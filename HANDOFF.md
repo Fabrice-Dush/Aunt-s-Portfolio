@@ -1,49 +1,37 @@
-# Handoff — Phase 5 complete; Phase 6 awaits instruction
+# Handoff - Phase 6 COMPLETED; Phase 7 awaits authorization
 
-**Updated:** 2026-11-03 (Europe/Paris). Phase 3/3.1 complete. Phase 4 accepted for progression by the representative, with browser/performance checks deferred. Phase 5 complete with real database/API verification. Phase 6 NOT STARTED.
+**Resume here, before historical instructions below:** Phase 6 COMPLETED after explicitly authorized dedicated development cutover and final acceptance. Actual backend/.env now targets normal-mode MariaDB 10.4.32 at 127.0.0.1:13312, private 2026-11-05-rehearsal-02/data; only four database URL lines changed, with JWT and all unrelated bytes preserved. Complete owner-restricted offline snapshot and original .env backup verified at C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-05-pre-cutover-01. All 28 dev/test tables and 16 recovered records, migrations/drift/shadow replay, 11 DB + 18 auth scenarios, TypeScript/tests/production builds/API/artifact checks and two post-cutover workload restarts passed. Shared XAMPP data/data-old, unrelated databases, original backups and 176 private export files remain unchanged. Dedicated instance left running; XAMPP Control Panel does not manage it. Level-6 freshness remains unproven; first-rehearsal Aria failure remains unexplained and retained. No real administrator accounts. Manual browser QA remains deferred. Phase 7 NOT STARTED. See docs/PHASE_06_DATABASE_INCIDENT.md, docs/PHASE_06_VERIFICATION.md and docs/XAMPP_SETUP.md. Do not repeat recovery, initialization or cutover; use documented start/stop commands.
 
-Read docs/PHASE_05_VERIFICATION.md, docs/XAMPP_SETUP.md, docs/DATABASE_SCHEMA.md and docs/API.md, then inspect Git changes before editing. Preserve this phase's work; no commit/reset was performed. The latest explicit Phase 5 request supersedes historical instructions forbidding Phase 5 in startup files.
+**Updated:** 2026-11-05 (Europe/Paris). The user's explicit Phase 6 request supersedes older startup restrictions. Do not restart earlier phases or overwrite current uncommitted work. Phase 7 NOT STARTED.
 
-## Local state
+Read PROJECT_STATUS.md, docs/PHASE_06_VERIFICATION.md, docs/PHASE_06_DATABASE_INCIDENT.md and docs/XAMPP_SETUP.md first. Development now uses the adopted port-13312 normal-mode database; it was left running after final restart and acceptance. Do not rerun snapshot/configure/recovery operations or the suspended historical shared-XAMPP restart instructions. Next work needs Phase 7 authorization or an explicit manual-QA request.
 
-XAMPP MariaDB 10.4.32 already running at 127.0.0.1:3306. Created development, test and shadow databases; scoped runtime/migration/test accounts. Real URLs/passwords are in ignored backend/.env. Do not overwrite it, print it, or rerun the fresh-machine bootstrap. Do not alter unrelated XAMPP services. If MySQL is stopped, ask the user to start it using XAMPP Control Panel.
+## Historical pre-incident verification instructions - suspended
 
-The initial migration is applied to dev/test. `npm run db:verify -w backend` checks connection/scopes/history/counts safely. `npm run prisma:migrate -w backend` uses the scoped migration account and dedicated shadow; runtime and migration target must match. Never use dev as shadow or reset unknown data. Database seed is safe to rerun and never overwrites existing editorial values.
+After MySQL is running, first run `npm run db:verify -w backend` from the repository root. Confirm original dev record counts and both applied migrations. For a read-only live schema comparison, run `npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma` from backend/. Inspect the separate disposable shadow state before retrying replay; the failed replay is not evidence of dev data loss. Do not repeatedly run a failing reset against an unknown schema. Resolve or precisely document any remaining migration-engine/server limitation before completion.
 
-## Checks
+Already passed: npm test (6 structure, 14 frontend, 14 backend unit/service, 7 HTTP), test:db (11 public + 18 authentication scenarios), both typechecks/builds, four artifact tests, dev/production HTTP 42/7 and compiled 200/400/413, additive migration deployment and zero-audit result. DB tests use exact local test schema/account, reject application data and clean only IDs created by the run. Do not run two DB suites concurrently. Synthetic test passwords are generated in memory; no real accounts exist.
 
-```powershell
-npm test
-npm run test:db -w backend
-npm run db:verify -w backend
-npm run prisma:validate
-npm run typecheck
-npm run build
-npm run test:build -w frontend
-node scripts/verify-phase04.mjs
-node scripts/verify-phase05.mjs
-```
+## Implementation
 
-The real DB suite refuses nonempty test application tables and never resets/truncates them. It uses seraphine_test on seraphine_portfolio_test, applies migrations, creates TEST ONLY fixtures and deletes only their IDs. On interrupted cleanup, inspect the test DB manually. Do not bypass its guard. HTTP harness ports 4402 and 4405 must be free.
+- Backend route → controller validation → service → shared Prisma. AuthSession stores only refresh hashes. Every protected request rereads current session/account/role. Short JWTs do not permit continued access after revocation.
+- Exact trusted Origin plus X-Portfolio-Request header protects all mutations including login/refresh/logout. HttpOnly/Strict/production Secure cookies. No wildcard/missing-Origin exception or localStorage tokens.
+- Credential/session mutations lock the target user and transactionally audit changes. Refresh replay revokes the whole session; no grace window. Session cap ten, absolute lifetime seven days. Password changes revoke all sessions and force sign-in again.
+- SUPER_ADMIN local CLI bootstrap only; ADMIN account workflows require maintainer reauthentication. No role changes or SUPER_ADMIN management through HTTP. New/recovered accounts must change password before seeing protected content.
+- CLI: auth:key, auth:bootstrap, auth:recover, auth:cleanup. Existing backend/.env is preserved; key is already configured. Never print/package it or real credentials. Real account setup is left to the authorized people using a private TTY.
+- Frontend features/auth owns login/API/route gate; features/dashboard owns read-only views, account controls, administrator management and isolated CSS. Public App unchanged. Private module dynamic import; public prerender remains. Generated route shells contain no authenticated data. Same-origin deployment required.
+- Prisma CLI/Client/adapter now pinned together at 7.10.1, compatible security patch after six advisories in inherited 7.10.0 tree. Do not move to Prisma 8; preserve the updated lockfile.
 
-## Implementation ownership
+## Browser and deployment debt
 
-- Backend route → controller validation → service → shared Prisma adapter/client → MariaDB.
-- portfolio.service.ts owns safe published DTOs; content.service.ts owns validated draft editing and publication; private.service.ts owns nonpublic media/message/settings foundations. None exposes an administrative route.
-- Strict Zod schemas reject status/ID/timestamp/nested updates and private consent mass assignment. Profile editing revokes contact consent. Other content must be verified before publishing. Media require explicit approval and permanent HTTPS URL.
-- Migration CHECKs enforce singleton IDs and period/media invariants beyond Prisma schema syntax; preserve them.
-- Server pool is lazy so /health works without MariaDB. Root and workspace env loading match compiled paths. Build/pretest generate ignored Prisma code.
-- The old API metadata message remains unchanged for compatibility; actual content routes are documented in API.md.
-- Frontend architecture, CSS, data, prerendering, lockfile and approved designs are unchanged. Do not redesign it during backend/auth work.
+Browser/native hosts were unavailable. No interactive/visual responsive passes, cross-browser results or Lighthouse scores. Follow the seven-viewport Phase 6 checklist and preserve the exact Phase 4 manual checklist. Maintain light owner Studio and dark Operations; synthetic portrait not newly inserted into private views. Final comprehensive visual/UX revamp is still planned.
 
-## Phase 6 only when requested
+Production needs trusted HTTPS same-origin frontend/API, proxy/rate-limit review, secret distribution, browser cookie/CSRF verification, deployment backups and monitoring. In-process rate limits are for the current single-process application; shared hosting scaling needs shared storage. No email setup or infrastructure-secret dashboard.
 
-Implement secure SUPER_ADMIN/ADMIN provisioning without default credentials/public signup; real password hashing; JWT/session lifecycle with HttpOnly cookies and CSRF; server-side role guards; authenticated mutation endpoints; audit records and edit-conflict handling. Build actual light owner Studio and dark developer Operations dashboards according to approved concepts. Internal service availability is not authentication. There are no fake role headers/tokens to preserve.
+## Phase 7 next, only after authorization
 
-Phase 7 covers secure uploads/storage, public contact validation/anti-abuse/delivery, owner-approved retention scheduling, CMS integration and published snapshot rebuilds. The static frontend currently has no API fetches. Do not introduce personalized email before website completion.
+Build validated CMS editing/concurrency/publishing on these guards; keep edits draft and explicit owner consent rules. Add approved media/contact workflows and safe public snapshot rebuilds without hurting first paint. No fake editing controls are shipped in Phase 6. Preserve owner portrait/contact/credential/date approvals, genuine projects/achievements and retention-policy review.
 
-## Deferred acceptance and delivery
+## Delivery
 
-Carry the exact manual browser checklist in docs/PHASE_04_VERIFICATION.md into QA: seven viewports, keyboard/touch/no-JS/reduced-motion, hydration/console, cross-browser and Lighthouse. These remain unverified despite representative acceptance for progression. Plan the comprehensive final visual/UX revamp after remaining implementation. Owner likeness/public-use approval, provisional jobs, official qualifications/certificates, contact permission and real projects/achievements are still required before launch.
-
-Archive: `C:\Users\HP\Pictures\Aunt nyirarukundo\seraphine-portfolio-phase-05-complete.zip`. Complete source/design/docs, migrations and seed; no dependencies/build/generated code/real env/private originals/dumps. Packager checks extraction and all source hashes plus local credential exclusion. Delivery hash is outside the archive. No deployment performed and no Phase 6 work started.
+Phase 6 delivery is `seraphine-portfolio-phase-06-complete.zip` in the repository parent. The full-source packager verifies required files, credential exclusions, CRC, extraction and every source hash. Private receipt and final response carry exact count/size/SHA256. The old review snapshot is retained. No deployment, real account provisioning or Phase 7 authorization is implied.

@@ -12,6 +12,12 @@ const application = (
   </React.StrictMode>
 );
 
-// Production HTML is generated from this same component tree at build time.
-if (mountNode.childElementCount > 0) hydrateRoot(mountNode, application);
+// The public tree remains prerendered. Private UI is fetched only on its own routes.
+if (/^\/(login|admin|super-admin)(\/|$)/.test(window.location.pathname)) {
+  mountNode.replaceChildren();
+  const root = createRoot(mountNode);
+  root.render(<p role="status">Opening your workspace…</p>);
+  import('./features/auth/Workspace').then(({ default: Workspace }) => root.render(<Workspace />))
+    .catch(() => root.render(<p role="alert">The workspace could not load. Refresh the page to try again.</p>));
+} else if (mountNode.childElementCount > 0) hydrateRoot(mountNode, application);
 else createRoot(mountNode).render(application);
