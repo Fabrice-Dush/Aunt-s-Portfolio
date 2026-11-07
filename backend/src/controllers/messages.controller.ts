@@ -9,7 +9,7 @@ import { actionSchema, pageSchema } from "../validators/cms.js";
 import { emptyQuerySchema, idSchema } from "../validators/content.js";
 export const sendMessage: RequestHandler = async (req, res) => {
   emptyQuerySchema.parse(req.query);
-  await submitMessage(req.body);
+  await submitMessage(req.body, req.headers["idempotency-key"]);
   res.status(201).json({ data: { received: true } });
 };
 export const getMessages: RequestHandler = async (req, res) => {

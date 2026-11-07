@@ -42,7 +42,7 @@ Portraits and certificates attach through their own forms. Project media attach 
 
 | Method / path | Contract |
 |---|---|
-| POST `/contact` | Public, exact Origin/header, JSON, limiter; `{senderName,senderEmail,subject?:string|null,content,website:'',startedAt:milliseconds}`; 201 only after storage |
+| POST `/contact` | Public, exact Origin/header, UUID `Idempotency-Key`, JSON, limiter; `{senderName,senderEmail,subject?:string|null,content,website:'',startedAt:milliseconds}`; 201 only after storage |
 | GET `/cms-messages?page=1` | Private correspondence, newest first, 20/page |
 | PATCH `/cms-messages/:id` | `{expectedUpdatedAt,status:'NEW'|'READ'|'ARCHIVED'}` |
 | DELETE `/cms-messages/:id` | `{expectedUpdatedAt}` |
@@ -55,3 +55,5 @@ Portraits and certificates attach through their own forms. Project media attach 
 The aggregate reuses `portfolioService`; the existing eight public content endpoints and pagination contracts remain. It avoids separate browser calls for every homepage section. All public content and media responses use no-store.
 
 Contact submission allows five requests/IP/15 minutes, a blank honeypot and a 3-second–24-hour form age. Uploads allow twelve/IP/minute; CMS routes have 100/IP/minute. The existing global 120/IP/15-minute limiter remains in force. These in-process stores require shared storage/proxy review before scaled deployment. Message bodies never enter audit logs. No email is sent, and no automatic retention purge is enabled; public submissions have null expiry until an owner-approved policy is established.
+
+Contact retries reuse the same UUID and normalized payload after a lost response. The existing message primary key serializes concurrent retries: identical requests return 201 without a second row; a changed payload with that UUID returns 409 OPERATION_USED. This receipt lasts while the message exists; owner deletion removes it. Timing, input, CSRF and rate checks still apply to retries. The hydrated form prevents same-tick double submits and retains entered text on failure. Without JavaScript it remains disabled so private fields cannot leak into a GET URL.

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { api } from "../auth/api";
 import { Badge, Confirm, DataState, Pager, useData } from "./components";
@@ -35,15 +35,9 @@ export function useUnsavedChanges(dirty: boolean) {
       event.preventDefault();
       event.returnValue = "";
     };
-    const navigate = (event: Event) => {
-      if (!window.confirm("Leave this page and discard your unsaved changes?"))
-        event.preventDefault();
-    };
     window.addEventListener("beforeunload", unload);
-    window.addEventListener("portfolio-before-navigate", navigate);
     return () => {
       window.removeEventListener("beforeunload", unload);
-      window.removeEventListener("portfolio-before-navigate", navigate);
     };
   }, [dirty]);
 }
@@ -409,6 +403,8 @@ export function Editor({
   onCancel: () => void;
   onSaved: () => void;
 }) {
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => heading.current?.focus(), []);
   const [operation] = useState(() => crypto.randomUUID());
   const [values, setValues] = useState<Record<string, unknown>>(() =>
     Object.fromEntries(
@@ -584,7 +580,7 @@ export function Editor({
   }
   return (
     <section className="dash-panel">
-      <h2>
+      <h2 ref={heading} tabIndex={-1}>
         {row ? "Edit " : "Add "}
         {sectionLabels[section]}
       </h2>

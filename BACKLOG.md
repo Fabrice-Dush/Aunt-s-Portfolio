@@ -1,3 +1,19 @@
+<!-- phase08-current -->
+> **Latest checkpoint — 2026-11-07: Phase 8 COMPLETED locally; private GitHub backup BLOCKED. Phase 9 NOT STARTED.** Read [Phase 8 verification](docs/PHASE_08_VERIFICATION.md) and [manual follow-up](docs/PHASE_08_MANUAL_ACCEPTANCE.md). This checkpoint supersedes historical phase/browser/ZIP instructions below. Phase 7 already exists in b39ca42; the Phase 8 delivery is identified by local annotated tag phase-08-verified. Origin is public/read-only: no push until a private writable destination is verified. No automatic ZIP or real accounts. Preserve historical archives, dedicated MariaDB on port 13312, all 16 recovered records, environment/JWT and separate private backups.
+
+- [x] Native dirty navigation/history, keyed media forms, dialog/menu focus, contact no-JS/dedup, PDF metadata, rebuild audit and measured public compression fixes.
+- [x] Real hydration/critical dashboards/CMS, seven widths plus landscape, keyboard/axe, Chromium/Firefox/WebKit/Chrome/Edge; final source/DB/auth/CMS/build/privacy/audit/Prisma checks.
+- [x] Mobile/desktop Lighthouse before/after, preserved database/backup integrity and reviewed local Git checkpoint/tag.
+- [ ] Supply a private writable GitHub destination; current origin is public/read-only.
+- [ ] Phase 9 only when instructed: owner dates/content/qualifications/projects/portrait/contact approval; agreed final visual/UX revamp and convenient ordering beyond 100 records.
+- [ ] Actual Safari/touch hardware/browser zoom/NVDA/VoiceOver, human gradient/image contrast and owner appearance acceptance.
+- [ ] Private real accounts; hosting/HTTPS/origin/proxy/shared limits/fail-closed deployment; monitoring; restore-tested DB/private-media backups; PDF worker isolation; owner-approved message retention. Personalized email postponed.
+<!-- /phase08-current -->
+
+---
+
+Historical checkpoints below are superseded by this Phase 8 checkpoint.
+
 > **Final Phase 7 review — 2026-11-05:** Implementation/automated acceptance **COMPLETED**, Phase 8 **NOT STARTED**. Reproduced defects were corrected and all final suites passed; details in docs/PHASE_07_VERIFICATION.md. No new ZIP/tag/push or database recovery operations.
 
 - [x] Fix synchronization status for missing/tampered HTML and preview check/serve reread.

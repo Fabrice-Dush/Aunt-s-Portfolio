@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { api, ApiError } from "../auth/api";
 import { Badge, Confirm, DataState, Pager, useData } from "./components";
-import { Synchronization } from "./Cms";
+import { Synchronization, useUnsavedChanges } from "./Cms";
 type Media = {
   id: string;
   fileName: string;
@@ -21,6 +21,25 @@ export default function MediaLibrary() {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [edit, setEdit] = useState<Media | null>(null);
+  const [editDirty, setEditDirty] = useState(false);
+  const [uploadDirty, setUploadDirty] = useState(false);
+  const editorHeading = useRef<HTMLHeadingElement>(null);
+  const libraryHeading = useRef<HTMLHeadingElement>(null);
+  useUnsavedChanges(editDirty || uploadDirty);
+  useEffect(() => { if (edit) editorHeading.current?.focus(); }, [edit?.id]);
+  function chooseEdit(row: Media) {
+    if (row.id === edit?.id) { editorHeading.current?.focus(); return; }
+    if (editDirty && !window.confirm("Discard your unsaved media changes?")) return;
+    setEdit(row);
+    setEditDirty(false);
+    setError("");
+  }
+  function closeEdit() {
+    if (editDirty && !window.confirm("Discard your unsaved media changes?")) return;
+    setEdit(null);
+    setEditDirty(false);
+    libraryHeading.current?.focus();
+  }
   const [action, setAction] = useState<{
     row: Media;
     type: "approve" | "revoke" | "delete";
@@ -94,6 +113,7 @@ export default function MediaLibrary() {
         );
       }
       form.reset();
+      setUploadDirty(false);
       setMessage(
         "File uploaded privately. Review it before approving public use.",
       );
@@ -120,6 +140,11 @@ export default function MediaLibrary() {
         },
       );
       setAction(null);
+      if (action.type === "delete" && edit?.id === action.row.id) {
+        setEdit(null);
+        setEditDirty(false);
+        libraryHeading.current?.focus();
+      }
       setMessage(
         "Media updated. Public files require approval and a published attachment.",
       );
@@ -143,6 +168,8 @@ export default function MediaLibrary() {
         projectId: values.get("projectId") || null,
       });
       setEdit(null);
+      setEditDirty(false);
+      libraryHeading.current?.focus();
       setMessage(
         "Media details saved. Public approval has been withdrawn; review and approve it again.",
       );
@@ -172,7 +199,7 @@ export default function MediaLibrary() {
           images. Files stay private until approved and attached to published
           content.
         </p>
-        <form className="cms-form" onSubmit={upload}>
+        <form className="cms-form" onSubmit={upload} onChange={() => setUploadDirty(true)}>
           <fieldset disabled={busy}>
             <label>
               Choose a file
@@ -194,7 +221,7 @@ export default function MediaLibrary() {
         </form>
       </section>
       <section className="dash-panel">
-        <h2>Your media library</h2>
+        <h2 ref={libraryHeading} tabIndex={-1}>Your media library</h2>
         {!data.result ? (
           <DataState error={data.error} reload={data.reload} />
         ) : !data.result.data.length ? (
@@ -229,7 +256,7 @@ export default function MediaLibrary() {
                   >
                     View file ↗
                   </a>
-                  <button disabled={busy} onClick={() => setEdit(row)}>
+                  <button disabled={busy} onClick={() => chooseEdit(row)}>
                     Edit / attach
                   </button>
                   <button
@@ -261,9 +288,9 @@ export default function MediaLibrary() {
         />
       </section>
       {edit && (
-        <section className="dash-panel">
-          <h2>Edit {edit.fileName}</h2>
-          <form className="cms-form" onSubmit={save}>
+        <section className="dash-panel" key={edit.id}>
+          <h2 ref={editorHeading} tabIndex={-1}>Edit {edit.fileName}</h2>
+          <form className="cms-form" onSubmit={save} onChange={() => setEditDirty(true)}>
             <fieldset disabled={busy}>
               <label>
                 Image description
@@ -295,7 +322,7 @@ export default function MediaLibrary() {
               <button
                 type="button"
                 disabled={busy}
-                onClick={() => setEdit(null)}
+                onClick={closeEdit}
               >
                 Cancel
               </button>

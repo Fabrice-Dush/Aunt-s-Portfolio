@@ -1,3 +1,13 @@
+<!-- phase08-current -->
+# Phase 8 scoped accessibility fixes — 2026-11-07
+
+Approved portrait-led public identity, light Studio and dark Operations preserved; no final visual revamp. Scoped control borders, achievement text, Studio monogram and small hover link meet measured contrast thresholds. Accessible names include visible NS; decorative hero punctuation is hidden from assistive text without a visual change. Project images reserve 4:3 space; uploaded portrait variants avoid unproven width descriptors. Native dialog/menu/panel focus and keyed dirty media forms are browser verified. Eight axe views have zero violations/25 incomplete contrast nodes supplemented by conservative CSS bounds; no complete WCAG/owner/device approval. See Phase 8 report and manual checklist.
+<!-- /phase08-current -->
+
+---
+
+Historical checkpoints below are superseded by this Phase 8 checkpoint.
+
 # Phase 7 CMS extension — 2026-11-05
 
 Approved bright portrait-led identity, navy/blue name, light Studio and dark Operations remain. CMS forms, previews, library, messages, feedback and confirmations extend existing tokens/native controls; no final visual/UX revamp was performed. Private UI/CSS remain separate from the public first-load bundle.

@@ -28,6 +28,7 @@
     "@prisma/adapter-mariadb": "7.10.1",
     "@prisma/client": "7.10.1",
     "argon2": "^0.45.2",
+    "compression": "1.8.2",
     "cors": "^2.8.5",
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
@@ -39,6 +40,7 @@
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "@types/compression": "1.8.1",
     "@types/cors": "^2.8.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.0.0",

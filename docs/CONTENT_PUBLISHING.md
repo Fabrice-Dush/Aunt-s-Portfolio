@@ -26,6 +26,8 @@ Vite preview enforces the same freshness policy using the API at port 4000; it r
 
 No-store headers apply to public HTML/APIs/media. External proxies/CDNs must honor them; this phase does not prove an unknown provider's behavior. Already downloaded pages, screenshots, files and in-flight responses cannot be recalled. The guarantee is current application checks on subsequent requests, rather than erasing copies someone already received.
 
+Phase 8 measured missing HTTP compression on the supported production server. Compression now covers only verified public HTML and generated `/assets` files. Hashed code assets use one-year immutable caching; their names change with their bytes and they contain no CMS snapshot. HTML, APIs, media and private shells retain their existing no-store/freshness rules. Private/auth responses are outside compression. The Vite preview is still a review tool, not the measured production server.
+
 ## Rebuild interface, failures and rollback
 
 The dashboard Update public website button calls the guarded `/cms-sync` endpoint. It runs only the fixed `scripts/rebuild-public.mjs` interface; no user command, filesystem path or environment input is accepted. The same interface can be invoked by a reviewed future hosting job:
@@ -35,6 +37,8 @@ node scripts/rebuild-public.mjs
 ```
 
 One exclusive build lock prevents overlapping builds. A 202 response reports that work started; actual state and built/current comparison report completion or failure separately. Changes committed during a build can leave it outdated, and the gate blocks that artifact until a new build matches. The build occurs locally and requires installed build dependencies. A process restart loses transient job state; built/current comparison remains authoritative.
+
+The rebuild request audit must persist before spawning the fixed build command. An audit failure returns an error and starts no build. A recorded request is an attempted operation, not proof of successful completion or deployment.
 
 Export failures leave the older artifact intact. Vite/build failures can leave incomplete output; the absent/mismatched receipt blocks serving it. Retry a failed build after correcting the cause. A crashed builder can leave `frontend/.cache/public-build.lock`; an authorized maintainer must verify no project build process is running before removing that exact stale lock. Do not remove a live lock.
 

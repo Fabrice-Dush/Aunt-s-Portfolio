@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { getDatabase } from "../config/database.js";
-import { privateServices } from "./private.service.js";
+import { Prisma, type PrismaClient } from "../generated/prisma/client.js";
 import { audit, checkVersion, lockRow, nextVersion } from "./cms.service.js";
 import { contactSchema } from "../validators/content.js";
 import { AppError } from "../utils/AppError.js";
@@ -9,7 +9,12 @@ export const submissionSchema = contactSchema.extend({
   website: z.string().max(200).default(""),
   startedAt: z.number().int().positive(),
 });
-export async function submitMessage(input: unknown) {
+export async function submitMessage(
+  input: unknown,
+  operation: unknown,
+  db: Pick<PrismaClient, "contactMessage"> = getDatabase(),
+) {
+  const id = z.uuid().parse(operation).toLowerCase();
   const { website, startedAt, ...data } = submissionSchema.parse(input);
   const elapsed = Date.now() - startedAt;
   if (website || elapsed < 3000 || elapsed > 86400000)
@@ -18,8 +23,23 @@ export async function submitMessage(input: unknown) {
       "SUBMISSION_REJECTED",
       "Please review the form and try again.",
     );
-  // No automatic retention policy is enabled without owner approval.
-  await privateServices(getDatabase()).createMessage(data, null);
+  const message = { ...data, subject: data.subject ?? null };
+  try {
+    // The existing primary key serializes retries without a schema change or private audit payload.
+    // No automatic retention policy is enabled without owner approval.
+    await db.contactMessage.create({ data: { id, ...message, expiresAt: null } });
+  } catch (error) {
+    if (!(error instanceof Prisma.PrismaClientKnownRequestError) || error.code !== "P2002") throw error;
+    const existing = await db.contactMessage.findUnique({
+      where: { id },
+      select: { senderName: true, senderEmail: true, subject: true, content: true },
+    });
+    if (!existing) throw error;
+    if (Object.keys(message).some(key => Reflect.get(existing, key) !== Reflect.get(message, key))) {
+      throw new AppError(409, "OPERATION_USED", "This message request has already been used. Review the form before sending again.");
+    }
+    // A lost success response can be retried while the stored message exists; never create a second row.
+  }
 }
 export const messageSelect = {
   id: true,

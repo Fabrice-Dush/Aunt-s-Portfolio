@@ -1,20 +1,19 @@
-# Current Phase 7 — content-managed portfolio
+# Nyirarukundo Seraphine — verified portfolio and CMS
 
-Phase 7 implementation and automated acceptance are complete. [Full verification/report](docs/PHASE_07_VERIFICATION.md), [owner guide](docs/CMS_USER_GUIDE.md), [CMS API](docs/CMS_API_REFERENCE.md), [media](docs/MEDIA_MANAGEMENT.md), [publishing](docs/CONTENT_PUBLISHING.md), [current status](PROJECT_STATUS.md). Phase 8 NOT STARTED. Browser QA and hosting automation remain pending.
+**Phase 8 local implementation/acceptance complete; private GitHub backup blocked; Phase 9 not started.** [Verification](docs/PHASE_08_VERIFICATION.md), [status](PROJECT_STATUS.md), [handoff](HANDOFF.md), [manual checks](docs/PHASE_08_MANUAL_ACCEPTANCE.md), [CMS guide](docs/CMS_USER_GUIDE.md).
 
-Run the existing dedicated MariaDB at port 13312 using docs/XAMPP_SETUP.md, preserve backend/.env/JWT, then `npm run dev`. Real accounts require the private CLI procedure in docs/AUTHENTICATION.md; none were created. The owner can now edit all content, upload/approve/attach media, preview/publish, handle messages and update page metadata without source edits.
+Continue in this existing folder with preserved backend/.env and dedicated MariaDB port 13312; use docs/XAMPP_SETUP.md. Do not reinitialize/seed/reset the recovered DB or create real accounts. npm run dev starts development. npm run build exports published DTOs and prerenders matching HTML. Production must use the compiled Express publication gate under the same origin; do not serve frontend/dist from ungated static hosting.
 
-`npm run build` requires a reachable database and exports only published public DTOs before Vite/prerender. Supported production serving is the compiled Express application under the same HTTPS origin as the API. It gates HTML against current public data; **do not deploy frontend/dist on an ungated static host**. `npm run preview -w frontend` also requires the API for freshness checking. The guarded dashboard Update public website control and `node scripts/rebuild-public.mjs` provide a local rebuild interface; they do not deploy to a provider.
+Verify using npm test, npm run typecheck, npm run test:db -w backend, npm run test:browser, npm run verify:database, npm run build and npm run test:build -w frontend. Run DB/browser suites sequentially and preserve live locks. npm run measure:performance -- final uses installed Chrome and saved build fingerprints; preserve older reports under a distinct label before a changed build. Node 22.19+ for test tooling (verified 24.11.1); browser installation and narrower engine coverage in the manual guide.
 
-Verify with `npm test`, `npm run test:db -w backend`, `npm run typecheck`, `npm run build`, `npm run test:build -w frontend`, and `node scripts/verify-phase07.mjs`. The latter is this restored workstation's read-only preservation/compiled check. Test DB suites run sequentially and refuse existing application data. Media source files are private; use the maintenance instructions in MEDIA_MANAGEMENT.md for reconciliation and private backups.
+Use Git commits, verified annotated tags and conditional private pushes under [policy](docs/VERSION_CONTROL_POLICY.md); no automatic ZIP. Phase 7 parent b39ca42; local Phase 8 tag phase-08-verified. Current origin is public/read-only; no push until private writable access is verified. Historical archives and separate private DB/media backups remain preserved.
 
-All thirteen models/two migrations and all recovered development fields are preserved. No real users, new migration, recovery/cutover or .env rewrite. Level-6 freshness remains unproven and the first-rehearsal failure remains unexplained. Keep manual Phase 4/6/7 checklists and the agreed later visual/UX revamp. Personalized email postponed.
-
-Delivery: `C:/Users/HP/Pictures/Aunt nyirarukundo/seraphine-portfolio-phase-07-complete.zip`, full eligible latest repository with verified extraction/hashes and private/secret/generated exclusions.
+Owner content/likeness/contact approval, actual Safari/device/assistive/zoom review, agreed final visual/UX revamp, private real accounts and production hosting/HTTPS/shared limits/monitoring/restore-tested backups/retention remain future work. Personalized email postponed. Nothing deployed.
 
 ---
 
-## Retained Phase 6 setup/history
+## Retained Phase 6 setup/history (historical; current checkpoint above overrides)
+
 
 # Nyirarukundo Seraphine — professional portfolio
 

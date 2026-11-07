@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "../auth/api";
 import { Badge, Confirm, DataState, Pager, date, useData } from "./components";
 type Message = {
@@ -15,6 +15,9 @@ export default function Messages() {
   const [page, setPage] = useState(1);
   const data = useData<Message[]>("/cms-messages?page=" + page);
   const [opened, setOpened] = useState<Message | null>(null);
+  const openedHeading = useRef<HTMLHeadingElement>(null);
+  const messagesHeading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => { if (opened) openedHeading.current?.focus(); }, [opened?.id]);
   const [remove, setRemove] = useState<Message | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -56,7 +59,7 @@ export default function Messages() {
         </p>
       )}
       <section className="dash-panel">
-        <h2>Your private messages</h2>
+        <h2 ref={messagesHeading} tabIndex={-1}>Your private messages</h2>
         <p>
           Messages received through your portfolio. Access is limited to you and
           authorized technical support.
@@ -116,12 +119,12 @@ export default function Messages() {
       </section>
       {opened && (
         <section className="dash-panel cms-preview">
-          <h2>{opened.subject ?? "Message"}</h2>
+          <h2 ref={openedHeading} tabIndex={-1}>{opened.subject ?? "Message"}</h2>
           <p>
             From {opened.senderName} · {opened.senderEmail}
           </p>
           <p>{opened.content}</p>
-          <button onClick={() => setOpened(null)}>Close message</button>
+          <button onClick={() => { setOpened(null); messagesHeading.current?.focus(); }}>Close message</button>
         </section>
       )}
       {remove && (

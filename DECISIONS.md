@@ -1,3 +1,22 @@
+<!-- phase08-current -->
+> **Latest checkpoint — 2026-11-07: Phase 8 COMPLETED locally; private GitHub backup BLOCKED. Phase 9 NOT STARTED.** Read [Phase 8 verification](docs/PHASE_08_VERIFICATION.md) and [manual follow-up](docs/PHASE_08_MANUAL_ACCEPTANCE.md). This checkpoint supersedes historical phase/browser/ZIP instructions below. Phase 7 already exists in b39ca42; the Phase 8 delivery is identified by local annotated tag phase-08-verified. Origin is public/read-only: no push until a private writable destination is verified. No automatic ZIP or real accounts. Preserve historical archives, dedicated MariaDB on port 13312, all 16 recovered records, environment/JWT and separate private backups.
+
+## Phase 8 decisions
+
+- Native document navigation enables beforeunload across browser history without speculative popstate restoration or duplicate prompts; same-URL guard prevents loops. Immutable hashed assets limit repeat code downloads without caching snapshots.
+- Centralize authentication redirects in Workspace rather than competing login/logout/session callbacks. Give forced-password account routing priority; browser acceptance covers expiry-to-login/relogin and all role flows.
+- Reuse ContactMessage PK as UUID retry receipt; same normalized payload is idempotent, changed payload conflicts, and deletion ends receipt lifetime. No migration/private-body audit or limiter exception.
+- Saving an original PDF context can retain detached metadata; copy reviewed pages/resources into a clean document, accepting loss of document-level outlines/labels.
+- Audit failure prevents build spawn. Compression is limited to measured public HTML/code; private/auth/API/media remain excluded and freshness gates unchanged.
+- Keep safe bounded ordering/numeric fallback; broader cross-page tie/rank/version UX belongs to the final revamp. No schema/infrastructure rewrite during QA.
+- Isolate SSR caches without weakening parallelism/assertions. Pin compatible Lighthouse 13.5 after tool advisories; retain Prisma 7.10.1.
+- Local acceptance rests on real source/integration/build/browser/measurement evidence with explicit narrower engine/manual/device/launch limits. Push requires private visibility and write access; current public/read-only origin blocks it.
+<!-- /phase08-current -->
+
+---
+
+Historical checkpoints below are superseded by this Phase 8 checkpoint.
+
 # Final Phase 7 review decisions — 2026-11-05
 
 - Treat actual page existence/hash plus live revision as authoritative for synchronization and serve the checked bytes. Share the backend verifier; retain fail-closed delivery and pending provider integration.

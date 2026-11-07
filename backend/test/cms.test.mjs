@@ -1,7 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import sharp from "sharp";
-import { PDFDocument, PDFName, PDFString } from "pdf-lib";
+import { PDFDocument, PDFName, PDFString, PDFDict, PDFArray, PDFRawStream, decodePDFRawStream, degrees } from "pdf-lib";
+import { randomUUID } from "node:crypto";
+import { Prisma } from "../src/generated/prisma/client.ts";
 import { processUpload } from "../src/services/media.service.ts";
 import { checkVersion, nextVersion } from "../src/services/cms.service.ts";
 import {
@@ -10,6 +12,8 @@ import {
   orderSchema,
 } from "../src/validators/cms.ts";
 import { publicSnapshot } from "../src/services/public-site.service.ts";
+import { submitMessage } from "../src/services/messages.service.ts";
+import { requestWebsiteRebuild } from "../src/controllers/public-site.controller.ts";
 
 test("CMS writes require explicit versions and publication confirmation; ordering rejects duplicate IDs", () => {
   assert.equal(editSchema.safeParse({ data: {} }).success, false);
@@ -135,4 +139,96 @@ test("PDF parser rejects active annotation subtypes stored through indirect refe
     () => processUpload(bytes, "test.pdf", "application/pdf"),
     { code: "INVALID_FILE" },
   );
+});
+
+test("PDF processing preserves readable pages while removing XMP, Info and orphan metadata objects", async () => {
+  const pdf = await PDFDocument.create({ updateMetadata: false });
+  const first = pdf.addPage([321, 456]);
+  first.drawText("PUBLIC DOCUMENT CONTENT", { x: 20, y: 200 });
+  first.setRotation(degrees(90));
+  pdf.addPage([200, 300]).drawText("SECOND PUBLIC PAGE", { x: 15, y: 100 });
+  const metadata = value => pdf.context.register(pdf.context.flateStream(value, {
+    Type: PDFName.of("Metadata"), Subtype: PDFName.of("XML"),
+  }));
+  pdf.catalog.set(PDFName.of("Metadata"), metadata("<xmp>PRIVATE_CATALOG_XMP_SENTINEL</xmp>"));
+  first.node.set(PDFName.of("Metadata"), metadata("<xmp>PRIVATE_PAGE_XMP_SENTINEL</xmp>"));
+  const author = pdf.context.register(PDFString.of("PRIVATE_INDIRECT_AUTHOR_SENTINEL"));
+  const info = pdf.context.obj({ Author: author, PrivateField: PDFString.of("PRIVATE_INFO_SENTINEL") });
+  pdf.context.trailerInfo.Info = pdf.context.register(info);
+  pdf.context.register(pdf.context.flateStream("PRIVATE_ORPHAN_SENTINEL"));
+  const source = await PDFDocument.load(await pdf.save(), { updateMetadata: false });
+  const contents = (document, page) => {
+    const value = page.node.Contents();
+    return (value instanceof PDFArray ? value.asArray() : [value]).filter(Boolean)
+      .map(item => document.context.lookup(item))
+      .map(stream => Buffer.from(decodePDFRawStream(stream).decode()).toString("hex"));
+  };
+  const originalContents = source.getPages().map(page => contents(source, page));
+  const processed = await processUpload(Buffer.from(await pdf.save()), "test.pdf", "application/pdf");
+  const clean = await PDFDocument.load(processed.main, { updateMetadata: false });
+  assert.equal(clean.getPageCount(), 2);
+  assert.deepEqual(clean.getPages().map(page => [page.getWidth(), page.getHeight(), page.getRotation().angle]), [[321, 456, 90], [200, 300, 0]]);
+  assert.deepEqual(clean.getPages().map(page => contents(clean, page)), originalContents);
+  assert.ok(clean.getPages().every(page => page.node.Resources()?.lookup(PDFName.of("Font"), PDFDict)?.keys().length > 0));
+  assert.equal(clean.context.trailerInfo.Info, undefined);
+  const decoded = [];
+  const inspect = object => {
+    if (object instanceof PDFRawStream) {
+      decoded.push(Buffer.from(decodePDFRawStream(object).decode()).toString("utf8"));
+      inspect(object.dict);
+    } else if (object instanceof PDFDict) {
+      for (const [key, value] of object.entries()) {
+        assert.notEqual(key.decodeText(), "Metadata");
+        inspect(value);
+      }
+    } else if (object instanceof PDFArray) object.asArray().forEach(inspect);
+    else if (object instanceof PDFString) decoded.push(object.decodeText());
+  };
+  clean.context.enumerateIndirectObjects().forEach(([, object]) => inspect(object));
+  assert.doesNotMatch(processed.main.toString("utf8") + decoded.join("\n"), /PRIVATE_\w+_SENTINEL/);
+});
+
+test("contact UUID retries create one message, compare normalized data, and preserve errors without logging bodies", async () => {
+  const rows = new Map();
+  const duplicate = () => new Prisma.PrismaClientKnownRequestError("test duplicate", { code: "P2002", clientVersion: "test" });
+  let creates = 0;
+  const db = { contactMessage: {
+    async create({ data }) {
+      creates++;
+      if (rows.has(data.id)) throw duplicate();
+      rows.set(data.id, data);
+      return data;
+    },
+    async findUnique({ where }) { return rows.get(where.id) ?? null; },
+  } };
+  const body = { senderName: "  TEST ONLY correspondent  ", senderEmail: "test@example.invalid", content: "  PRIVATE_MESSAGE_SENTINEL  ", website: "", startedAt: Date.now() - 5000 };
+  const operation = randomUUID();
+  await Promise.all([submitMessage(body, operation, db), submitMessage({ ...body, subject: null }, operation, db)]);
+  await submitMessage(body, operation.toUpperCase(), db);
+  assert.equal(rows.size, 1);
+  assert.equal(rows.get(operation).senderName, "TEST ONLY correspondent");
+  assert.equal(rows.get(operation).content, "PRIVATE_MESSAGE_SENTINEL");
+  assert.equal(rows.get(operation).expiresAt, null);
+  await assert.rejects(() => submitMessage({ ...body, content: "Changed" }, operation, db), { status: 409, code: "OPERATION_USED" });
+  const beforeInvalid = creates;
+  for (const id of [undefined, "invented", [operation]]) await assert.rejects(() => submitMessage(body, id, db));
+  for (const invalid of [{ ...body, website: "spam" }, { ...body, startedAt: Date.now() }, { ...body, startedAt: Date.now() - 86400001 }, { ...body, senderEmail: "invalid" }, { ...body, unsupported: true }]) {
+    await assert.rejects(() => submitMessage(invalid, randomUUID(), db));
+  }
+  assert.equal(creates, beforeInvalid);
+  const offline = new Error("test storage unavailable");
+  await assert.rejects(() => submitMessage(body, randomUUID(), { contactMessage: { create: async () => { throw offline; } } }), error => error === offline);
+  const missingReceipt = duplicate();
+  await assert.rejects(() => submitMessage(body, randomUUID(), { contactMessage: {
+    create: async () => { throw missingReceipt; }, findUnique: async () => null,
+  } }), error => error === missingReceipt);
+});
+
+test("website rebuild waits for its audit receipt and does not start if auditing fails", async () => {
+  const events = [];
+  await requestWebsiteRebuild("test-actor", async actor => { events.push("audit:" + actor); }, () => { events.push("build"); });
+  assert.deepEqual(events, ["audit:test-actor", "build"]);
+  events.length = 0;
+  await assert.rejects(() => requestWebsiteRebuild("test-actor", async () => { throw new Error("test audit unavailable"); }, () => { events.push("build"); }), /test audit unavailable/);
+  assert.deepEqual(events, []);
 });

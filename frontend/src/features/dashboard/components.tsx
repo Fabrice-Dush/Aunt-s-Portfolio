@@ -39,7 +39,22 @@ export function Pager({ page, hasMore, onPage }: { page: number; hasMore: boolea
 }
 export function Confirm({ title, children, onCancel, onConfirm, busy }: { title: string; children: ReactNode; onCancel: () => void; onConfirm: () => void; busy: boolean }) {
   const ref = useRef<HTMLDialogElement>(null);
-  useEffect(() => { const dialog = ref.current!; dialog.showModal(); return () => dialog.close(); }, []);
+  // Capture before React's autofocus moves focus into the newly mounted dialog.
+  const returnFocus = useRef<HTMLElement | null>(
+    typeof document !== 'undefined' && document.activeElement instanceof HTMLElement && document.activeElement !== document.body
+      ? document.activeElement : null,
+  );
+  useEffect(() => {
+    const dialog = ref.current!;
+    dialog.showModal();
+    return () => {
+      dialog.close();
+      const previous = returnFocus.current;
+      const fallback = document.querySelector<HTMLElement>('#workspace-main h1') ?? document.getElementById('workspace-main');
+      if (previous?.isConnected && previous.getClientRects().length) previous.focus();
+      else fallback?.focus();
+    };
+  }, []);
   return <dialog ref={ref} className="dash-dialog" aria-labelledby="confirm-title" onCancel={event => { event.preventDefault(); if (!busy) onCancel(); }}><h2 id="confirm-title">{title}</h2>{children}<div className="dash-actions"><button onClick={onCancel} disabled={busy} autoFocus>Cancel</button><button className="dash-primary" onClick={onConfirm} disabled={busy}>{busy ? 'Saving…' : 'Confirm'}</button></div></dialog>;
 }
 export function Badge({ value }: { value: string }) { return <span className={'dash-badge ' + value.toLowerCase()}>{value.toLowerCase().replaceAll('_', ' ')}</span>; }

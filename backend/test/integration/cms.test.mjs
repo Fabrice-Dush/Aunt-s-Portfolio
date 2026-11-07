@@ -17,7 +17,7 @@ import {
   publicSnapshot,
   publicDirectory,
 } from "../../src/services/public-site.service.ts";
-import { mediaRoot } from "../../src/services/media.service.ts";
+import { mediaFile, mediaRoot } from "../../src/services/media.service.ts";
 
 const target = databaseOptions(process.env.DATABASE_URL);
 assert.equal(target.database, "seraphine_portfolio_test");
@@ -575,7 +575,7 @@ test("Phase 7 real CMS, media, messages, publication and public build acceptance
           },
         })
       ).body.data;
-      assert.equal((await request("/api/v1/media/" + media.id)).status, 404);
+      await assert.rejects(() => mediaFile(media.id, false, false), { status: 404 });
       media = (
         await request("/api/v1/cms-media/" + media.id + "/approve", {
           method: "POST",
@@ -630,11 +630,18 @@ test("Phase 7 real CMS, media, messages, publication and public build acceptance
         ).status,
         400,
       );
-      assert.equal(
-        (await request("/api/v1/contact", { method: "POST", body })).status,
-        201,
-      );
+      const operation = randomUUID();
+      const submissions = await Promise.all([
+        request("/api/v1/contact", { method: "POST", body, operation }),
+        request("/api/v1/contact", { method: "POST", body, operation }),
+      ]);
+      assert.ok(submissions.every(response => response.status === 201 && response.body.data.received === true));
+      assert.equal(await db.contactMessage.count(), 1, "Concurrent retries must save exactly one message");
+      const conflicting = await request("/api/v1/contact", { method: "POST", body: { ...body, content: "Changed request" }, operation });
+      assert.equal(conflicting.status, 409);
+      assert.equal(conflicting.body.error.code, "OPERATION_USED");
       let row = (await request("/api/v1/cms-messages", { token })).body.data[0];
+      assert.equal(row.id, operation);
       assert.equal(row.content, body.content);
       assert.doesNotMatch(
         JSON.stringify(await publicSnapshot()),
@@ -877,6 +884,7 @@ test("Phase 7 real CMS, media, messages, publication and public build acceptance
         requests < 120,
         "Do not bypass the real global limiter in tests: " + requests,
       );
+      t.diagnostic(`HTTP budget: ${requests + 1}/120 global requests including login; contact 4/5.`);
     },
   );
 });

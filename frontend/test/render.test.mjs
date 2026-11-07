@@ -12,6 +12,7 @@ let html;
 before(async () => {
   server = await createServer({
     root: fileURLToPath(new URL('../', import.meta.url)),
+    cacheDir: fileURLToPath(new URL(`../.cache/vite-source/render-${process.pid}`, import.meta.url)),
     server: { middlewareMode: true, hmr: false, ws: false },
     optimizeDeps: { noDiscovery: true, include: [] },
     appType: 'custom',

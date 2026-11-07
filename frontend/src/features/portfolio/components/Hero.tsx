@@ -6,7 +6,7 @@ export function Hero({ profile, hasExperience }: { profile: PublicProfile; hasEx
       <div className="hero-container">
         <div className="hero-copy">
           <p className="eyebrow hero-eyebrow"><span className="eyebrow-rule" /> {[profile.professionalTitle,profile.city].filter(Boolean).join(' / ')}</p>
-          <h1 id="hero-title"><span>Nyirarukundo</span><strong>Seraphine<span className="hero-period">.</span></strong></h1>
+          <h1 id="hero-title"><span>Nyirarukundo</span><strong>Seraphine<span className="hero-period" aria-hidden="true">.</span></strong></h1>
           <p className="hero-role">{profile.professionalTitle}</p>
           <p className="hero-summary">{profile.summary}</p>
           <div className="hero-actions">
@@ -18,7 +18,7 @@ export function Hero({ profile, hasExperience }: { profile: PublicProfile; hasEx
         <div className="hero-media">
           <div className="hero-aura" aria-hidden="true" />
           <div className="hero-photo-frame">
-            {profile.portrait ? <img src={profile.portrait.publicUrl} srcSet={`${profile.portrait.publicUrl}?size=small 640w, ${profile.portrait.publicUrl} 1600w`} sizes="(max-width: 600px) calc(100vw - 44px), 40vw" width="1122" height="1402" alt={profile.portrait.altText ?? ''} fetchPriority="high" decoding="async" /> : <img
+            {profile.portrait ? <img src={profile.portrait.publicUrl} style={{ objectFit: 'contain' }} width="1122" height="1402" alt={profile.portrait.altText ?? ''} fetchPriority="high" decoding="async" /> : <img
               src="/images/seraphine-portrait.webp"
               srcSet="/images/seraphine-portrait-small.webp 780w, /images/seraphine-portrait.webp 1122w"
               sizes="(max-width: 600px) calc(100vw - 44px), (max-width: 960px) 480px, (max-width: 1440px) 40vw, 520px"

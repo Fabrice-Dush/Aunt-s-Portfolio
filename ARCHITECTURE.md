@@ -1,3 +1,15 @@
+<!-- phase08-current -->
+# Phase 8 navigation, testing and delivery — 2026-11-07
+
+Local acceptance complete; [evidence](docs/PHASE_08_VERIFICATION.md). Existing frontend feature/MVC/Prisma boundaries retained. Private routes now use guarded document navigation so beforeunload protects dirty history; private modules remain lazy. Express compresses verified public HTML and generated code only; hashed code gets one-year immutable caching without CMS snapshots. HTML/API/media retain no-store and publication gates; auth/private compression excluded. Rebuild audit persists before spawn.
+
+Contact UUID receipt uses the existing message primary key/normalized comparison without migration. PDF processing copies reviewed pages/resources into a clean metadata-free context. Browser fixtures and integration suites share an exclusive exact-test-DB lock, with independent fixture guards, isolated media/build and captured-ID cleanup. SSR suites have per-suite/process caches. Lighthouse records build fingerprints/valid traces and uses an owned loopback-only compiled server. Test helpers remain development tooling.
+<!-- /phase08-current -->
+
+---
+
+Historical checkpoints below are superseded by this Phase 8 checkpoint.
+
 # Phase 7 architecture — 2026-11-05
 
 Final review correction: backend delivery and synchronization status share one HTML existence/hash/revision verifier. Preview sends captured verified bytes directly. CMS input validation precedes create fingerprinting; PDF subtype checks resolve indirect references. Ordering arrows load complete collections within the existing 100-item atomic API bound and retain version checks. See the final review in docs/PHASE_07_VERIFICATION.md for executed regression evidence and residual limitations.

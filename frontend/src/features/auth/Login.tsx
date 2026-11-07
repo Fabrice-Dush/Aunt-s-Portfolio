@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { api, homeFor, navigate } from './api';
+import { api } from './api';
 import type { User } from './api';
 
 export default function Login({ onLogin, notice }: { onLogin: (user: User) => void; notice?: string }) {
@@ -10,7 +10,7 @@ export default function Login({ onLogin, notice }: { onLogin: (user: User) => vo
     setError(''); setBusy(true);
     try {
       const { data } = await api<User>('/auth/login', 'POST', { email: values.get('email'), password: values.get('password') }, false);
-      form.reset(); onLogin(data); navigate(homeFor(data) + (data.mustChangePassword ? '/account' : ''), true);
+      form.reset(); onLogin(data);
     } catch (error) { setError(error instanceof Error ? error.message : 'Sign-in failed. Try again.'); }
     finally { setBusy(false); }
   }

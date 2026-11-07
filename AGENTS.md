@@ -1,3 +1,23 @@
+<!-- phase08-current -->
+> **Latest checkpoint — 2026-11-07: Phase 8 COMPLETED locally; private GitHub backup BLOCKED. Phase 9 NOT STARTED.** Read [Phase 8 verification](docs/PHASE_08_VERIFICATION.md) and [manual follow-up](docs/PHASE_08_MANUAL_ACCEPTANCE.md). This checkpoint supersedes historical phase/browser/ZIP instructions below. Phase 7 already exists in b39ca42; the Phase 8 delivery is identified by local annotated tag phase-08-verified. Origin is public/read-only: no push until a private writable destination is verified. No automatic ZIP or real accounts. Preserve historical archives, dedicated MariaDB on port 13312, all 16 recovered records, environment/JWT and separate private backups.
+
+## Permanent Phase 8 conventions
+
+- Preserve native private document navigation and same-URL guard. Dirty editors use beforeunload; keep real Back/Forward/refresh/cancel tests. Prompts require user activation and cannot guarantee mobile process termination protection.
+- Workspace owns authentication redirects. Login/logout/session callbacks update state only; keep real expired-session, forced-password and cross-role navigation checks to prevent competing document replacements.
+- Contact POST requires UUID Idempotency-Key. Identical normalized retries reuse a receipt while the message exists, with CSRF/timing/rates retained. Keep synchronous submit guard, failure values and SSR-disabled/no-JS POST privacy.
+- Only verified public HTML and generated code assets are compressed. Only hashed code assets are immutable; preserve HTML/API/media no-store/freshness and private/auth compression exclusion. Code assets contain no CMS snapshots.
+- Copy validated PDF pages/resources into a clean metadata-free context; retain active-content/private-original protections. Review processed PDFs before approval. Keep keyed media forms, dialog invoker focus and measured contrast.
+- Browser and real DB suites share an exclusive test lock, exact test schema/account/port/instance guards, initially-empty refusal and captured-ID cleanup. Never overlap them or delete a live test/build lock. SSR tests use separate per-suite/process Vite caches.
+- New commands: npm run test:browser, npm run verify:database, npm run measure:performance -- final. Tooling requires Node 22.19+ (verified 24.11.1). Ignored .cache reports/screenshots are QA evidence, not backups.
+- Record versions/throttling/build fingerprints, valid-run provenance and before/after metrics. TBT is not INP; WebKit is not actual Safari; axe and CSS reflow do not prove complete WCAG or actual zoom acceptance.
+- Continue Git commits/annotated verified phase tags and conditional private pushes under docs/VERSION_CONTROL_POLICY.md. No automatic future phase ZIP, Phase 9, final revamp, deployment or real provisioning without authorization.
+<!-- /phase08-current -->
+
+---
+
+Historical checkpoints below are superseded by this Phase 8 checkpoint.
+
 # Final Phase 7 review checkpoint — 2026-11-05
 
 Phase 7 remains **COMPLETED for implementation and automated acceptance** after independent source/database/build review and safe corrections. Phase 8 is **NOT STARTED**. Read docs/PHASE_07_VERIFICATION.md for reproduced failures, fixes and exact evidence. Final source suites: 6 structure, 18 frontend, 20 backend unit/service + 7 HTTP cases; real DB/auth/CMS: 11/18/14 scenarios; all passed with zero skips. Both typechecks/builds, four artifact tests, compiled serving and dev/test schema/constraint checks passed; all 16 recovered rows match and test tables are empty.

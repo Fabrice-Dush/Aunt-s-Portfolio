@@ -34,8 +34,10 @@ export async function api<T>(path: string, method = 'GET', body?: unknown, retry
   return response.status === 204 ? { data: undefined as T } : response.json();
 }
 export function navigate(path: string, replace = false) {
-  if (!window.dispatchEvent(new Event('portfolio-before-navigate', { cancelable: true }))) return;
-  window.history[replace ? 'replaceState' : 'pushState']({}, '', path);
-  window.dispatchEvent(new PopStateEvent('popstate'));
+  if (new URL(path, window.location.href).href === window.location.href) return;
+  // Private routes use real documents so native beforeunload also protects history traversal.
+  // Same-document popstate/Navigation API traversal cannot reliably be canceled across browsers.
+  if (replace) window.location.replace(path);
+  else window.location.assign(path);
 }
 export const homeFor = (user: User) => user.role === 'SUPER_ADMIN' ? '/super-admin' : '/admin';

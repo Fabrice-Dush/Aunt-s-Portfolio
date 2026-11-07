@@ -23,3 +23,12 @@
 .cms-media-grid h3 { font-size: 16px; }
 .cms-sync { border-left: 3px solid #368ad1; }
 .cms-preview-image { display: block; max-width: 100%; max-height: 320px; object-fit: contain; }
+
+/* Form boundaries remain distinguishable in both workspace palettes. */
+.workspace, .auth-page, .auth-loading { --d-control: #7d929a; overflow-wrap: anywhere; }
+.workspace.operations { --d-control: #6f95a4; }
+.workspace input, .auth-page input,
+.workspace .cms-form input:not([type=checkbox]),
+.workspace .cms-form textarea, .workspace .cms-form select { border-color: var(--d-control); }
+.studio-monogram { color: #5b8588; }
+.studio-monogram span { color: #a46a3e; }

@@ -1,3 +1,21 @@
+<!-- phase08-current -->
+> **Latest checkpoint — 2026-11-07: Phase 8 COMPLETED locally; private GitHub backup BLOCKED. Phase 9 NOT STARTED.** Read [Phase 8 verification](docs/PHASE_08_VERIFICATION.md) and [manual follow-up](docs/PHASE_08_MANUAL_ACCEPTANCE.md). This checkpoint supersedes historical phase/browser/ZIP instructions below. Phase 7 already exists in b39ca42; the Phase 8 delivery is identified by local annotated tag phase-08-verified. Origin is public/read-only: no push until a private writable destination is verified. No automatic ZIP or real accounts. Preserve historical archives, dedicated MariaDB on port 13312, all 16 recovered records, environment/JWT and separate private backups.
+
+## Phase 8 — verified local QA and fixes
+
+- Completed native dirty-edit history/navigation and same-URL login-loop guard and single-owner auth redirects; keyed media edit/leave state; dialog return focus, mobile menu and panel focus.
+- Protected no-JS contact privacy; synchronous double-submit prevention and stable UUID retry receipt using existing message PK, without schema/rate/auth changes.
+- Removed PDF Info/XMP/orphan metadata through clean page copy; audit rebuild before spawn.
+- Corrected control/achievement/monogram/small-hover contrast and visible accessible names; reserved project geometry and accurate portrait variant semantics.
+- Measured and added public-only HTTP compression/hashed code caching with private isolation/freshness intact.
+- Added isolated Playwright/axe, Lighthouse, database consistency/preservation and actual source/staged/history privacy tooling; meaningful regressions and isolated SSR caches.
+- Final full browser run passed 19/19; earlier full/focused locator-fix evidence is retained. No ZIP, real accounts, recovery/reset/restart or deployment. Private push blocked.
+<!-- /phase08-current -->
+
+---
+
+Historical checkpoints below are superseded by this Phase 8 checkpoint.
+
 # 2026-11-05 — Final Phase 7 review and corrections
 
 - Independently reviewed existing CMS/public/media/auth source and reran actual test/database/build acceptance without starting Phase 8.

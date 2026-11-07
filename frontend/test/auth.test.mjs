@@ -7,12 +7,23 @@ import { createServer } from 'vite';
 
 let server, Login, Dashboard, client;
 before(async () => {
-  server = await createServer({ root: fileURLToPath(new URL('../', import.meta.url)), server: { middlewareMode: true, hmr: false, ws: false }, optimizeDeps: { noDiscovery: true, include: [] }, appType: 'custom' });
+  server = await createServer({ root: fileURLToPath(new URL('../', import.meta.url)), cacheDir: fileURLToPath(new URL(`../.cache/vite-source/auth-${process.pid}`, import.meta.url)), server: { middlewareMode: true, hmr: false, ws: false }, optimizeDeps: { noDiscovery: true, include: [] }, appType: 'custom' });
   Login = (await server.ssrLoadModule('/src/features/auth/Login.tsx')).default;
   Dashboard = (await server.ssrLoadModule('/src/features/dashboard/Dashboard.tsx')).default;
   client = await server.ssrLoadModule('/src/features/auth/api.ts');
 });
 after(async () => { await server?.close(); });
+test('private document redirects do not reload an already-current login page', () => {
+  const previous = globalThis.window;
+  const calls = [];
+  globalThis.window = { location: { href: 'http://localhost:5173/login', assign: path => calls.push(['assign', path]), replace: path => calls.push(['replace', path]) } };
+  try {
+    client.navigate('/login', true);
+    assert.deepEqual(calls, []);
+    client.navigate('/admin'); client.navigate('/admin/account', true);
+    assert.deepEqual(calls, [['assign', '/admin'], ['replace', '/admin/account']]);
+  } finally { globalThis.window = previous; }
+});
 test('collection arrows preserve other pages when records share the default display order', async () => {
   const { collectionOrder } = await server.ssrLoadModule('/src/features/dashboard/order.ts');
   const rows = Array.from({ length: 25 }, (_, i) => ({ id: String(i).padStart(2, '0'), updatedAt: '2026-11-05T00:00:00.000Z', sortOrder: 0 }));

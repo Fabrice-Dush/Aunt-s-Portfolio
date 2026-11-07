@@ -12,7 +12,7 @@ export default function Workspace() {
   const [notice, setNotice] = useState('');
   useEffect(() => {
     let active = true;
-    const ended = () => { setUser(null); navigate('/login', true); };
+    const ended = () => { setUser(null); };
     const pop = () => setPath(window.location.pathname.replace(/\/$/, ''));
     window.addEventListener('popstate', pop); window.addEventListener('portfolio-session-ended', ended);
     api<User>('/auth/me').then(result => { if (active) setUser(result.data); }).catch(error => {
@@ -23,13 +23,17 @@ export default function Workspace() {
   useEffect(() => {
     document.title = user?.role === 'SUPER_ADMIN' ? 'System Operations | Seraphine' : 'Portfolio Studio | Seraphine';
     if (checking) return;
-    if (!user && path !== '/login') navigate('/login', true);
-    else if (user && (path === '/login' || !path.startsWith(homeFor(user) + '/') && path !== homeFor(user))) navigate(homeFor(user), true);
-    else if (user?.mustChangePassword && path !== homeFor(user) + '/account') navigate(homeFor(user) + '/account', true);
+    // One effect owns authentication redirects; submit/session callbacks only update state.
+    // Competing document replacements can cancel the newly opening workspace's requests.
+    const home = user ? homeFor(user) : '/login';
+    const target = !user ? '/login'
+      : user.mustChangePassword ? home + '/account'
+      : path === '/login' || !path.startsWith(home + '/') && path !== home ? home : null;
+    if (target && path !== target) navigate(target, true);
   }, [checking, user, path]);
   if (checking) return <main className="auth-loading" role="status">Opening your workspace…</main>;
   if (error) return <main className="auth-loading"><h1>Workspace unavailable</h1><p role="alert">{error}</p><button onClick={() => window.location.reload()}>Try again</button><a href="/">Return to portfolio</a></main>;
   if (!user) return <Login onLogin={setUser} notice={notice} />;
   if (!path.startsWith(homeFor(user)) || (user.mustChangePassword && !path.endsWith('/account'))) return <main className="auth-loading" role="status">Opening your workspace…</main>;
-  return <Dashboard user={user} path={path} onSignedOut={(message) => { setNotice(message ?? 'You have been signed out.'); setUser(null); navigate('/login', true); }} />;
+  return <Dashboard user={user} path={path} onSignedOut={(message) => { setNotice(message ?? 'You have been signed out.'); setUser(null); }} />;
 }

@@ -75,7 +75,7 @@ export function HomePage({
         }))}
       />
       {!!content.achievements.length && (
-        <section id="achievements" tabIndex={-1} className="section">
+        <section id="achievements" tabIndex={-1} className="section section-achievements">
           <div className="section-inner">
             <SectionHeading
               eyebrow="ACHIEVEMENTS"

@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import compression from "compression";
 import { resolve } from "node:path";
 import {
   publicDirectory,
@@ -6,7 +7,7 @@ import {
   verifiedPublicPage,
 } from "../services/public-site.service.js";
 export const publicSiteRouter = Router();
-publicSiteRouter.get(["/", "/index.html"], async (_req, res) => {
+publicSiteRouter.get(["/", "/index.html"], compression(), async (_req, res) => {
   res.set("Cache-Control", "no-store");
   try {
     const current = await publicSnapshot();
@@ -29,7 +30,8 @@ publicSiteRouter.get(/^\/(login|admin|super-admin)(\/|$)/, (_req, res) => {
 });
 publicSiteRouter.use(
   "/assets",
-  express.static(resolve(publicDirectory, "assets"), { index: false }),
+  compression(),
+  express.static(resolve(publicDirectory, "assets"), { index: false, immutable: true, maxAge: "1y" }),
 );
 publicSiteRouter.use(
   "/images",

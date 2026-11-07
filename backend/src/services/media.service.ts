@@ -98,7 +98,7 @@ async function transformUpload(
     if (actual === "application/pdf") {
       if (!buffer.subarray(-1024).includes(Buffer.from("%%EOF")))
         throw new Error("Incomplete PDF");
-      const pdf = await PDFDocument.load(buffer, { ignoreEncryption: false });
+      const pdf = await PDFDocument.load(buffer, { ignoreEncryption: false, updateMetadata: false });
       if (!pdf.getPageCount() || pdf.getPageCount() > 100)
         throw new Error("Page limit");
       const blocked = new Set([
@@ -121,6 +121,10 @@ async function transformUpload(
         if (obj instanceof PDFDict) {
           for (const key of obj.keys()) {
             if (blocked.has(key.decodeText())) throw new Error("Active PDF");
+            if (key.decodeText() === "Metadata") {
+              obj.delete(key);
+              continue;
+            }
             // Names may be indirect objects; resolve this value without following cyclic page trees.
             const value = key.decodeText() === "Subtype" ? pdf.context.lookup(obj.get(key)) : obj.get(key);
             if (key.decodeText() === 'Subtype' && value instanceof PDFName && ['3D','RichMedia','Movie','Sound','Screen','Widget','FileAttachment'].includes(value.decodeText())) throw new Error('Active PDF annotation');
@@ -132,13 +136,12 @@ async function transformUpload(
       };
       for (const [, obj] of pdf.context.enumerateIndirectObjects())
         inspect(obj);
-      pdf.setAuthor("");
-      pdf.setCreator("");
-      pdf.setProducer("");
-      pdf.setSubject("");
-      pdf.setKeywords([]);
+      // Saving the original context would retain detached XMP/Info and orphan objects.
+      // Copy only the reviewed pages/resources into a clean document with no source metadata.
+      const clean = await PDFDocument.create({ updateMetadata: false });
+      for (const page of await clean.copyPages(pdf, pdf.getPageIndices())) clean.addPage(page);
       return {
-        main: Buffer.from(await pdf.save()),
+        main: Buffer.from(await clean.save()),
         small: null,
         mimeType: actual,
         suffix: "pdf",
