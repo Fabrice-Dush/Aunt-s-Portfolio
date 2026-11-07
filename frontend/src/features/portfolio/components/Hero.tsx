@@ -5,12 +5,12 @@ export function Hero({ profile, hasExperience }: { profile: PublicProfile; hasEx
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-container">
         <div className="hero-copy">
-          <p className="eyebrow hero-eyebrow"><span className="eyebrow-rule" /> {[profile.professionalTitle,profile.city].filter(Boolean).join(' / ')}</p>
+          <p className="eyebrow hero-eyebrow"><span className="eyebrow-rule" /> {[profile.city, profile.country].filter(Boolean).join(', ') || 'PROFESSIONAL PORTFOLIO'}</p>
           <h1 id="hero-title"><span>Nyirarukundo</span><strong>Seraphine<span className="hero-period" aria-hidden="true">.</span></strong></h1>
           <p className="hero-role">{profile.professionalTitle}</p>
           <p className="hero-summary">{profile.summary}</p>
           <div className="hero-actions">
-            {hasExperience && <a className="button-primary" href="#experience">Explore experience <span aria-hidden="true">↗</span></a>}
+            <a className="button-primary" href={hasExperience ? '#experience' : '#contact'}>{hasExperience ? 'Explore experience' : 'Get in touch'} <span aria-hidden="true">↗</span></a>
             <a className="button-text" href="#about">Discover my story <span aria-hidden="true">↓</span></a>
           </div>
           {profile.motto && <div className="hero-signoff"><span className="fine-line"/> <span>“{profile.motto}”</span><span className="signoff-label">A PERSONAL BELIEF</span></div>}

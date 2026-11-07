@@ -36,6 +36,16 @@ const common = [
     "checkbox",
   ),
 ];
+// Presentation only; keep every existing allowlisted input and its validation.
+export function editorGroups(section: string) {
+  const definitions = [
+    { title: 'Essential details', description: 'Start with confirmed names, places and dates.', matches: (f: Field) => !['textarea', 'checkbox', 'media', 'project'].includes(f.type ?? '') && !['sortOrder', 'email', 'phone'].includes(f.name) },
+    { title: 'Your story', description: 'Use clear, factual wording. Leave unconfirmed details empty.', matches: (f: Field) => f.type === 'textarea' },
+    { title: 'Connections & files', description: 'Contact details stay private until separately authorized. Files also need approval for public use.', matches: (f: Field) => ['media', 'project'].includes(f.type ?? '') || ['email', 'phone'].includes(f.name) },
+    { title: 'Review & display', description: 'Saving creates a private draft. Review and publish it from the record list.', matches: (f: Field) => f.type === 'checkbox' || f.name === 'sortOrder' },
+  ];
+  return definitions.map(group => ({ ...group, fields: fields[section]!.filter(group.matches) })).filter(group => group.fields.length);
+}
 export const fields: Record<string, Field[]> = {
   profile: [
     field("fullName", "Full name", "text", 150, true),

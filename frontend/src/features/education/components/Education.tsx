@@ -13,8 +13,8 @@ export function Education({ entries }: { entries: readonly EducationEntry[] }) {
       <div className="two-column">
         <SectionHeading eyebrow="04 / EDUCATION" title="Scientific foundations." accent="Leadership ambitions." />
         <div className="education-list">
-          {entries.map((item) => (
-            <article className="education-item" key={item.year}>
+          {entries.map((item, index) => (
+            <article className="education-item" key={item.qualification + '-' + index}>
               <time>{item.year}</time>
               <div><h3>{item.qualification}</h3><p>{item.institution}</p>{item.note && <small>{item.note}</small>}</div>
             </article>

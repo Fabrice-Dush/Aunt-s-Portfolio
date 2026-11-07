@@ -13,7 +13,7 @@ export function Projects({ projects }: { projects: readonly PortfolioProject[] }
             <article className="project" key={project.id} id={project.slug ? 'project-' + project.slug : undefined}>
               <p className="eyebrow">{project.category}</p><h3>{project.name}</h3>
               <p>{project.description}</p>
-              <dl><div><dt>Role</dt><dd>{project.role}</dd></div>{project.period && <div><dt>Period</dt><dd>{project.period}</dd></div>}</dl>
+              <dl>{project.role && <div><dt>Role</dt><dd>{project.role}</dd></div>}{project.period && <div><dt>Period</dt><dd>{project.period}</dd></div>}</dl>
               {!!project.images?.length && <div className="project-images">{project.images.map(image => <img key={image.src} {...image} loading="lazy" decoding="async" />)}</div>}
               {!!project.outcomes?.length && <><h4>Outcomes</h4><ul>{project.outcomes.map(outcome => <li key={outcome}>{outcome}</li>)}</ul></>}
               {project.supportingInformation && <p>{project.supportingInformation}</p>}

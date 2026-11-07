@@ -1,3 +1,19 @@
+<!-- phase09-current -->
+# Phase 9 decisions — 2026-11-07
+
+- Preserve the approved bright name-led public direction and existing disclosed concept portrait; no new imagery or fabricated content.
+- Use local fonts, CSS and existing small SVGs; no 3D/heavy animation dependencies. Compact technical Operations uses system type; Studio remains editorial and welcoming.
+- Compose contact invitation/form in one anchor destination; preserve disabled SSR POST, timing, UUID retries and privacy notice.
+- Group CMS fields without changing the allowlisted backend contract, draft withdrawal, native leave prompts or publication permissions.
+- Keep atomic whole-collection ordering and numeric fallback; explain safe limits rather than introducing page-local renumbering.
+- Audit search explicitly filters the current page; it does not pretend to search server history.
+- Preserve before/after evidence privately; tag only after verified implementation acceptance, with owner/launch approval explicitly pending.
+<!-- /phase09-current -->
+
+---
+
+Historical checkpoints below are superseded by the current Phase 9 checkpoint.
+
 <!-- phase08-current -->
 > **Latest checkpoint — 2026-11-07: Phase 8 COMPLETED locally; private GitHub backup BLOCKED. Phase 9 NOT STARTED.** Read [Phase 8 verification](docs/PHASE_08_VERIFICATION.md) and [manual follow-up](docs/PHASE_08_MANUAL_ACCEPTANCE.md). This checkpoint supersedes historical phase/browser/ZIP instructions below. Phase 7 already exists in b39ca42; the Phase 8 delivery is identified by local annotated tag phase-08-verified. Origin is public/read-only: no push until a private writable destination is verified. No automatic ZIP or real accounts. Preserve historical archives, dedicated MariaDB on port 13312, all 16 recovered records, environment/JWT and separate private backups.
 

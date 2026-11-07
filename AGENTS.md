@@ -1,3 +1,15 @@
+<!-- phase09-current -->
+# Phase 9 verified local checkpoint — 2026-11-07
+
+**PHASE 9 IMPLEMENTATION COMPLETE — FINAL OWNER/LAUNCH APPROVAL PENDING.** Phase 10 NOT STARTED. Read docs/PHASE_09_VERIFICATION.md, docs/OWNER_APPROVAL_REGISTER.md and docs/PHASE_10_READINESS.md. The representative authorized the final revamp; this checkpoint supersedes older Phase 9-not-started instructions. Preserve all Phase 8 auth/navigation/contact/PDF/freshness/test-lock conventions, recovered data and separate backups. No deployment, real accounts, new portrait/contact permissions, indexing or automatic ZIP. Real account provisioning requires separate authorization. Local annotated tag phase-09-verified identifies the delivery; public/read-only origin remains unsuitable for a push.
+
+Maintain grouped CMS fields and focus visibility above sticky save actions; focused controls scroll instantly only if obscured. Keep current-page audit search explicitly scoped and bounded atomic ordering/numeric fallback. The example now documents dedicated local port 13312; never overwrite the actual environment from it.
+<!-- /phase09-current -->
+
+---
+
+Historical checkpoints below are superseded by the current Phase 9 checkpoint.
+
 <!-- phase08-current -->
 > **Latest checkpoint — 2026-11-07: Phase 8 COMPLETED locally; private GitHub backup BLOCKED. Phase 9 NOT STARTED.** Read [Phase 8 verification](docs/PHASE_08_VERIFICATION.md) and [manual follow-up](docs/PHASE_08_MANUAL_ACCEPTANCE.md). This checkpoint supersedes historical phase/browser/ZIP instructions below. Phase 7 already exists in b39ca42; the Phase 8 delivery is identified by local annotated tag phase-08-verified. Origin is public/read-only: no push until a private writable destination is verified. No automatic ZIP or real accounts. Preserve historical archives, dedicated MariaDB on port 13312, all 16 recovered records, environment/JWT and separate private backups.
 

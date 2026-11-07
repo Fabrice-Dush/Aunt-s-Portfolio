@@ -1,3 +1,21 @@
+<!-- phase09-current -->
+# Phase 9 verified handoff — 2026-11-07
+
+**PHASE 9 IMPLEMENTATION COMPLETE — FINAL OWNER/LAUNCH APPROVAL PENDING.** Phase 10 NOT STARTED. Read docs/PHASE_09_VERIFICATION.md and docs/PHASE_09_DESIGN_REVIEW.md. Preserve the completed public/Studio/Operations refinement and Phase 8 security/data boundaries; do not repeat recovery, reset schemas or provision real accounts automatically.
+
+Verified source (6 structural/24 frontend/backend runner 31), both typechecks/builds, four artifacts, 11 DB/18 auth/14 CMS scenarios, Prisma/preservation/shadow and 19 compiled checks. Final full browser 19/19; separate visual/focus 118 matching captures and 11 axe scans; real public review 14 captures. Twenty axe scans total, zero violations; selected contrast bounds supplement incomplete nodes. Actual Safari/touch/zoom/assistive and owner review remain pending. Lighthouse medians mobile 99 / LCP 1.803 s / TBT 89 ms / CLS 0; desktop 100 / LCP .443 s / TBT 0 / CLS 0. Six requests, 154,557 B transfer; no field INP claim.
+
+Local annotated tag phase-09-verified identifies the verified commit. Actual staged/source/history privacy and protected hashes are checked during finalization; no automatic ZIP. Origin Fabrice-Dush/Aunt-s-Portfolio is still public; connected codetraildevs is read-only. Reverify a private writable destination before any normal push.
+
+All 16 recovered records, dedicated normal-mode MariaDB 13312, real environment/JWT, schema/migrations, original private preservation copies and historical archives retained. Test fixtures cleaned. Historical backup integrity is not a fresh backup/restore rehearsal; level-6 freshness and first-rehearsal Aria caveats remain.
+
+Next action requires a Phase 10 instruction and resolution of applicable owner/content/portrait/contact, real-account, real-device/zoom/assistive, domain/HTTPS/proxy/shared-limit/publish-automation/monitoring/restore/retention gates. See owner register and PHASE_10_READINESS. Personalized email postponed. Reproduce visual focus/performance scopes using the Phase 9 report; keep test/build locks and sequential DB/browser execution.
+<!-- /phase09-current -->
+
+---
+
+Historical checkpoints below are superseded by the current Phase 9 checkpoint.
+
 # Handoff — Phase 8 verified locally
 
 Updated 2026-11-07. **Phase 8 local implementation/acceptance COMPLETED; private GitHub backup BLOCKED. Phase 9 NOT STARTED.**

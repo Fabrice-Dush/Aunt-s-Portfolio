@@ -1,3 +1,17 @@
+<!-- phase09-current -->
+# 2026-11-07 — Phase 9 final implementation
+
+- Refined bright public typography/portrait framing, career/expertise rhythm, project metadata and unified private-message contact experience; retained genuine published-only content and empty-section policy.
+- Refined pale-blue Studio, compact dark Operations, grouped editors/focus-safe save actions, sidebar/icons, publication states, media/messages/login/account surfaces and current-page audit search.
+- Corrected faint new-theme field borders, contact group semantics, repeated-year React keys and historical environment-example port; no actual environment/schema/auth/data changes.
+- Passed source/types/build/artifacts, DB/auth/CMS/preservation, final full browser 19/19, matching before/after visual review and 20 axe scans; mobile/desktop lab medians 99/100 with CLS 0. Detailed failed-attempt and valid-run provenance retained in Phase 9 report.
+- Added owner approval register and Phase 10 operations/account/backup/retention handoff. Local annotated phase-09-verified; private push blocked by public/read-only origin. No automatic ZIP, real accounts, new owner permissions, indexing or deployment.
+<!-- /phase09-current -->
+
+---
+
+Historical checkpoints below are superseded by the current Phase 9 checkpoint.
+
 <!-- phase08-current -->
 > **Latest checkpoint — 2026-11-07: Phase 8 COMPLETED locally; private GitHub backup BLOCKED. Phase 9 NOT STARTED.** Read [Phase 8 verification](docs/PHASE_08_VERIFICATION.md) and [manual follow-up](docs/PHASE_08_MANUAL_ACCEPTANCE.md). This checkpoint supersedes historical phase/browser/ZIP instructions below. Phase 7 already exists in b39ca42; the Phase 8 delivery is identified by local annotated tag phase-08-verified. Origin is public/read-only: no push until a private writable destination is verified. No automatic ZIP or real accounts. Preserve historical archives, dedicated MariaDB on port 13312, all 16 recovered records, environment/JWT and separate private backups.
 

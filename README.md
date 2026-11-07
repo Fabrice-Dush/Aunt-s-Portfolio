@@ -1,3 +1,15 @@
+<!-- phase09-current -->
+# Phase 9 verified implementation — 2026-11-07
+
+**PHASE 9 IMPLEMENTATION COMPLETE — FINAL OWNER/LAUNCH APPROVAL PENDING.** Phase 10 NOT STARTED. See [verification](docs/PHASE_09_VERIFICATION.md), [design review](docs/PHASE_09_DESIGN_REVIEW.md), [owner approvals](docs/OWNER_APPROVAL_REGISTER.md) and [launch handoff](docs/PHASE_10_READINESS.md). Public/Studio/Operations refinement is verified locally; owner/device/real-account/production gates remain pending. Local tag phase-09-verified identifies the delivery; no push to the public/read-only origin, automatic ZIP or deployment.
+
+Verified source (6 structural/24 frontend/backend runner 31), both typechecks/builds, four artifacts, 11 DB/18 auth/14 CMS scenarios, Prisma/preservation/shadow and 19 compiled checks. Final full browser 19/19; separate visual/focus 118 matching captures and 11 axe scans; real public review 14 captures. Twenty axe scans total, zero violations; selected contrast bounds supplement incomplete nodes. Actual Safari/touch/zoom/assistive and owner review remain pending. Lighthouse medians mobile 99 / LCP 1.803 s / TBT 89 ms / CLS 0; desktop 100 / LCP .443 s / TBT 0 / CLS 0. Six requests, 154,557 B transfer; no field INP claim.
+<!-- /phase09-current -->
+
+---
+
+Historical checkpoints below are superseded by the current Phase 9 checkpoint.
+
 # Nyirarukundo Seraphine — verified portfolio and CMS
 
 **Phase 8 local implementation/acceptance complete; private GitHub backup blocked; Phase 9 not started.** [Verification](docs/PHASE_08_VERIFICATION.md), [status](PROJECT_STATUS.md), [handoff](HANDOFF.md), [manual checks](docs/PHASE_08_MANUAL_ACCEPTANCE.md), [CMS guide](docs/CMS_USER_GUIDE.md).

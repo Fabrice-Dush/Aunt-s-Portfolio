@@ -1,6 +1,7 @@
 import type { PublicContact } from '../data/contact';
+import type { ReactNode } from 'react';
 
-export function Contact({ contact, location }: { contact: PublicContact; location?: string }) {
+export function Contact({ contact, location, children }: { contact: PublicContact; location?: string; children?: ReactNode }) {
   return (
     <section id="contact" tabIndex={-1} className="section section-contact">
       <div className="section-inner">
@@ -12,11 +13,12 @@ export function Contact({ contact, location }: { contact: PublicContact; locatio
             <div className="contact-links">
               {contact.email?.publicationApproved && <a href={`mailto:${contact.email.value}`}>{contact.email.value}</a>}
               {contact.phone?.publicationApproved && <a href={`tel:${contact.phone.international}`}>{contact.phone.display}</a>}
-              {!contact.email && !contact.phone && <p>Contact information will be available here soon.</p>}
+              {!contact.email && !contact.phone && children && <p>Send a private message using the form below.</p>}
             </div>
           </div>
           <a href="#top" className="text-link">Back to top <span aria-hidden="true">↑</span></a>
         </div>
+        {children}
       </div>
     </section>
   );

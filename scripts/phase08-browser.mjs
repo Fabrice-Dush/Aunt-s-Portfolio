@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
-import { randomBytes, randomUUID } from 'node:crypto';
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { chromium, firefox, webkit, expect } from '@playwright/test';
@@ -56,9 +56,13 @@ if (process.argv.includes('--api')) {
     finally { await f.capture(); }
   }
   async function build() {
-    const child = spawn(process.execPath, ['frontend/scripts/build.mjs'], { cwd: root, env: process.env, windowsHide: true, stdio: 'ignore' });
+    const child = spawn(process.execPath, ['frontend/scripts/build.mjs'], { cwd: root, env: process.env, windowsHide: true, stdio: 'inherit' });
     const [code] = await once(child, 'exit');
     assert.equal(code, 0, 'Isolated published build failed');
+    const built = resolve(root, 'frontend/.cache/test-public');
+    const names = ['index.html', ...(await readdir(resolve(built, 'assets'))).map(name => 'assets/' + name)];
+    report.builds ??= [];
+    report.builds.push({ at: new Date().toISOString(), files: await Promise.all(names.map(async name => ({ name, sha256: createHash('sha256').update(await readFile(resolve(built, name))).digest('hex') }))) });
   }
   async function bounded(operation, milliseconds, label) {
     let timer;
@@ -152,6 +156,59 @@ if (process.argv.includes('--api')) {
     const consoleErrors = [];
     page.on('pageerror', error => consoleErrors.push(safe(error)));
     page.on('console', message => { if (message.type() === 'error' && !/Failed to load resource/.test(message.text())) consoleErrors.push(message.text()); });
+    if (focus === 'visual') await test('Phase 9 visual review of actual public, Studio, Operations and account pages', async () => {
+      await page.goto(base);
+      await expect(page.locator('#hero-title')).toBeVisible();
+      for (const width of [320,375,390,768,1024,1440,1920]) {
+        await page.setViewportSize({ width, height: 900 }); await overflow(page);
+        await viewportScreenshots(page, 'visual-public-' + width);
+      }
+      await page.setViewportSize({ width: 1440, height: 900 });
+      for (const id of ['about','expertise','experience','education','projects','achievements','training','contact']) {
+        await page.locator('#' + id).screenshot({ path: resolve(reportDirectory, 'visual-section-' + id + '.png') });
+        report.screenshots.push('visual-section-' + id + '.png');
+      }
+      await axe(page, 'visual-public');
+      await page.goto(base + '/login'); await expect(page.getByLabel('Email address', { exact: true })).toBeVisible();
+      await viewportScreenshots(page, 'visual-login-1440'); await axe(page, 'visual-login');
+      await page.setViewportSize({ width: 390, height: 844 }); await overflow(page); await viewportScreenshots(page, 'visual-login-390');
+      for (const role of ['ADMIN', 'SUPER_ADMIN']) {
+        // Each role has its own normal API rate window; no limits are disabled.
+        await page.goto('about:blank'); await restartApi(); await page.setViewportSize({ width: 1440, height: 900 }); await login(page, role);
+        const home = role === 'ADMIN' ? '/admin' : '/super-admin';
+        for (const width of [320,375,390,768,1024,1440,1920]) {
+          await page.setViewportSize({ width, height: 900 }); await overflow(page);
+          await viewportScreenshots(page, 'visual-' + role.toLowerCase() + '-' + width);
+        }
+        await reflow(page, 'visual-' + role.toLowerCase());
+        await page.setViewportSize({ width: 1440, height: 900 });
+        await axe(page, 'visual-' + role.toLowerCase() + '-overview');
+        for (const area of role === 'ADMIN' ? ['profile','experience','education','skills','projects','achievements','certifications','media','messages','settings','account'] : ['users','security','status','account']) {
+          await route(page, home + '/' + area);
+          await expect(page.locator('.dash-loading')).toHaveCount(0);
+          if (role === 'ADMIN' && area === 'profile') { await page.getByRole('button', { name: 'Edit', exact: true }).click(); await expect(page.locator('#cms-summary')).toBeVisible(); }
+          await viewportScreenshots(page, 'visual-' + role.toLowerCase() + '-' + area + '-1440');
+          if (['profile','media','messages','account','users','security'].includes(area)) await axe(page, 'visual-' + role.toLowerCase() + '-' + area);
+          await page.setViewportSize({ width: 390, height: 844 }); await overflow(page);
+          await viewportScreenshots(page, 'visual-' + role.toLowerCase() + '-' + area + '-390');
+          if (role === 'ADMIN' && area === 'profile' && await page.locator('.cms-save-bar').count()) {
+            for (const control of await page.locator('.cms-field-grid input:not([readonly]),.cms-field-grid textarea,.cms-field-grid select').all()) {
+              await control.focus();
+              await page.waitForFunction(() => {
+                const field = document.activeElement?.getBoundingClientRect(); const actions = document.querySelector('.cms-save-bar')?.getBoundingClientRect();
+                return field && actions && field.bottom <= actions.top + 1;
+              }, undefined, { timeout: 3000 });
+              const field = await control.boundingBox(); const actions = await page.locator('.cms-save-bar').boundingBox();
+              assert.ok(field && actions && field.y + field.height <= actions.y + 1, 'Focused editor field must stay above sticky actions');
+            }
+          }
+          await page.setViewportSize({ width: 1440, height: 900 });
+        }
+        await page.getByRole('button', { name: 'Sign out', exact: true }).click(); await expect(page).toHaveURL(base + '/login');
+      }
+      await page.goto('about:blank'); await restartApi();
+      assert.deepEqual(consoleErrors, []);
+    });
     await test('Chromium public hydration, full published sections, image loading and privacy', async () => {
       const response = await page.goto(base);
       assert.equal(response.status(), 200);
@@ -381,6 +438,9 @@ if (process.argv.includes('--api')) {
       await page.setViewportSize({ width: 1440, height: 1000 });
       await route(page, '/super-admin/status'); await expect(page.locator('.dash-content')).toContainText(/database/i); assert.equal((await request(page, '/dashboard/status')).status, 200);
       await route(page, '/super-admin/security'); await expect(page.locator('.dash-content')).toContainText(/login succeeded|content |media /); await axe(page, 'super-admin-security');
+      const search = page.getByLabel('Search events on this page', { exact: true });
+      await search.fill('no such recorded event'); await expect(page.getByRole('status')).toContainText('No matching events on this page');
+      await search.fill('login'); await expect(page.locator('.dash-audit li').first()).toContainText(/login/i); await search.fill('');
       await route(page, '/super-admin/users'); await expect(page.locator('.dash-content')).toContainText('TEST ONLY ADMIN'); await axe(page, 'super-admin-accounts');
     });
     await restartApi();
@@ -434,8 +494,11 @@ if (process.argv.includes('--api')) {
       catch (error) { report.engines.push({ name, launch: 'BLOCKED', error: safe(error) }); continue; }
       await test(name + ' real browser public hydration, mobile menu, ADMIN and SUPER_ADMIN login', async () => {
         const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+        const failedRequests = [], responses = []; let phase = 'public';
         try {
-          const p = await c.newPage(); const engineErrors = []; let phase = 'public';
+          const p = await c.newPage(); activePage = p; const engineErrors = [];
+          p.on('requestfailed', request => failedRequests.push({ path: new URL(request.url()).pathname, error: request.failure()?.errorText }));
+          p.on('response', response => { const path = new URL(response.url()).pathname; if (path.startsWith('/api/')) responses.push({ path, status: response.status() }); });
           p.on('pageerror', error => engineErrors.push({ phase, error: safe(error) }));
           await p.goto(base); await p.waitForFunction(() => !document.querySelector('.public-contact-form button')?.disabled); await expect(p.locator('#hero-title')).toBeVisible(); await overflow(p);
           await p.locator('.mobile-menu summary').click();
@@ -455,6 +518,12 @@ if (process.argv.includes('--api')) {
           await p.getByRole('button', { name: /^Menu/ }).click(); await p.getByRole('button', { name: 'Sign out', exact: true }).click(); await expect(p).toHaveURL(base + '/login');
           phase = 'SUPER_ADMIN login';
           await login(p, 'SUPER_ADMIN'); await expect(p.locator('.workspace.operations')).toBeVisible(); await overflow(p); assert.deepEqual(engineErrors, []);
+        } catch (error) {
+          const p = c.pages()[0];
+          report.engineDiagnostics ??= [];
+          report.engineDiagnostics.push({ name, phase, failedRequests, responses, page: p && !p.isClosed() ? await p.evaluate(() => ({ path: location.pathname, title: document.title, alerts: [...document.querySelectorAll('[role="alert"],[role="status"]')].map(node => node.textContent) })).catch(() => null) : null });
+          if (p && !p.isClosed()) await screenshot(p, name.toLowerCase() + '-failure');
+          throw error;
         } finally { await c.close(); }
       });
       await browser.close(); browser = null;

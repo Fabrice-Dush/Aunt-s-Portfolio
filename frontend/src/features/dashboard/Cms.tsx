@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { api } from "../auth/api";
 import { Badge, Confirm, DataState, Pager, useData } from "./components";
-import { fields, sectionLabels } from "./cmsFields";
+import { editorGroups, fields, sectionLabels } from "./cmsFields";
 import type { Field } from "./cmsFields";
 import { collectionOrder } from "./order";
 export type Row = {
@@ -170,6 +170,7 @@ export function Cms({ section }: { section: string }) {
             Saving an edit withdraws the current public version until you
             publish it again.
           </p>
+          {section !== "profile" && <details className="cms-order-help"><summary>How display order works</summary><p>Use the arrows to swap neighbors on this page. At a page boundary, or in a collection over 100 records, edit Display order instead. Lower numbers appear first; equal numbers use a stable order. Check surrounding pages after saving.</p></details>}
           {!data.result ? (
             <DataState error={data.error} reload={data.reload} />
           ) : !data.result.data.length ? (
@@ -502,7 +503,7 @@ export function Editor({
       <label
         key={f.name}
         htmlFor={id}
-        className={f.type === "checkbox" ? "cms-check" : ""}
+        className={f.type === "checkbox" ? "cms-check cms-field-wide" : f.type === "textarea" ? "cms-field-wide" : ""}
       >
         {f.type !== "checkbox" && f.label}
         {f.type === "checkbox" ? (
@@ -565,6 +566,7 @@ export function Editor({
                   : undefined
             }
             step={f.type === "number" ? 1 : undefined}
+            aria-describedby={f.name === "sortOrder" ? id + "-help" : undefined}
             pattern={f.name === "slug" ? "[a-z0-9]+(-[a-z0-9]+)*" : undefined}
             readOnly={
               (!!row && f.name === "slug") ||
@@ -575,11 +577,12 @@ export function Editor({
             onChange={(e) => change(e.target.value)}
           />
         )}
+        {f.name === "sortOrder" && <small id={id + "-help"}>Lower numbers appear first. Equal numbers keep a stable order.</small>}
       </label>
     );
   }
   return (
-    <section className="dash-panel">
+    <section className="dash-panel cms-editor">
       <h2 ref={heading} tabIndex={-1}>
         {row ? "Edit " : "Add "}
         {sectionLabels[section]}
@@ -594,8 +597,18 @@ export function Editor({
           through the Media Library.
         </p>
       )}
-      <form className="cms-form" onSubmit={save}>
-        <fieldset disabled={busy}>{fields[section]!.map(renderField)}</fieldset>
+      <form className="cms-form" onSubmit={save} aria-busy={busy} onFocusCapture={event => {
+        const field = event.target;
+        if (!(field instanceof HTMLElement) || !field.matches('input,textarea,select')) return;
+        const actions = event.currentTarget.querySelector('.cms-save-bar');
+        requestAnimationFrame(() => {
+          if (!field.isConnected || !actions?.isConnected) return;
+          const bounds = field.getBoundingClientRect();
+          if (bounds.bottom > actions.getBoundingClientRect().top - 12 || bounds.top < 12)
+            field.scrollIntoView({ block: 'center', behavior: 'instant' });
+        });
+      }}>
+        {editorGroups(section).map(group => <fieldset className="cms-field-group" disabled={busy} key={group.title}><legend>{group.title}</legend><p className="cms-group-description">{group.description}</p><div className="cms-field-grid">{group.fields.map(renderField)}</div></fieldset>)}
         {optionError && (
           <p role="alert">Related files could not be loaded: {optionError}</p>
         )}
@@ -604,7 +617,8 @@ export function Editor({
             {error}
           </p>
         )}
-        <div className="dash-actions">
+        <div className="dash-actions cms-save-bar">
+          <span className="cms-save-state">{busy ? 'Saving your draft…' : dirty ? 'Unsaved changes' : 'No unsaved changes'}</span>
           <button
             type="button"
             disabled={busy}

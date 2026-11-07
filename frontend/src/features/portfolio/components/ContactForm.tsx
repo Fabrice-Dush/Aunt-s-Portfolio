@@ -64,14 +64,16 @@ export function ContactForm() {
     }
   }
   return (
-    <section
-      className="section contact-form-section"
+    <div
+      className="contact-form-section"
+      role="group"
       aria-labelledby="message-title"
     >
       <div className="two-column">
         <div>
+          <p className="eyebrow">A PRIVATE MESSAGE</p>
           <h2 id="message-title">Start a conversation.</h2>
-          <p>
+          <p id="message-privacy" className="contact-privacy">
             Your name, email and message are stored privately for Seraphine and
             authorized technical support until removed. Do not include sensitive
             documents or passwords.
@@ -81,6 +83,8 @@ export function ContactForm() {
           className="public-contact-form"
           method="post"
           action="/api/v1/contact"
+          aria-describedby="message-privacy"
+          aria-busy={busy}
           onSubmit={submit}
         >
           <noscript>Enable JavaScript to send a message. You can still read and navigate the portfolio.</noscript>
@@ -130,6 +134,6 @@ export function ContactForm() {
           {message && <p role="status">{message}</p>}
         </form>
       </div>
-    </section>
+    </div>
   );
 }

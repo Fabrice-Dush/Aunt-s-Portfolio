@@ -1,3 +1,13 @@
+<!-- phase09-current -->
+# Phase 9 presentation changes — 2026-11-07
+
+Existing React/Vite feature structure, lazy private routes and Express/service/Prisma boundaries retained. Contact accepts a composition child so the private-storage form belongs to the contact anchor; it retains its independent submission implementation. editorGroups partitions the existing CMS field definitions for presentation only. Audit filtering is client-side and explicitly current-page only. No schema/API/auth/config/public DTO/publishing/media lifecycle changes. Phase 9 visual focus extends the existing isolated browser harness; test locks, exact target guards and captured-ID cleanup remain intact.
+<!-- /phase09-current -->
+
+---
+
+Historical checkpoints below are superseded by the current Phase 9 checkpoint.
+
 <!-- phase08-current -->
 # Phase 8 navigation, testing and delivery — 2026-11-07
 

@@ -41,6 +41,22 @@ test('collection arrows preserve other pages when records share the default disp
   await assert.rejects(() => collectionOrder(rows[5], rows[6], async page => ({ data: rows.slice(0, 20), pagination: { page, hasMore: true } })), /over 100/);
 });
 const user = { id: 'test-only', displayName: 'TEST ONLY', email: 'test@example.invalid', role: 'ADMIN', mustChangePassword: false };
+test('grouped editors retain every field, required constraints and accessible ordering guidance', async () => {
+  const { fields, editorGroups } = await server.ssrLoadModule('/src/features/dashboard/cmsFields.ts');
+  const { Editor } = await server.ssrLoadModule('/src/features/dashboard/Cms.tsx');
+  for (const section of Object.keys(fields)) {
+    const grouped = editorGroups(section).flatMap(group => group.fields);
+    assert.deepEqual(grouped.map(field => field.name).sort(), fields[section].map(field => field.name).sort(), section + ': no omitted or duplicate fields');
+    const html = renderToStaticMarkup(createElement(Editor, { section, row: null, onCancel() {}, onSaved() {} }));
+    for (const field of fields[section]) {
+      assert.match(html, new RegExp('id="cms-' + field.name + '"'));
+      assert.match(html, new RegExp('for="cms-' + field.name + '"'));
+    }
+    if (section !== 'profile') assert.match(html, /aria-describedby="cms-sortOrder-help"/);
+    assert.match(html, /Save draft/);
+    assert.match(html, /<legend>/);
+  }
+});
 test('login exposes labelled email/password inputs, recovery guidance and no default credentials', () => {
   const html = renderToStaticMarkup(createElement(Login, { onLogin() {} }));
   assert.match(html, /type="email"/); assert.match(html, /type="password"/);

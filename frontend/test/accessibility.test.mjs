@@ -45,7 +45,7 @@ test('form boundary tokens provide at least 3:1 contrast against adjacent surfac
   const publicStyles = await readFile(new URL('../src/shared/styles/global.css', import.meta.url), 'utf8');
   const controlColors = [...dashboard.matchAll(/--d-control:\s*#([\da-f]{6})/gi)].map(match => match[1]);
   assert.equal(controlColors.length, 2);
-  for (const [color, surfaces] of [[controlColors[0], ['ffffff', 'f7f9f8']], [controlColors[1], ['092333', '0c2c3e']]]) {
+  for (const [color, surfaces] of [[controlColors[0], ['ffffff', 'f4f8fc', 'e8f2fa']], [controlColors[1], ['092333', '0c2c3e']]]) {
     for (const surface of surfaces) assert.ok(contrast(color, surface) >= 3, `${color} against ${surface}`);
   }
   const publicControl = publicStyles.match(/\.public-contact-form input, \.public-contact-form textarea \{ border-color: #([\da-f]{6}); \}/i)?.[1];

@@ -1,3 +1,17 @@
+<!-- phase09-current -->
+# Phase 9 final refinement — 2026-11-07
+
+Public retains navy #092f50, blue #1876b7, local Georgia display/Segoe UI body, large identity and full portrait proportions. Shared --surface/--radius/--section-space tokens organize restrained framing, 4px controls and responsive section rhythm. Quiet portrait offset rule replaces the large halo. Body prose uses 16px/1.8; contact invitation, privacy and bordered form share one section.
+
+Studio uses #f4f8fc canvas, white sidebar/panels, #e8f2fa accents, #102e49 ink and #176ca6 action text; 8px panels and 6px controls. Operations retains deep navy/teal, square panels and 2px controls, with compact system headings and tabular metrics. Both retain visible focus, native semantics and reduced motion. Control border #6f818f is checked against new light surfaces; Operations retains #6f95a4.
+
+CMS editor groups use semantic legends, two short-field columns above 760px, full-width prose/checkboxes and a sticky save/cancel bar (static in short landscape viewports). Mobile stays one column. Sidebar group captions, real task links, textual statuses, readable media frames and current-page audit search extend existing components. No external fonts, image replacement, chart/animation dependency or new content source. Final automated/manual scope belongs in docs/PHASE_09_VERIFICATION.md.
+<!-- /phase09-current -->
+
+---
+
+Historical checkpoints below are superseded by the current Phase 9 checkpoint.
+
 <!-- phase08-current -->
 # Phase 8 scoped accessibility fixes — 2026-11-07
 

@@ -7,8 +7,8 @@ export function Experience({ positions }: { positions: readonly CareerPosition[]
       <div className="two-column">
         <div><SectionHeading eyebrow="03 / PROFESSIONAL JOURNEY" title="Experience shaped by" accent="responsibility." />{positions.some(item => item.provisional) && <p className="editorial-note">The job periods shown are provisional and will be confirmed with Seraphine before launch.</p>}</div>
         <div className="timeline">
-          {positions.map((item) => (
-            <article className="timeline-item" key={item.period}>
+          {positions.map((item, index) => (
+            <article className="timeline-item" key={item.title + '-' + index}>
               <p className="timeline-period">{item.period} {item.provisional && <span>TO VERIFY</span>}</p>
               <h3>{item.title}</h3>
               <p className="timeline-employer">{item.employer}</p>

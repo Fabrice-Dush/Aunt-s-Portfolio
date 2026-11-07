@@ -1,0 +1,23 @@
+# Owner content approval register — 2026-11-07
+
+Prepared for Nyirarukundo Seraphine. No new owner approvals were received during Phase 9. A published development record is not evidence of permission to launch. The site remains a private review build with indexing disabled.
+
+| Please review | Current evidence / decision needed | Status |
+|---|---|---|
+| Name and title | Nyirarukundo Seraphine; Water Treatment Plant Engineer. Supported by questionnaire and representative. Confirm final spelling. | Owner sign-off pending |
+| Motto | “Water is life.” Confirm preferred capitalization and punctuation. | Owner sign-off pending |
+| Introduction and biography | Review the actual published introduction and responsibilities; questionnaire supports treatment, quality, microbiology, chemistry and water production. No new accomplishments added. | Final wording pending |
+| Experience description | Questionnaire says 11 years; do not silently advance this number with the calendar. | Current wording pending |
+| Employment | WASAC Group; overlapping supplied periods beginning in 2015 and 2022 need clarification. Earlier 2015–2021 split is provisional. | Exact positions/dates pending; drafts stay private |
+| Education | Confirm official qualification names, institutions, country and years against documents. | Verification pending |
+| Skills | Review selected/written answers; unticked questionnaire options do not establish skills. | Final list pending |
+| Training and certificates | Confirm exact titles, issuers and years; review processed public documents before approval. | Records/document permission pending |
+| Projects | Provide genuine title, role, dates, description, outcomes and image permissions. | Missing; public section omitted when empty |
+| Achievements | Provide verifiable achievements and any permitted supporting material. | Missing; no invented metrics/testimonials |
+| Portrait | Existing standing portrait is synthetic, based on supplied reference; it is not a real work-site photograph. Approve likeness and public use explicitly or provide an authorized replacement later. | Public-use approval pending; disclosure retained |
+| Email and phone | Choose whether either may appear publicly; consent is separate from storing a private value. Do not record the actual details in this register. | Disclosure permission pending |
+| CV/résumé | Supply a current approved file and confirm public download permission. | Missing; no fake download button |
+| Professional/social links | Provide exact links and confirm publication permission. | Missing; no invented links |
+| Message retention | Decide the retention period and who handles deletion requests. See launch checklist. | Owner decision pending |
+
+For each approval, privately record the item/version, approved wording or asset identifier, approver, date and permitted use. Store sensitive evidence outside Git. The maintainer can then verify the matching draft, separately approve media/contact use, publish and update the public website. Review the resulting page before launch. Approval here must never be inferred from a checked test fixture.

@@ -156,8 +156,7 @@ export function HomePage({
               }
             : {}),
         }}
-      />
-      <ContactForm />
+      ><ContactForm /></Contact>
     </main>
   );
 }
