@@ -1,15 +1,10 @@
+import { localDatabaseTarget } from "../../scripts/local-database-targets.mjs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { publicSnapshot } from "../src/services/public-site.service.js";
-import { disconnectDatabase, databaseOptions } from "../src/config/database.js";
+import { disconnectDatabase } from "../src/config/database.js";
 try {
   if (process.env.PORTFOLIO_BUILD_TEST === "1") {
-    const target = databaseOptions(process.env.DATABASE_URL);
-    if (
-      target.database !== "seraphine_portfolio_test" ||
-      target.user !== "seraphine_test" ||
-      !["127.0.0.1", "localhost"].includes(target.host)
-    )
-      throw new Error("Refusing test snapshot outside the isolated database");
+    localDatabaseTarget(process.env.DATABASE_URL, 'test');
   }
   const snapshot = await publicSnapshot();
   await mkdir(new URL("../../frontend/.cache/", import.meta.url), {

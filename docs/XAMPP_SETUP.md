@@ -1,102 +1,55 @@
 # Local XAMPP database setup (Windows)
 
-> **Verified restored development environment - 2026-11-05:** Phase 6 COMPLETED. The user-authorized dedicated normal-mode instance at 127.0.0.1:13312 passed all configured connection, migration/shadow, content/constraint, DB/auth/API/build and restart checks. It is left running. Shared XAMPP data/data-old, unrelated databases, preservation backups and exports remain unchanged. No Windows service installed. See the current workstation lifecycle below; historical port-3306 provisioning is not its startup procedure. Level-6 recovery freshness and first-rehearsal failure limits remain in the incident report.
+Current workstation setup, 2026-11-16 (Europe/Paris). The authorized logical migration to XAMPP **127.0.0.1:3306** uses new healthy schemas. The damaged historical schemas were not reused, dropped or repaired. See [migration verification](XAMPP_3306_MIGRATION.md). Phase 9 owner/launch approval remains pending; Phase 10 has not started.
 
-## Dedicated database on this workstation
+## Normal development
 
-The user authorized adopting the clean second rehearsal as the actual local development database. It uses the existing `C:/xampp/mysql/bin/mysqld.exe` binary, loopback **127.0.0.1:13312**, normal mode **innodb_force_recovery=0**, and `C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-05-rehearsal-02/rehearsal.ini` with its own `data` directory. The directory keeps its rehearsal name to avoid moving verified system/tablespace files. It is a freshly initialized normal-mode instance, not the level-6 recovery clone. No Windows service was installed; XAMPP Control Panel does not manage this dedicated process.
+1. Open **XAMPP Control Panel**. Click **Start** beside **MySQL** if it is stopped. It should run on port **3306**. Apache is unnecessary for this Node/React project.
+2. From this repository, run `npm run dev`. Alternatively, use `npm run dev:backend` and `npm run dev:frontend` in separate terminals.
+3. Open `http://localhost:5173`. The API health endpoint is `http://localhost:4000/api/v1/health`.
 
-The four local database URLs now use the existing scoped dev/migration/test accounts on this port. The JWT signing key and every unrelated environment setting are preserved. Never copy private credentials from the backup into documentation or command arguments. Shared XAMPP `data`/`data-old`, unrelated databases, preservation backups and extraction exports remain untouched. Keep the shared XAMPP MySQL instance stopped during this development workflow.
+Keep the existing ignored `backend/.env`; do not overwrite it with `.env.example`. No manual URL/password edits are needed. JWT and all non-database settings were preserved. The separate port-13312 process is **not required** and was stopped normally after verification.
 
-Before cutover, the complete stopped instance (229 files / 187,752,520 bytes), config, private service credentials and exact original environment were copied into the owner-restricted directory `C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-05-pre-cutover-01`. Its `data` is a full offline snapshot; `backend.env.private` is the original environment. All copied hashes and directory membership were verified. `snapshot-manifest.json` SHA256: `65B830893F0BB242745937993A8B6AFF8FDE3A6C782B1EA16EC6FA01F1289EF1`. This directory and all recovery data stay outside source/ZIP.
+The server uses the existing `C:/xampp/mysql/bin/mysqld.exe`, `C:/xampp/mysql/bin/my.ini` and `C:/xampp/mysql/data`. No XAMPP configuration, service registration, recovery mode or other project schema was changed. MariaDB reports its data directory as `\xampp\mysql\data\`; the inspected executable/config resolve this to the existing C: installation. A normal restart using that same configuration passed. Native Control Panel button automation was unavailable in the assistant session; the actual button clicks are not claimed as tested.
 
-From the repository root, start only when the dedicated process is stopped:
+## Current isolated schemas and accounts
 
-```powershell
-$label = 'dev-' + (Get-Date -Format 'yyyyMMddHHmmss')
-.\scripts\restart-database-rehearsal.ps1 -Attempt 02 -Label $label
-npm run db:verify -w backend
-npm run dev
-```
-
-The start script refuses running database processes, occupied ports, unexpected config and existing output names. It uses a hidden process and private timestamped console logs. Status is verified through the scoped `db:verify` command rather than the XAMPP panel.
-
-Stop application clients first. To verify privilege-table health and request normal database shutdown:
-
-```powershell
-$env:SERAPHINE_REHEARSAL_ATTEMPT = '02'
-node scripts/checkpoint-database-rehearsal.mjs ('dev-stop-' + (Get-Date -Format 'yyyyMMddHHmmss'))
-```
-
-Wait for the MariaDB process to exit before making an offline backup or restarting. Do not force-terminate it or delete/regenerate InnoDB/Aria files if shutdown/startup fails. Preserve logs and stop for diagnosis. The first discarded rehearsal's unexplained privilege-table failure remains documented in [the rehearsal report](PHASE_06_RESTORATION_REHEARSAL.md).
-
-Rollback stops application clients, verifies the saved snapshot/environment hashes, restores the exact original environment via `node scripts/cutover-database.mjs rollback`, and stops only the verified dedicated instance normally. This restores the old configuration, not the damaged shared database's health. Never merge files or overwrite retained evidence to roll back data.
-
-A source ZIP deliberately cannot recreate private local data/credentials. On another machine, review the fresh-machine procedure below and provision a separate healthy database with private credentials; the hardcoded incident/cutover scripts are for this workstation only. Do not rerun `setup-local-db.mjs`, recovery extraction, snapshot initialization or seeding against this restored workstation merely to start it.
-
-## Historical shared-XAMPP / fresh-machine setup
-
-The following describes the earlier port-3306 setup and fresh-machine provisioning. It must not be used to replace the configured dedicated workstation above.
-
-Verified 2026-11-03: `C:\xampp\mysql\bin\mysqld.exe`, MariaDB **10.4.32**, TCP **127.0.0.1:3306**, configuration `C:\xampp\mysql\bin\my.ini`. Existing server already running; no additional server, PHP, Apache or XAMPP service/configuration changes were made. Initial inspection found no project databases/accounts. Local root access was used only to provision scoped accounts; Express never runs as root.
-
-| Database | Purpose | Account |
+| Schema | Purpose | Scoped service account |
 |---|---|---|
-| seraphine_portfolio_dev | Development content | seraphine_dev: SELECT, INSERT, UPDATE, DELETE |
-| seraphine_portfolio_dev + seraphine_portfolio_shadow | Development migration/replay | seraphine_migrate: DML plus CREATE, ALTER, DROP, INDEX, REFERENCES on these two schemas only |
-| seraphine_portfolio_test | Isolated integration fixtures/migration replay | seraphine_test: same migration privileges, test schema only |
+| `seraphine_portfolio_dev_x3306_20261116` | Recovered development content | `seraphine_x3306_dev`: SELECT, INSERT, UPDATE, DELETE |
+| Same development schema + `seraphine_portfolio_shadow_x3306_20261116` | Reviewed Prisma migrations and disposable replay | `seraphine_x3306_migrate`: DML plus CREATE, ALTER, DROP, INDEX, REFERENCES, only these two schemas |
+| `seraphine_portfolio_test_x3306_20261116` | Disposable integration/browser fixtures | `seraphine_x3306_test`: same migration privileges, only this test schema |
 
-All accounts are limited to `127.0.0.1`; no GRANT OPTION or global administrative privilege. Schema grants escape underscores as literal characters, preventing wildcard scope. Three independent cryptographically random 32-byte passwords are saved only in ignored `backend/.env`. utf8mb4 and utf8mb4_unicode_ci are set on all databases/tables. Do not print SHOW GRANTS: MariaDB can include an authentication hash.
+Accounts are restricted to `127.0.0.1`. Grants escape underscores literally, have no global administrative privileges and no GRANT OPTION. Passwords are private and are never command arguments or documentation. Express uses the DML account, never root. These are database service identities; **no real dashboard administrator was created**.
 
-## On this configured machine
+The old `seraphine_portfolio_dev`, `seraphine_portfolio_test` and `seraphine_portfolio_shadow` on port 3306 remain preserved damaged evidence. Never import into them. The diagnostic schema `seraphine_xampp_probe_20261116_a1` retains two tiny InnoDB tables/two synthetic rows as migration evidence; it is not application content. No existing database was dropped.
 
-From repository root:
+## Verification and migrations
 
 ```powershell
 npm run db:verify -w backend
 npm run prisma:validate
-npm run prisma:generate
-npm run prisma:migrate -w backend
-npm run prisma:seed -w backend
 npm run test:db -w backend
-npm run dev
+npm run test:browser
+npm run verify:database
 ```
 
-Do not rerun the bootstrap: it intentionally refuses configured environments/existing project databases/accounts. Do not copy `.env.example` over this machine's real `.env`. The seed may be rerun: existing data is untouched. `db:verify` safely reports version, target, privilege names, migration IDs and counts, never passwords or grant hashes.
+Run the DB/browser/consistency suites sequentially; they share an exclusive test lock. The exact schema, account, port, MariaDB version, normal recovery mode and data-directory allowlist is in `scripts/local-database-targets.mjs`. Unknown targets and mixed profiles are refused. Fixtures refuse nonempty application tables and remove only recorded disposable IDs. Never delete a live test/build lock to bypass a refusal.
 
-## Reproduce on a fresh local machine
+The migration CLI uses `MIGRATION_DATABASE_URL`, runtime uses `DATABASE_URL`, and both must name the same server/schema. `SHADOW_DATABASE_URL` names only the new disposable shadow. `npm run prisma:deploy -w backend` applies reviewed migrations; `npm run prisma:migrate -w backend` is for deliberately authored development migrations. Do not run a development reset, reinitialize a database, rerun the historical bootstrap, or seed merely to start this recovered workstation. No schema/model migration was changed for this move.
 
-1. Use the installed XAMPP Control Panel. If MySQL is stopped, click **Start** beside MySQL and wait for running status. Apache is unnecessary. Inspect `mysql/bin/my.ini` and confirm port/process before connecting. The bootstrap intentionally targets the verified standard local address/port; adapt its explicit constants only after inspecting another machine.
-2. Run `npm ci`. Create `backend/.env` from `.env.example` only if no real environment file already exists. The bootstrap refuses non-placeholder DATABASE_URL.
-3. With local DB administration authority, run `node backend/scripts/setup-local-db.mjs`. It checks all three names and accounts before changing anything, creates schemas/accounts, assigns exact grants, and writes generated credentials privately. It never drops/resets existing data. Existing names require inspection and explicit reconciliation, not rerunning blindly. On failure, credentials may already have been saved before DDL; inspect state without printing secrets.
-4. If the administrator account requires a password, enter it via a hidden prompt for this process, never a command-line argument or committed file:
+Production builds must use `npm run build`, followed by `npm run test:build -w frontend`. Serve built HTML through the existing freshness/integrity gate; deployment and ungated static hosting remain unauthorized.
 
-```powershell
-$adminSecret = Read-Host 'Local MariaDB root password' -AsSecureString
-$secretPointer = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($adminSecret)
-try {
-  $env:LOCAL_DB_ADMIN_PASSWORD = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($secretPointer)
-  node backend/scripts/setup-local-db.mjs
-} finally {
-  Remove-Item Env:LOCAL_DB_ADMIN_PASSWORD -ErrorAction SilentlyContinue
-  [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($secretPointer)
-}
-```
+## Backups and preserved fallback
 
-5. Validate/generate; review `backend/prisma/migrations/*/migration.sql`; verify target and any existing tables before applying `npm run prisma:deploy -w backend`. For developing subsequent migrations use `prisma:migrate`, which uses the dedicated shadow database. Seed, verify connectivity/privileges, then test/build. Never run migrate reset against development or an unknown database.
+Fresh logical SQL, original and candidate environments and private verification evidence are in the newly created owner-restricted directory:
 
-If root administration is unavailable, the local administrator should run the same reviewed bootstrap privately. Do not send credentials in chat. Usernames/host/port/database can be shared for diagnosis; passwords and full URLs cannot.
+`C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-16-xampp3306-01`
 
-The CLI selects MIGRATION_DATABASE_URL and runtime selects DATABASE_URL. They must target the same database; only account privileges differ. SHADOW_DATABASE_URL must target a different dedicated disposable schema. URL-encode reserved password characters (`@` → `%40`, `:` → `%3A`, etc.); runtime explicitly decodes credentials. Current local parser rejects URL query options rather than silently ignoring them. Generated hex passwords need no extra escaping.
+`recovered-development.sql` includes all 14 tables, all 16 development records and both full migration-history rows. Its SHA256 and import evidence are in the migration report. Private data, credentials and backups remain outside Git and source archives. Earlier preservation/export/offline backups were not overwritten; the historical 229-file offline snapshot was reverified.
 
-## Integration-test safety
+The normal-mode recovered fallback remains at `127.0.0.1:13312`, using `C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-05-rehearsal-02/rehearsal.ini` and its existing data directory. Its records were unchanged by this migration. It is stopped, not deleted. Do not copy InnoDB/Aria files between installations or run either server against a preservation backup.
 
-`npm run test:db -w backend` requires TEST_DATABASE_URL with local host, exact `seraphine_portfolio_test` database and `seraphine_test` username, different from runtime URL. It applies migrations with the test account and supplies isolated environment variables to the child process. It never uses the development or shadow database for fixtures. The suite independently checks the target and refuses nonempty application tables; it never resets/truncates anything. Teardown removes only IDs created by that run in dependency order. An interrupted run may require manual inspection of leftover TEST ONLY fixtures; do not automate a broad cleanup to bypass the guard. No fixture is a client claim.
+If rollback is needed, stop this project's application clients, privately verify and restore **only** `backend-before.env.private` from the **2026-11-16** directory above, and start the existing normal-mode port-13312 configuration. The allowlist retains its exact fallback profile. Never use `scripts/cutover-database.mjs rollback`: that historical command restores the pre-Phase-6 environment, not this migration's fallback. Historical rehearsal startup scripts refuse any running MariaDB process, so do not use them to bypass a concurrently running XAMPP instance; have the operator inspect/start the exact fallback configuration without changing either server's files. Rollback after new edits also needs a separately reviewed data reconciliation; the fallback does not automatically receive later XAMPP writes.
 
-## Reference guidance checked
-
-- [Prisma 7 MySQL/MariaDB and official adapter](https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases/mysql)
-- [Prisma 7 shadow database configuration](https://www.prisma.io/docs/orm/v7/prisma-migrate/understanding-prisma-migrate/shadow-database)
-- [MariaDB GRANT documentation](https://github.com/mariadb-corporation/mariadb-docs/blob/main/server/reference/sql-statements/account-management-sql-statements/grant.md)
-
-The existing pinned Prisma versions and lockfile were preserved. XAMPP is a development environment; production hosting, TLS, backups and account hardening are later deployment work.
+The recovery's level-6 historical freshness uncertainty and the first rehearsal's unexplained Aria failure remain documented in [the incident report](PHASE_06_DATABASE_INCIDENT.md). This move preserves the recovered state; it cannot prove transactions predating recovery were complete. Real ADMIN/SUPER_ADMIN access still requires separately authorized private provisioning under [the authentication guide](AUTHENTICATION.md); automated acceptance uses only temporary accounts in the isolated test schema.

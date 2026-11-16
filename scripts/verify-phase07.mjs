@@ -1,3 +1,4 @@
+import { localDatabaseTarget, assertLocalDatabaseIdentity } from './local-database-targets.mjs';
 // Read-only development preservation and compiled-serving verification. No account/data writes.
 import assert from 'node:assert/strict';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
@@ -18,17 +19,17 @@ const tables=['profile','experience','education','skill','project','achievement'
 const report={developmentRows:0,recoveredFieldsMatch:false,testApplicationRows:0,relationshipsAndChecksVerified:false,compiledChecks:0,browserChecks:false};
 for(const kind of ['DATABASE_URL','TEST_DATABASE_URL']){
   const url=new URL(config[kind]);
-  assert.equal(url.hostname,'127.0.0.1');assert.equal(url.port,'13312');
-  const development=kind==='DATABASE_URL';const database=development?'seraphine_portfolio_dev':'seraphine_portfolio_test';
-  assert.equal(url.pathname,'/'+database);assert.equal(decodeURIComponent(url.username),development?'seraphine_dev':'seraphine_test');
+  const development=kind==='DATABASE_URL';
+  const target=localDatabaseTarget(url.href,development?'development':'test');
+  const database=target.database;
   const connection=await mariadb.createConnection({host:url.hostname,port:Number(url.port),user:decodeURIComponent(url.username),password:decodeURIComponent(url.password),database,dateStrings:true,autoJsonMap:false,connectTimeout:5000});
   try{
-    const [identity]=await connection.query('SELECT @@port port,@@innodb_force_recovery mode,@@datadir directory,VERSION() version');
-    assert.equal(Number(identity.port),13312);assert.equal(Number(identity.mode),0);assert.match(identity.version,/^10\.4\.32-MariaDB/);assert.ok(identity.directory.replaceAll('\\','/').endsWith('/2026-11-05-rehearsal-02/data/'));
+    const [identity]=await connection.query('SELECT @@port port,@@innodb_force_recovery mode,@@datadir directory,VERSION() version,DATABASE() schemaName,CURRENT_USER() account');
+    assertLocalDatabaseIdentity(identity,target);
     for(const table of tables){
       const rows=await connection.query('SELECT * FROM `'+table+'` ORDER BY id');
       if(development){
-        const saved=JSON.parse((await readFile('C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-04-level-6-extraction/'+database+'/'+table+'.rows.json','utf8')).replace(/^\uFEFF/,''));
+        const saved=JSON.parse((await readFile('C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-04-level-6-extraction/seraphine_portfolio_dev/'+table+'.rows.json','utf8')).replace(/^\uFEFF/,''));
         // Compare only hashes in assertions, so failures cannot print private record contents.
         assert.equal(sha(canonical(rows)),sha(canonical(saved)),'Recovered-field preservation: '+table);report.developmentRows+=rows.length;
       }else{assert.equal(rows.length,0,'Test fixture cleanup: '+table);}

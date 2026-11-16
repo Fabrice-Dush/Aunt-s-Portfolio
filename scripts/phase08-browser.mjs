@@ -1,6 +1,7 @@
 // Run sequentially: node --import tsx scripts/phase08-browser.mjs
 // Owns only the initially empty, exact isolated test DB while its lock exists.
 import assert from 'node:assert/strict';
+import { localDatabaseTarget } from './local-database-targets.mjs';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
@@ -12,13 +13,7 @@ import { fixture, isolatedEnvironment, reportDirectory, root } from './phase08-f
 
 if (process.argv.includes('--api')) {
   assert.equal(process.env.NODE_ENV, 'test', 'The browser API helper requires explicit isolated test mode');
-  let target;
-  try { target = new URL(process.env.DATABASE_URL ?? 'mysql://invalid'); }
-  catch { throw new Error('Invalid isolated browser API database configuration'); }
-  assert.ok(['127.0.0.1', 'localhost'].includes(target.hostname));
-  assert.equal(target.port, '13312');
-  assert.equal(target.pathname, '/seraphine_portfolio_test');
-  assert.equal(decodeURIComponent(target.username), 'seraphine_test');
+  localDatabaseTarget(process.env.DATABASE_URL, 'test');
   assert.equal(process.env.PORT, '4408');
   const { app } = await import('../backend/src/app.ts');
   const { disconnectDatabase } = await import('../backend/src/config/database.ts');
@@ -30,7 +25,7 @@ if (process.argv.includes('--api')) {
   process.env.FRONTEND_ORIGIN = 'http://127.0.0.1:5178';
   const base = process.env.FRONTEND_ORIGIN;
   const apiBase = 'http://127.0.0.1:4408';
-  const report = { startedAt: new Date().toISOString(), environment: { platform: process.platform, node: process.version, database: 'isolated local seraphine_portfolio_test:13312', headless: true }, responsive: { cssWidths: [320,375,390,768,1024,1440,1920], landscape: { width: 844, height: 390 }, reflow: '640 CSS px and 320 CSS px model a 1280 px viewport at 200% and 400%; these are viewport reflow checks, not actual browser zoom or OS magnification.' }, tests: [], engines: [], accessibility: [], screenshots: [], limitations: ['Playwright WebKit on Windows is not actual Safari/macOS/iOS.', 'No real owner accounts or real client content are used.', 'Automated keyboard and screenshots do not replace owner/device acceptance.', 'axe incomplete contrast checks on gradients/images need separate review; zero violations is not a complete WCAG conformance claim.'] };
+  const report = { startedAt: new Date().toISOString(), environment: { platform: process.platform, node: process.version, database: 'isolated local ' + localDatabaseTarget(process.env.DATABASE_URL, 'test').database + ':' + localDatabaseTarget(process.env.DATABASE_URL, 'test').port, headless: true }, responsive: { cssWidths: [320,375,390,768,1024,1440,1920], landscape: { width: 844, height: 390 }, reflow: '640 CSS px and 320 CSS px model a 1280 px viewport at 200% and 400%; these are viewport reflow checks, not actual browser zoom or OS magnification.' }, tests: [], engines: [], accessibility: [], screenshots: [], limitations: ['Playwright WebKit on Windows is not actual Safari/macOS/iOS.', 'No real owner accounts or real client content are used.', 'Automated keyboard and screenshots do not replace owner/device acceptance.', 'axe incomplete contrast checks on gradients/images need separate review; zero violations is not a complete WCAG conformance claim.'] };
   const f = await fixture().catch(() => { throw new Error('Isolated browser fixture preparation failed. Verify the documented empty test database; raw database errors are not logged.'); });
   const focus = process.env.PHASE08_BROWSER_FOCUS?.toLowerCase();
   report.selection = focus ?? 'all';

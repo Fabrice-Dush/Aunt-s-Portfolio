@@ -1,3 +1,18 @@
+<!-- xampp3306-current -->
+# XAMPP development database checkpoint - 2026-11-16
+
+The representative explicitly authorized moving normal local development to XAMPP **127.0.0.1:3306**. The real environment now uses new `seraphine_portfolio_{dev,test,shadow}_x3306_20261116` schemas and new narrowly scoped service accounts. Read [current setup](docs/XAMPP_SETUP.md) and [migration verification](docs/XAMPP_3306_MIGRATION.md). Start MySQL through XAMPP Control Panel normally; `npm run dev` starts the application.
+
+All 16 recovered records and full two-row migration history were imported and verified before switching only the four DB URL lines. JWT/all other environment bytes, schema/migrations, old damaged schemas, unrelated project databases and prior backups remain preserved. A fresh private logical export/environment backup is in the owner-restricted `2026-11-16-xampp3306-01` directory under the existing external recovery root. No credentials/data backups in Git.
+
+The recovered normal-mode port-13312 instance is a **stopped, preserved fallback**, not required for normal development. Its exact profile remains supported by the test guards. Do not drop old databases, copy engine files, reset/seed development, repeat recovery, or run the historical pre-Phase-6 rollback. Use this migration's private pre-change environment for an intentional rollback; later XAMPP edits are not mirrored to the fallback.
+
+DB/auth/CMS suites, Prisma/schema/shadow/constraint checks, normal XAMPP restart, builds/artifacts, compiled serving and real frontend content retrieval passed. Preserve exact target/instance guards, exclusive test lock, initially-empty refusal and captured-ID cleanup. Phase 9 implementation remains complete with owner/launch approval pending; Phase 10 not started. No real dashboard accounts, new publication permissions, deployment, public push or automatic ZIP.
+The migration browser run passed 17/19 groups, including complete Chromium ADMIN/SUPER_ADMIN workflows plus Firefox/WebKit. Installed Chrome/Edge UI timeouts persisted in focused reruns; all runs cleaned their fixtures. Record this compatibility limitation separately; do not claim a complete new cross-browser pass. Final database/record/backup/environment/inventory checks passed.
+<!-- /xampp3306-current -->
+
+---
+
 <!-- phase09-current -->
 # Phase 9 verified handoff — 2026-11-07
 

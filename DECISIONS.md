@@ -1,3 +1,11 @@
+# Local database topology decision - 2026-11-16
+
+The explicit user request supersedes earlier instructions to keep normal development exclusively on port 13312. Use XAMPP port 3306 with uniquely named `seraphine_portfolio_{dev,test,shadow}_x3306_20261116` schemas, logical export/import only and new exact-schema service accounts. Verify before changing only four environment URLs; retain JWT, source records and all existing databases/backups. Port 13312 remains a stopped fallback with an exact allowlisted test profile.
+
+Keep the historical recovery/phase evidence intact. Daily startup uses XAMPP Control Panel and the existing Node/React commands. Preserve source/test isolation and existing auth/publication/privacy conventions. Real dashboard accounts and deployment remain separately gated. See docs/XAMPP_3306_MIGRATION.md for evidence and the documented transient privilege-table warning; no repair was attempted.
+
+---
+
 <!-- phase09-current -->
 # Phase 9 decisions — 2026-11-07
 

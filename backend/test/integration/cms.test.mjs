@@ -1,3 +1,4 @@
+import { localDatabaseTarget, assertLocalDatabaseIdentity } from '../../../scripts/local-database-targets.mjs';
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { once } from "node:events";
@@ -9,7 +10,6 @@ import sharp from "sharp";
 import { app } from "../../src/app.ts";
 import {
   getDatabase,
-  databaseOptions,
   disconnectDatabase,
 } from "../../src/config/database.ts";
 import { hashPassword } from "../../src/services/password.service.ts";
@@ -19,13 +19,12 @@ import {
 } from "../../src/services/public-site.service.ts";
 import { mediaFile, mediaRoot } from "../../src/services/media.service.ts";
 
-const target = databaseOptions(process.env.DATABASE_URL);
-assert.equal(target.database, "seraphine_portfolio_test");
-assert.equal(target.user, "seraphine_test");
-assert.ok(["localhost", "127.0.0.1"].includes(target.host));
-assert.equal(process.env.NODE_ENV, "test");
+const approvedTarget = localDatabaseTarget(process.env.DATABASE_URL, 'test');
+assert.equal(process.env.NODE_ENV, 'test');
 const db = getDatabase();
 test("Phase 7 real CMS, media, messages, publication and public build acceptance", async (t) => {
+  const [instance] = await db.$queryRaw`SELECT @@port port, @@innodb_force_recovery mode, @@datadir directory, VERSION() version, DATABASE() schemaName, CURRENT_USER() account`;
+  assertLocalDatabaseIdentity(instance, approvedTarget);
   const models = [
     "profile",
     "experience",

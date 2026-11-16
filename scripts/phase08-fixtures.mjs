@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { localDatabaseTarget, assertLocalDatabaseIdentity } from './local-database-targets.mjs';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { mkdir, open, unlink } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -7,15 +8,7 @@ import { config } from 'dotenv';
 
 export const root = fileURLToPath(new URL('../', import.meta.url));
 export const reportDirectory = resolve(root, '.cache/phase08-browser');
-function testUrl(value) {
-  try {
-    const target = new URL(value ?? 'mysql://invalid');
-    if (target.protocol !== 'mysql:' || !['localhost', '127.0.0.1'].includes(target.hostname)
-      || target.port !== '13312' || target.pathname !== '/seraphine_portfolio_test'
-      || decodeURIComponent(target.username) !== 'seraphine_test' || !target.password || target.search || target.hash) throw new Error();
-    return target.href;
-  } catch { throw new Error('Refusing fixtures: require the exact isolated local test database and scoped account.'); }
-}
+function testUrl(value) { return localDatabaseTarget(value, 'test').url.href; }
 export function assertFixtureEnvironment(environment = process.env) {
   if (environment.NODE_ENV !== 'test' || environment.PORTFOLIO_BUILD_TEST !== '1'
     || environment.SHADOW_DATABASE_URL || testUrl(environment.DATABASE_URL) !== testUrl(environment.MIGRATION_DATABASE_URL)
@@ -24,11 +17,7 @@ export function assertFixtureEnvironment(environment = process.env) {
   }
 }
 export function assertFixtureIdentity(identity) {
-  if (!identity || Number(identity.port) !== 13312 || Number(identity.mode) !== 0 || !/^10\.4\.32-MariaDB/.test(identity.version)
-    || identity.schemaName !== 'seraphine_portfolio_test' || identity.account?.split('@')[0] !== 'seraphine_test'
-    || identity.directory?.replaceAll('\\', '/').toLowerCase().replace(/\/?$/, '/') !== 'c:/users/hp/documents/seraphine-database-recovery/2026-11-05-rehearsal-02/data/') {
-    throw new Error('Refusing fixtures: the isolated database instance identity failed.');
-  }
+  assertLocalDatabaseIdentity(identity, localDatabaseTarget(process.env.DATABASE_URL, 'test'));
 }
 export function isolatedEnvironment() {
   config({ path: resolve(root, 'backend/.env'), quiet: true });

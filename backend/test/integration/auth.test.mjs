@@ -1,21 +1,22 @@
+import { localDatabaseTarget, assertLocalDatabaseIdentity } from '../../../scripts/local-database-targets.mjs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
 import { randomBytes } from 'node:crypto';
-import { getDatabase, disconnectDatabase, databaseOptions } from '../../src/config/database.ts';
+import { getDatabase, disconnectDatabase } from '../../src/config/database.ts';
 import { accountsService } from '../../src/services/accounts.service.ts';
 import { authService } from '../../src/services/auth.service.ts';
 import { issueTokens } from '../../src/services/token.service.ts';
 import { hashPassword } from '../../src/services/password.service.ts';
 import { app } from '../../src/app.ts';
 
-const options = databaseOptions(process.env.DATABASE_URL);
-assert.equal(options.database, 'seraphine_portfolio_test'); assert.equal(options.user, 'seraphine_test');
-assert.ok(['127.0.0.1','localhost'].includes(options.host));
+const approvedTarget = localDatabaseTarget(process.env.DATABASE_URL, 'test');
 const db = getDatabase(), accounts = accountsService(db), auth = authService(db);
 const secret = () => randomBytes(24).toString('base64url');
 
 test('real authentication, authorization and session acceptance on isolated MariaDB', async t => {
+  const [instance] = await db.$queryRaw`SELECT @@port port, @@innodb_force_recovery mode, @@datadir directory, VERSION() version, DATABASE() schemaName, CURRENT_USER() account`;
+  assertLocalDatabaseIdentity(instance, approvedTarget);
   const userIds = new Set(), auditIds = new Set(), sessionIds = new Set(), projectIds = new Set(), messageIds = new Set();
   const own = user => { userIds.add(user.id); return user; };
   for (const model of ['user','authSession','auditLog','profile','experience','education','skill','project','achievement','certificate','mediaAsset','contactMessage','siteSettings']) {

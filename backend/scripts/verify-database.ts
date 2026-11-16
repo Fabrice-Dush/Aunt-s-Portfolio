@@ -1,15 +1,20 @@
-import { createDatabase, databaseOptions } from '../src/config/database.js';
+import { localDatabaseTarget, assertLocalDatabaseIdentity } from '../../scripts/local-database-targets.mjs';
+import { createDatabase } from '../src/config/database.js';
 
 const runtime = createDatabase(process.env.DATABASE_URL);
 const migration = createDatabase(process.env.MIGRATION_DATABASE_URL);
 try {
-  const options = databaseOptions(process.env.DATABASE_URL);
-  if (options.database !== 'seraphine_portfolio_dev' || options.user !== 'seraphine_dev') throw new Error();
+  const target = localDatabaseTarget(process.env.DATABASE_URL, 'development');
+  const migrationTarget = localDatabaseTarget(process.env.MIGRATION_DATABASE_URL, 'migration');
+  const shadowTarget = localDatabaseTarget(process.env.SHADOW_DATABASE_URL, 'shadow');
+  if (target.profile !== migrationTarget.profile || target.profile !== shadowTarget.profile) throw new Error();
+  const [instance] = await runtime.$queryRaw`SELECT @@port port, @@innodb_force_recovery mode, @@datadir directory, VERSION() version, DATABASE() schemaName, CURRENT_USER() account`;
+  assertLocalDatabaseIdentity(instance, target);
   const [identity] = await runtime.$queryRaw<{ version: string; db: string; port: number }[]>`SELECT VERSION() AS version, DATABASE() AS db, @@port AS port`;
   const privileges = await runtime.$queryRaw<{ PRIVILEGE_TYPE: string }[]>`SELECT PRIVILEGE_TYPE FROM information_schema.SCHEMA_PRIVILEGES`;
   if (privileges.map(row => row.PRIVILEGE_TYPE).sort().join(',') !== 'DELETE,INSERT,SELECT,UPDATE') throw new Error();
   // Never print SHOW GRANTS: MariaDB can include a password hash in its result.
-  for (const [client, allowed] of [[runtime, ['seraphine_portfolio_dev']], [migration, ['seraphine_portfolio_dev', 'seraphine_portfolio_shadow']]] as const) {
+  for (const [client, allowed] of [[runtime, [target.database]], [migration, [target.database, shadowTarget.database]]] as const) {
     const grants = await client.$queryRawUnsafe<Record<string, string>[]>('SHOW GRANTS');
     for (const record of grants) {
       const grant = Object.values(record)[0];

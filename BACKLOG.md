@@ -1,3 +1,14 @@
+# Local database move - 2026-11-16
+
+- [x] Explicitly authorized logical move to new healthy XAMPP port-3306 development/test/shadow schemas; old damaged schemas preserved.
+- [x] Fresh restricted export/environment backup, all 16 records/full migration history verified, only four local DB URLs changed, JWT preserved.
+- [x] DB/auth/CMS, Prisma/preservation/shadow, source/types/build/artifact/compiled checks and normal restart; actual React content retrieval with fallback stopped.
+- [x] Update exact test account/schema/port/instance allowlist and current setup/rollback documentation; preserve the port-13312 fallback and all earlier backups.
+- [ ] Investigate/retry installed Chrome 157 / Edge 157 UI timeouts from this migration run; complete Chromium workflows, Firefox/WebKit passed and test cleanup is verified. See migration report; no complete new cross-browser pass.
+- [ ] Separate authorization/private provisioning for real ADMIN/SUPER_ADMIN sign-in; owner/launch/device/production gates remain unchanged. No real accounts or deployment from this task.
+
+---
+
 <!-- phase09-current -->
 # Phase 9 completed implementation — 2026-11-07
 

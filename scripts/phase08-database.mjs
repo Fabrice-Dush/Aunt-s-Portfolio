@@ -1,3 +1,4 @@
+import { localDatabaseTarget, assertLocalDatabaseIdentity } from './local-database-targets.mjs';
 // Fixed-workstation consistency check. Read-only except Prisma replay in the guarded disposable shadow.
 // Do not run while browser/integration fixtures own the isolated test database.
 import { readFile, writeFile, mkdir, lstat, realpath, open, unlink } from 'node:fs/promises';
@@ -12,7 +13,6 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const backend = resolve(root, 'backend');
 const environmentPath = resolve(backend, '.env');
 const backup = 'C:/Users/HP/Documents/Seraphine-Database-Recovery/2026-11-05-pre-cutover-01';
-const expectedDataDirectory = 'c:/users/hp/documents/seraphine-database-recovery/2026-11-05-rehearsal-02/data/';
 const expectedManifestHash = '65b830893f0bb242745937993a8b6aff8fde3a6c782b1ea16ec6fa01f1289ef1';
 const applicationTables = ['achievement', 'auditlog', 'authsession', 'certificate', 'contactmessage', 'education', 'experience', 'mediaasset', 'profile', 'project', 'sitesettings', 'skill', 'user'];
 const migrationNames = ['20261103183624_phase05_foundation', '20261104090000_phase06_sessions'];
@@ -28,7 +28,6 @@ const domainChecks = [
   ['mediaasset', 'MediaAsset_positive_bytes', 'bytes > 0'],
 ];
 const sha = value => createHash('sha256').update(value).digest('hex');
-const normalizePath = value => value.replaceAll('\\', '/').toLowerCase().replace(/\/?$/, '/');
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 class SafeFailure extends Error {}
 function guard(condition, code) { if (!condition) throw new SafeFailure(code); }
@@ -37,22 +36,14 @@ let testLock;
 const testLockPath = resolve(root, '.cache/phase08-testdb.lock');
 const report = { passed: false, checks: [], schemas: [], backup: null, applicationDataUnchanged: false, environmentAndSchemaUnchanged: false, shadowReplay: false };
 
-function configuredUrl(config, key, user, database) {
-  const url = new URL(config[key]);
-  guard(url.protocol === 'mysql:' && ['127.0.0.1', 'localhost'].includes(url.hostname) && url.port === '13312'
-    && decodeURIComponent(url.username) === user && Boolean(url.password) && url.pathname === '/' + database
-    && !url.search && !url.hash, 'CONFIGURATION_GUARD_FAILED');
-  return url;
-}
+function configuredUrl(config, key, kind) { return localDatabaseTarget(config[key], kind).url; }
 async function connectionFor(url) {
   const connection = await mariadb.createConnection({ host: url.hostname, port: Number(url.port), user: decodeURIComponent(url.username),
     password: decodeURIComponent(url.password), database: url.pathname.slice(1), dateStrings: true, autoJsonMap: false,
     connectTimeout: 5000, socketTimeout: 10000 });
   try {
     const [identity] = await connection.query('SELECT @@port port, @@innodb_force_recovery mode, @@datadir directory, VERSION() version, DATABASE() schemaName, CURRENT_USER() account');
-    guard(Number(identity.port) === 13312 && Number(identity.mode) === 0 && /^10\.4\.32-MariaDB/.test(identity.version)
-      && normalizePath(identity.directory) === expectedDataDirectory && identity.schemaName === url.pathname.slice(1)
-      && identity.account.split('@')[0] === decodeURIComponent(url.username), 'INSTANCE_GUARD_FAILED');
+    assertLocalDatabaseIdentity(identity, localDatabaseTarget(url.href));
     return connection;
   } catch (error) { await connection.end(); throw error; }
 }
@@ -141,10 +132,11 @@ try {
   catch { throw new SafeFailure('TEST_DATABASE_IN_USE_OR_LOCK_UNAVAILABLE'); }
   const originalEnvironment = await readFile(environmentPath);
   const config = parse(originalEnvironment);
-  const runtime = configuredUrl(config, 'DATABASE_URL', 'seraphine_dev', 'seraphine_portfolio_dev');
-  const migration = configuredUrl(config, 'MIGRATION_DATABASE_URL', 'seraphine_migrate', 'seraphine_portfolio_dev');
-  const test = configuredUrl(config, 'TEST_DATABASE_URL', 'seraphine_test', 'seraphine_portfolio_test');
-  const shadow = configuredUrl(config, 'SHADOW_DATABASE_URL', 'seraphine_migrate', 'seraphine_portfolio_shadow');
+  const runtime = configuredUrl(config, 'DATABASE_URL', 'development');
+  const migration = configuredUrl(config, 'MIGRATION_DATABASE_URL', 'migration');
+  const test = configuredUrl(config, 'TEST_DATABASE_URL', 'test');
+  const shadow = configuredUrl(config, 'SHADOW_DATABASE_URL', 'shadow');
+  guard(new Set([runtime, migration, test, shadow].map(url => localDatabaseTarget(url.href).profile)).size === 1, 'MIXED_DATABASE_PROFILES');
   const migrationHashes = Object.fromEntries(await Promise.all(migrationNames.map(async name => [name, sha(await readFile(resolve(backend, 'prisma/migrations', name, 'migration.sql')))])));
   const schemaHash = sha(await readFile(resolve(backend, 'prisma/schema.prisma')));
   await verifyBackup();

@@ -1,3 +1,11 @@
+# Local database connection update - 2026-11-16
+
+Application architecture, schema, migration SQL and public/auth contracts are unchanged. Normal development now uses XAMPP MariaDB on 3306 with three new healthy schemas; the recovered 13312 instance is preserved/stopped. Only four ignored environment URLs changed; runtime still uses DML and migration/test use separate narrowly scoped identities.
+
+`scripts/local-database-targets.mjs` centrally pins both approved workstation tuples (port/schema/account/version/data path). Integration, browser fixtures, test snapshot export and verification share these guards. The test runner checks actual instance identity and initial emptiness before migration DDL; suites retain their exclusive lock and captured-ID cleanup. No pattern-based schema acceptance, environment-controlled bypass or application runtime auth change. Current operation/evidence: docs/XAMPP_SETUP.md and docs/XAMPP_3306_MIGRATION.md.
+
+---
+
 <!-- phase09-current -->
 # Phase 9 presentation changes — 2026-11-07
 

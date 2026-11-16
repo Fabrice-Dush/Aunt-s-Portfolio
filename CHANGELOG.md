@@ -1,3 +1,15 @@
+# 2026-11-16 - Authorized XAMPP port-3306 development migration
+
+- Exported the healthy recovered source with its complete schema/data/migration history into a new external owner-restricted backup; retained the exact pre-change environment.
+- Proved new InnoDB persistence/relationships on XAMPP; created unique new dev/test/shadow schemas and scoped service accounts, imported all 16 records and migrated disposable schemas.
+- Verified all fields/DDL/history/relationships/checksums and Prisma drift/replay before changing only four DB URLs; retained JWT and every unrelated setting.
+- Updated exact local-target guards across integration/browser/build/verification tooling, with a regression for mismatched or unsafe targets. Retained exclusive locks, empty-schema refusal and recorded-ID cleanup.
+- Passed real DB/auth/CMS, source/types/build/artifacts/compiled and actual development frontend checks; normal XAMPP restart retained accounts/content with port 13312 stopped. Privilege-table warning/limits and final acceptance are recorded in docs/XAMPP_3306_MIGRATION.md.
+- Browser run: 17/19 groups passed; installed Chrome/Edge timed out again in focused follow-ups. Full Chromium role/CMS workflows and Firefox/WebKit passed; all fixtures were cleaned. Preserved failures and matching build fingerprints; final database/backup/environment/inventory checks passed.
+- Updated setup/example/handoff/current memory. Old damaged schemas, unrelated projects, source fallback and historical backups remain preserved. No real dashboard accounts, push, deployment, automatic ZIP or new phase started.
+
+---
+
 <!-- phase09-current -->
 # 2026-11-07 — Phase 9 final implementation
 

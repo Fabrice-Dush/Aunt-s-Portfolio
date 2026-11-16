@@ -1,21 +1,21 @@
+import { localDatabaseTarget, assertLocalDatabaseIdentity } from '../../../scripts/local-database-targets.mjs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
-import { getDatabase, disconnectDatabase, databaseOptions } from '../../src/config/database.ts';
+import { getDatabase, disconnectDatabase } from '../../src/config/database.ts';
 import { contentServices } from '../../src/services/content.service.ts';
 import { privateServices } from '../../src/services/private.service.ts';
 import { seedDevelopment } from '../../src/services/seed.service.ts';
 import { app } from '../../src/app.ts';
 
-const options = databaseOptions(process.env.DATABASE_URL);
-assert.equal(options.database, 'seraphine_portfolio_test');
-assert.equal(options.user, 'seraphine_test');
-assert.ok(['127.0.0.1', 'localhost'].includes(options.host));
+const approvedTarget = localDatabaseTarget(process.env.DATABASE_URL, 'test');
 const db = getDatabase();
 const content = contentServices(db);
 const privateContent = privateServices(db);
 
 test('real MariaDB integration and public HTTP acceptance', async t => {
+  const [instance] = await db.$queryRaw`SELECT @@port port, @@innodb_force_recovery mode, @@datadir directory, VERSION() version, DATABASE() schemaName, CURRENT_USER() account`;
+  assertLocalDatabaseIdentity(instance, approvedTarget);
   const created = new Map();
   const remember = (model, row) => { const ids = created.get(model) ?? []; ids.push(row.id); created.set(model, ids); return row; };
   t.after(async () => {
@@ -40,7 +40,7 @@ test('real MariaDB integration and public HTTP acceptance', async t => {
 
   await t.test('server identity, migration history and runtime account grants', async () => {
     const [identity] = await db.$queryRaw`SELECT VERSION() AS version, DATABASE() AS db, @@port AS port`;
-    assert.match(identity.version, /MariaDB/); assert.equal(identity.db, 'seraphine_portfolio_test');
+    assert.match(identity.version, /MariaDB/); assert.equal(identity.db, approvedTarget.database);
     const migrations = await db.$queryRaw`SELECT migration_name, finished_at, rolled_back_at FROM _prisma_migrations`;
     assert.ok(migrations.length); assert.ok(migrations.every(m => m.finished_at && !m.rolled_back_at));
     assert.equal((await get('/health')).status, 200);
