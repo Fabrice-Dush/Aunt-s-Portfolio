@@ -1,3 +1,9 @@
+# 2026-11-16 - Authorized disposable dashboard manual testing
+
+- Added loopback-only isolated test launcher, private random role credentials, exact instance/empty-table/shared-lock guards and captured-ID cleanup. Reused audited bootstrap, authenticated ADMIN provisioning and required password replacement; no app auth/design/schema/environment changes.
+- Added focused Chromium/Chrome/Edge verification for both roles, route/isolation/authorization/cookie/logout checks and credential HTTP privacy. Actual user-profile control unavailable; broad historical compatibility limits remain separate.
+- Rehearsed safe cleanup; preserved all 17 current development rows (16 recovered plus one existing contact message), complete migration ledger and environment. Added private retrieval/login/removal guide and continuity notes; no real accounts, deployment, push, ZIP or phase advancement.
+
 # 2026-11-16 - Authorized XAMPP port-3306 development migration
 
 - Exported the healthy recovered source with its complete schema/data/migration history into a new external owner-restricted backup; retained the exact pre-change environment.

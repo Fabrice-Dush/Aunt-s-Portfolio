@@ -1,3 +1,11 @@
+# Authorized temporary dashboard testing - 2026-11-16
+
+- [x] Isolated test-only manual frontend/API, guarded audited provisioning and private generated credentials; preserve all current development data and actual environment.
+- [x] Focused both-role Chromium/Chrome/Edge sign-in, role dashboard, test-data isolation, authorization, cookie and logout checks; safe lifecycle cleanup rehearsed.
+- [ ] Representative completes manual acceptance; remove disposable accounts/content with the documented cleanup command afterward. Shared test lock stays held meanwhile.
+
+See [manual guide](docs/MANUAL_DASHBOARD_TESTING.md). No real client accounts or Phase 10 authorization.
+
 # Local database move - 2026-11-16
 
 - [x] Explicitly authorized logical move to new healthy XAMPP port-3306 development/test/shadow schemas; old damaged schemas preserved.

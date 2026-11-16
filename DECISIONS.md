@@ -1,3 +1,7 @@
+# Disposable manual dashboard access - 2026-11-16
+
+The representative authorized temporary synthetic ADMIN/SUPER_ADMIN access only in the exact XAMPP test schema. Use separate loopback frontend/API, process-only test URLs/key, owner-only ignored credentials, existing audited bootstrap/authenticated ADMIN provisioning/forced replacement, shared exclusive test lock and captured-ID cleanup. Preserve the actual environment and all current development rows. This grants no real client-account or deployment permission; see [manual testing](docs/MANUAL_DASHBOARD_TESTING.md).
+
 # Local database topology decision - 2026-11-16
 
 The explicit user request supersedes earlier instructions to keep normal development exclusively on port 13312. Use XAMPP port 3306 with uniquely named `seraphine_portfolio_{dev,test,shadow}_x3306_20261116` schemas, logical export/import only and new exact-schema service accounts. Verify before changing only four environment URLs; retain JWT, source records and all existing databases/backups. Port 13312 remains a stopped fallback with an exact allowlisted test profile.

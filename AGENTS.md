@@ -1,3 +1,11 @@
+<!-- manual-dashboard-testing-current -->
+# Authorized disposable dashboard testing - 2026-11-16
+
+The representative explicitly authorized one temporary ADMIN and one temporary SUPER_ADMIN only in `seraphine_portfolio_test_x3306_20261116`. See [manual testing](docs/MANUAL_DASHBOARD_TESTING.md). The isolated frontend/API use 127.0.0.1:5186/4416, process-only test configuration and an independent signing key. Existing audited bootstrap, authenticated ADMIN creation and forced password replacement remain intact. Private generated credentials/state are owner-restricted under ignored `.cache/manual-dashboard-private`; never print/package/commit them.
+
+The manual session holds `.cache/phase08-testdb.lock`. Do not overlap DB/browser/consistency suites or delete the lock. Use `node --import tsx scripts/manual-dashboard-test.mjs cleanup` for captured-ID removal and lock release. Preserve all current development rows: 17 at setup (16 recovered plus one pre-existing contact message), full migration ledger and environment bytes. Focused two-role Chromium/Chrome/Edge checks are separate from the historical migration's incomplete broad compatibility run. No real client accounts, redesign, production changes, deployment, public push, ZIP or phase advancement.
+<!-- /manual-dashboard-testing-current -->
+
 <!-- xampp3306-current -->
 # XAMPP development database checkpoint - 2026-11-16
 

@@ -1,3 +1,9 @@
+<!-- manual-dashboard-testing-current -->
+# Disposable dashboard manual-test handoff - 2026-11-16
+
+The representative authorized temporary ADMIN/SUPER_ADMIN identities in only the port-3306 test schema. Use [manual guide](docs/MANUAL_DASHBOARD_TESTING.md), `http://127.0.0.1:5186/login`, and local owner-only `.cache/manual-dashboard-private/credentials.json`. This session owns the shared test lock; do not run other DB/browser/consistency fixtures until `node --import tsx scripts/manual-dashboard-test.mjs cleanup` completes. Cleanup safely closes owned servers, removes captured test rows/uploads/private files and releases the lock; no resets or live-lock deletion. Audited bootstrap + authenticated ADMIN create + required password replacement retained. Focused Chromium/Chrome/Edge both-role checks passed separately from historical migration limitations. All 17 current development rows (16 recovered plus an existing contact message), full ledger and environment unchanged. No real client accounts, redesign, deployment or phase advancement.
+<!-- /manual-dashboard-testing-current -->
+
 <!-- xampp3306-current -->
 # XAMPP development database checkpoint - 2026-11-16
 

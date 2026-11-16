@@ -2,6 +2,8 @@
 
 # Authentication and administrator setup — Phase 6
 
+> **Current workstation and authorized temporary testing — 2026-11-16:** Normal development uses XAMPP port 3306; historical port-13312 startup instructions below are superseded by [XAMPP setup](XAMPP_SETUP.md). The representative separately authorized two disposable dashboard identities only in the isolated test schema. See [manual dashboard testing](MANUAL_DASHBOARD_TESTING.md) for separate URLs, private credential retrieval and captured-ID removal. No real client accounts or development users were created.
+
 > **Verified development setup - 2026-11-05:** Phase 6 COMPLETED after authorized dedicated normal-mode cutover at 127.0.0.1:13312. All 18 auth/session/authorization/dashboard HTTP scenarios and final restarts passed. No recovered sessions or real accounts were activated; synthetic test fixtures were cleaned. Only four database URLs changed; JWT and all unrelated settings were preserved. Follow XAMPP_SETUP.md for this machine, not the historical Control Panel setup. Real administrator creation still requires the authorized operator and separate permission; the agent did not provision any. Browser checks remain deferred.
 
 Updated 2026-11-05 (Europe/Paris). Local development only; nothing deployed. No real accounts have been provisioned. See PHASE_06_VERIFICATION.md for final evidence and deferred manual checks.

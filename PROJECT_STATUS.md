@@ -1,3 +1,9 @@
+<!-- manual-dashboard-testing-current -->
+# Temporary dashboard manual testing - 2026-11-16
+
+Authorized disposable ADMIN/SUPER_ADMIN fixture prepared on isolated XAMPP test schema, frontend `http://127.0.0.1:5186/login`, API 4416. See [login and cleanup guide](docs/MANUAL_DASHBOARD_TESTING.md). Credentials are private/ignored/owner-restricted. Shared test lock remains held until cleanup; do not overlap fixture suites. Existing audited provisioning, ADMIN forced replacement and normal authentication retained. Focused both-role Chromium/Chrome/Edge login/routing/isolation/authorization/logout checks passed; not a complete new compatibility pass or actual user-profile verification. Development's current 17 rows (16 recovered plus one existing message), full ledger and environment preserved. No real client accounts or phase advancement.
+<!-- /manual-dashboard-testing-current -->
+
 <!-- xampp3306-current -->
 # XAMPP development database checkpoint - 2026-11-16
 
