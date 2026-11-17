@@ -1,3 +1,5 @@
+> **Current normal development access - 2026-11-17:** Two authorized synthetic temporary accounts are ready at http://localhost:5173/login. Use the distinct owner-only ignored .cache/development-dashboard-private/credentials.json and [current login/removal guide](DEVELOPMENT_DASHBOARD_TESTING.md). Both role redirects/logout passed focused Chromium checks; original 17 records, migration ledger and environment preserved. The old isolated session has been cleaned and its lock released. Historical isolated-only/no-development-account statements below describe the earlier checkpoint.
+
 # Local XAMPP database setup (Windows)
 
 Current workstation setup, 2026-11-16 (Europe/Paris). The authorized logical migration to XAMPP **127.0.0.1:3306** uses new healthy schemas. The damaged historical schemas were not reused, dropped or repaired. See [migration verification](XAMPP_3306_MIGRATION.md). Phase 9 owner/launch approval remains pending; Phase 10 has not started.

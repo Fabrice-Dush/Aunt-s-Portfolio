@@ -1,3 +1,11 @@
+# Normal development dashboards ready - 2026-11-17
+
+Use http://localhost:5173/login and the local owner/SYSTEM-only ignored .cache/development-dashboard-private/credentials.json. ADMIN dev-test-studio@example.invalid opens /admin; SUPER_ADMIN dev-test-operations@example.invalid opens /super-admin. Password replacement is complete. Never share/print passwords or reuse the old isolated credentials. Sign out before switching roles. Normal launcher (scripts/dev.mjs, same entry as npm run dev) is running; ignored PID/logs are .cache/development-dashboard-server.*. Avoid duplicate servers.
+
+Focused Chromium both-role login/routing/role guards/cookies/CSRF/logout/content/privacy report passed at .cache/development-dashboard-verification.json. Final status confirms all 17 content/message records, full ledger and environment unchanged. Old isolated captured-ID cleanup completed, test schema empty and shared lock released. Cleanup initially refused two added development audits; reviewed change permits additions only for an originally empty audit baseline, preserving strict other fingerprints and both existing events.
+
+After manual testing: node --import tsx scripts/development-dashboard-accounts.mjs cleanup. It removes only captured users/sessions and private state, retains audits/content/messages/migrations, and verifies content immediately before/after. Removal was not run against final accounts. See [guide](docs/DEVELOPMENT_DASHBOARD_TESTING.md). No auth/design/schema/env change, real identities, deployment or phase advancement. Historical isolated instructions below are superseded for this request.
+
 <!-- manual-dashboard-testing-current -->
 # Disposable dashboard manual-test handoff - 2026-11-16
 

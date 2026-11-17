@@ -1,3 +1,11 @@
+# 2026-11-17 - Normal development dashboard access verified
+
+- Created authorized synthetic ADMIN/SUPER_ADMIN in normal XAMPP development through existing audited bootstrap, reauthenticated ADMIN endpoint and mandatory password replacement. Stored independent random passwords/state only in Git-ignored owner/SYSTEM-only files.
+- Added captured-ID local removal retaining audit history/content/messages/migrations, focused normal-site Chromium verifier and Vite filesystem exclusions retaining defaults. No authentication, roles, JWT, session, schema, environment or public design change.
+- Old isolated cleanup initially refused two newly appended development audit events. Reviewed preservation guard permits audit additions only when the old audit baseline was empty; strict content/message/user/session/migration comparisons remain. Captured isolated cleanup then completed with test tables empty and lock released; both development audits preserved.
+- Verified both roles at localhost:5173: correct destinations, dashboard identity, real development content, cross-role navigation, authorization, HttpOnly/Strict cookies, CSRF, logout and credential HTTP exclusion. Corrected verifier-only assumptions about uppercase footer labels and Vite's HTML fallback for deleted files; final report passes. Frontend typecheck, helper syntax and diff checks pass.
+- Final all-field checks confirm all 17 original content/message rows, full migration ledger and exact environment unchanged. Servers/accounts left ready; final account removal not executed. No real client identities, deployment, phase advancement, push or ZIP.
+
 # 2026-11-16 - Authorized disposable dashboard manual testing
 
 - Added loopback-only isolated test launcher, private random role credentials, exact instance/empty-table/shared-lock guards and captured-ID cleanup. Reused audited bootstrap, authenticated ADMIN provisioning and required password replacement; no app auth/design/schema/environment changes.

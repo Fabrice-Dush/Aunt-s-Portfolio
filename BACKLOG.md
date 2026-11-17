@@ -1,3 +1,13 @@
+# Normal development dashboard access - 2026-11-17
+
+- [x] Inspect auth/configuration; prepare guarded provisioning/removal and private-file HTTP exclusions.
+- [x] Execute approved old isolated cleanup; restrict new credential directory/files to owner/SYSTEM.
+- [x] Prepare two temporary development users through existing secure mechanisms; verify localhost:5173 login, role destinations and logout in Chromium.
+- [x] Verify all original 17 content/message rows, complete migration ledger, environment bytes and private credentials preserved/protected.
+- [ ] Representative completes manual testing, then removes only captured temporary development accounts/sessions with documented cleanup. Audits and content remain. Cleanup helper has not been executed against the final accounts.
+
+See [current guide](docs/DEVELOPMENT_DASHBOARD_TESTING.md). Phase 9 owner/launch approval remains pending; Phase 10 not started.
+
 # Authorized temporary dashboard testing - 2026-11-16
 
 - [x] Isolated test-only manual frontend/API, guarded audited provisioning and private generated credentials; preserve all current development data and actual environment.

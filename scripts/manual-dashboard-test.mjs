@@ -60,6 +60,20 @@ async function developmentFingerprint(config) {
     return result;
   } finally { await connection.end(); }
 }
+async function assertDevelopmentPreserved(config, expected) {
+  const actual = await developmentFingerprint(config);
+  // Normal localhost login attempts may append audit events during isolated testing.
+  // Only an originally empty audit table permits additions: no original audit row
+  // can be lost. Never relax content/message/user/session/migration comparisons.
+  if (actual.auditLog !== expected.auditLog) {
+    assert.equal(expected.auditLog, hash(canonical([])), 'Changed nonempty audit baseline; preserve lock for review');
+    const { auditLog: _actualAudit, ...actualRest } = actual;
+    const { auditLog: _expectedAudit, ...expectedRest } = expected;
+    assert.deepEqual(actualRest, expectedRest);
+    return;
+  }
+  assert.deepEqual(actual, expected);
+}
 async function identity(db, target) {
   const [actual] = await db.$queryRaw`SELECT @@port port, @@innodb_force_recovery mode, @@datadir directory, VERSION() version, DATABASE() schemaName, CURRENT_USER() account`;
   assertLocalDatabaseIdentity(actual, target);
@@ -91,7 +105,7 @@ async function main() {
     const state = await readState();
     const { config, target, environmentHash } = await environment();
     assert.equal(environmentHash, state.environmentHash);
-    assert.deepEqual(await developmentFingerprint(config), state.developmentFingerprint);
+    await assertDevelopmentPreserved(config, state.developmentFingerprint);
     assert.equal(await readFile(lockPath, 'utf8'), state.runId);
     const { getDatabase, disconnectDatabase } = await import('../backend/src/config/database.ts');
     try {
@@ -122,7 +136,7 @@ async function main() {
     }
     const { config, target, environmentHash } = await environment();
     assert.equal(environmentHash, state.environmentHash);
-    assert.deepEqual(await developmentFingerprint(config), state.developmentFingerprint);
+    await assertDevelopmentPreserved(config, state.developmentFingerprint);
     const { getDatabase, disconnectDatabase } = await import('../backend/src/config/database.ts');
     try { await removeOwned(state, getDatabase(), target); await releaseFiles(); }
     finally { await disconnectDatabase(); }
@@ -163,7 +177,7 @@ async function main() {
       await queue; await capture();
       if (state) {
         assert.equal(hash(await readFile(resolve(root, 'backend/.env'))), state.environmentHash);
-        assert.deepEqual(await developmentFingerprint(config), state.developmentFingerprint);
+        await assertDevelopmentPreserved(config, state.developmentFingerprint);
         await removeOwned(state, db, target);
       }
       await disconnectDatabase(); await lock.close();

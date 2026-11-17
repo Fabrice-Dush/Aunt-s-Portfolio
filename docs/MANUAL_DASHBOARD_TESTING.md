@@ -1,3 +1,5 @@
+> **Current normal development access - 2026-11-17:** Two authorized synthetic temporary accounts are ready at http://localhost:5173/login. Use the distinct owner-only ignored .cache/development-dashboard-private/credentials.json and [current login/removal guide](DEVELOPMENT_DASHBOARD_TESTING.md). Both role redirects/logout passed focused Chromium checks; original 17 records, migration ledger and environment preserved. The old isolated session has been cleaned and its lock released. Historical isolated-only/no-development-account statements below describe the earlier checkpoint.
+
 # Temporary isolated dashboard testing — 2026-11-16
 
 The representative authorized one disposable ADMIN and one disposable SUPER_ADMIN in the existing XAMPP test schema. These are synthetic test identities, not client accounts. Phase 9 owner/launch approval remains pending; Phase 10 has not started.

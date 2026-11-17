@@ -1,3 +1,9 @@
+# Normal development dashboards ready - 2026-11-17
+
+Two authorized synthetic temporary development accounts are ready at http://localhost:5173/login: ADMIN dev-test-studio@example.invalid -> /admin (Portfolio Studio); SUPER_ADMIN dev-test-operations@example.invalid -> /super-admin (System Operations). Private ignored owner/SYSTEM-only credentials: .cache/development-dashboard-private/credentials.json. See [login/removal guide](docs/DEVELOPMENT_DASHBOARD_TESTING.md).
+
+Existing audited bootstrap, authenticated reauthenticated ADMIN creation and mandatory password replacement used unchanged. Focused Chromium login/redirect/real-content/role guards/cookies/CSRF/logout and credential HTTP exclusion passed; all 17 original records, full ledger and exact environment file preserved. Frontend typecheck, helper syntax and diff checks pass. Old isolated fixtures/private files cleaned, test schema empty, shared lock released; appended normal-development audits preserved. Normal dev servers left running. No full new compatibility claim, real identities, deployment, design change, phase advancement, push or ZIP. Final accounts remain until captured-ID cleanup; removal helper reviewed but not executed against these accounts.
+
 <!-- manual-dashboard-testing-current -->
 # Temporary dashboard manual testing - 2026-11-16
 

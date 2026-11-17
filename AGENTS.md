@@ -1,3 +1,13 @@
+<!-- development-dashboard-testing-current -->
+# Normal development dashboard access ready - 2026-11-17
+
+The representative authorized one synthetic temporary ADMIN and one synthetic temporary SUPER_ADMIN in normal development at http://localhost:5173/login, using XAMPP 3306 and existing secure provisioning. See docs/DEVELOPMENT_DASHBOARD_TESTING.md. This supersedes the older isolated-only testing scope. Both accounts are ready; credentials/state are ignored and owner/SYSTEM-only in .cache/development-dashboard-private. Never print/package/commit them. Existing audited bootstrap, authenticated ADMIN creation, mandatory password replacement and auth/roles/JWT/session rules remain unchanged.
+
+Focused Chromium login, correct /admin and /super-admin destinations, cross-role guards, real content, cookies, CSRF, logout and credential HTTP privacy passed. All 17 original content/message rows, full migration ledger and exact environment bytes remain unchanged. Old isolated test accounts/private files were removed with captured-ID cleanup; test tables empty and shared lock released. Its cleanup permits appended development audits only when the original audit baseline was empty; all other fingerprints remain strict. The two pre-existing development audit events were retained.
+
+Normal dev launcher is running; do not start a duplicate on 5173/4000. Future startup remains XAMPP MySQL then npm run dev. To remove only the development temporary accounts/sessions, run node --import tsx scripts/development-dashboard-accounts.mjs cleanup; retain audits/content/messages/migrations and never reset. Development cleanup is provided but has not been executed against these final accounts. No real identities, deployment, public design change, push, ZIP or phase advancement. Phase 9 owner/launch approval pending; Phase 10 not started.
+<!-- /development-dashboard-testing-current -->
+
 <!-- manual-dashboard-testing-current -->
 # Authorized disposable dashboard testing - 2026-11-16
 

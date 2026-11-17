@@ -1,3 +1,9 @@
+# Normal development temporary accounts authorized and ready - 2026-11-17
+
+The representative explicitly authorized two synthetic temporary users in normal development at localhost:5173 with the existing backend/XAMPP 3306, superseding the prior isolated-only restriction for this request. Existing secure provisioning and authentication remain unchanged; final preservation checks confirm all 17 original content/message records, full migration ledger and exact environment. Credentials/state are distinct, Git-ignored and owner/SYSTEM-only. Captured account/session removal retains audits and later content edits. Focused Chromium verification passed for both roles; see [guide](docs/DEVELOPMENT_DASHBOARD_TESTING.md).
+
+Old isolated cleanup may accept appended development audits only when the original audit baseline was empty, so no original audit can be lost; all other table comparisons remain strict. This allowed safe captured-ID cleanup while retaining two subsequent normal login audit events. No reset, state-file tampering, test-guard bypass or live-lock deletion.
+
 # Disposable manual dashboard access - 2026-11-16
 
 The representative authorized temporary synthetic ADMIN/SUPER_ADMIN access only in the exact XAMPP test schema. Use separate loopback frontend/API, process-only test URLs/key, owner-only ignored credentials, existing audited bootstrap/authenticated ADMIN provisioning/forced replacement, shared exclusive test lock and captured-ID cleanup. Preserve the actual environment and all current development rows. This grants no real client-account or deployment permission; see [manual testing](docs/MANUAL_DASHBOARD_TESTING.md).

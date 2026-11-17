@@ -1,3 +1,5 @@
+> **Current normal development access - 2026-11-17:** Two authorized synthetic temporary accounts are ready at http://localhost:5173/login. Use the distinct owner-only ignored .cache/development-dashboard-private/credentials.json and [current login/removal guide](DEVELOPMENT_DASHBOARD_TESTING.md). Both role redirects/logout passed focused Chromium checks; original 17 records, migration ledger and environment preserved. The old isolated session has been cleaned and its lock released. Historical isolated-only/no-development-account statements below describe the earlier checkpoint.
+
 > **Phase 7 continuation — 2026-11-05:** Existing authentication, session, role and reauthentication policies remain intact. Guarded CMS/media/message/settings/synchronization routes now reuse them; see CMS_API_REFERENCE.md. No real administrators were provisioned. The exact hidden-input setup below remains the authorized local procedure. Dedicated port 13312/.env/JWT are preserved; do not repeat key generation/cutover unnecessarily.
 
 # Authentication and administrator setup — Phase 6
