@@ -31,16 +31,14 @@ export const previewCms: RequestHandler = async (req, res) => {
 };
 export const createCms: RequestHandler = async (req, res) => {
   emptyQuerySchema.parse(req.query);
-  res
-    .status(201)
-    .json({
-      data: await cmsService().create(
-        sectionSchema.parse(req.params.section),
-        req.body,
-        res.locals.auth.user.id,
-        z.uuid().parse(req.headers["idempotency-key"]),
-      ),
-    });
+  res.status(201).json({
+    data: await cmsService().create(
+      sectionSchema.parse(req.params.section),
+      req.body,
+      res.locals.auth.user.id,
+      z.uuid().parse(req.headers["idempotency-key"]),
+    ),
+  });
 };
 export const updateCms: RequestHandler = async (req, res) => {
   emptyQuerySchema.parse(req.query);
