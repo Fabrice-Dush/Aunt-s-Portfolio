@@ -66,9 +66,9 @@ test('login exposes labelled email/password inputs, recovery guidance and no def
 test('owner and technical dashboard navigation preserve distinct identities and role boundaries', () => {
   const owner = renderToStaticMarkup(createElement(Dashboard, { user, path: '/admin', onSignedOut() {} }));
   const technical = renderToStaticMarkup(createElement(Dashboard, { user: { ...user, role: 'SUPER_ADMIN' }, path: '/super-admin', onSignedOut() {} }));
-  assert.match(owner, /workspace studio/); assert.match(owner, /Your story/); assert.match(owner, /href="\/admin\/experience"/);
+  assert.match(owner, /workspace studio/); assert.match(owner, /Manage your portfolio/); assert.match(owner, /href="\/admin\/experience"/);
   assert.doesNotMatch(owner, /href="\/super-admin|Administrator access|Security &amp; audit/);
-  assert.match(technical, /workspace operations/); assert.match(technical, /Control with/); assert.match(technical, /href="\/super-admin\/users"/);
+  assert.match(technical, /workspace operations/); assert.match(technical, /System Operations/); assert.match(technical, /href="\/super-admin\/users"/);
   assert.match(owner, /role="status">Loading your information/); // No private data before fetch.
 });
 test('temporary-password accounts have only account navigation', () => {

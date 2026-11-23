@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Brand } from './Brand';
 import type { NavigationLink } from './types';
+import { AppearanceControl } from '../ui/AppearanceControl';
 
 export function Header({ links }: { links: readonly NavigationLink[] }) {
   const menu = useRef<HTMLDetailsElement>(null);
@@ -67,6 +68,7 @@ export function Header({ links }: { links: readonly NavigationLink[] }) {
       <div className="header-inner">
         <Brand />
         <nav className="desktop-nav" aria-label="Main navigation">{navigation(false)}</nav>
+        <AppearanceControl />
         <details className="mobile-menu" ref={menu}>
           <summary className="menu-toggle" aria-controls="mobile-nav">
             <span>Menu</span><span className="menu-lines" aria-hidden="true"><i /><i /></span>

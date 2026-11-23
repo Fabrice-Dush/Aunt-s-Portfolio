@@ -71,13 +71,13 @@ export function ContactForm() {
     >
       <div className="two-column">
         <div>
-          <p className="eyebrow">A PRIVATE MESSAGE</p>
           <h2 id="message-title">Start a conversation.</h2>
           <p id="message-privacy" className="contact-privacy">
             Your name, email and message are stored privately for Seraphine and
             authorized technical support until removed. Do not include sensitive
             documents or passwords.
           </p>
+          <ul className="contact-assurances"><li>Private message</li><li>No public display</li><li>For Seraphine</li></ul>
         </div>
         <form
           className="public-contact-form"

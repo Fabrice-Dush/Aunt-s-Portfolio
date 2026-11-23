@@ -56,9 +56,9 @@ test('built assets resolve locally, portrait preload matches, and bundles stay s
 
 test('public distribution contains only expected web files, no private source or build entry', () => {
   assert.deepEqual(readdirSync(dist).sort(), ['.publication.json', 'admin', 'assets', 'favicon.svg', 'images', 'index.html', 'login', 'robots.txt', 'super-admin']);
-  assert.deepEqual(readdirSync(join(dist, 'images')).sort(), ['seraphine-portrait-small.webp', 'seraphine-portrait.webp']);
+  assert.deepEqual(readdirSync(join(dist, 'images')).sort(), ['seraphine-portrait-small.webp', 'seraphine-portrait.webp', 'water-ribbon.svg', 'water-sculpture.webp', 'water-security.svg']);
   for (const file of readdirSync(join(dist, 'assets'))) {
-    assert.match(file, /^(index|Workspace)-[\w-]+\.(js|css)$/);
+    assert.match(file, /^(index|Workspace|appearance)-[\w-]+\.(js|css)$/);
     assert.ok(statSync(join(dist, 'assets', file)).size > 0);
     assert.doesNotMatch(readFileSync(join(dist, 'assets', file), 'utf8'), /handoff-private|DATABASE_URL|test@example.invalid|Test fixture/);
   }

@@ -1,3 +1,10 @@
+<!-- visual-refresh-current -->
+# Approved visual transformation - 2026-11-23
+
+The representative authorized the six-reference visual transformation in `docs/visual approval final/` across the existing public portfolio, Portfolio Studio and System Operations, including independent light/dark appearances. Visual implementation is complete locally; see [visual transformation](docs/VISUAL_TRANSFORMATION.md) for final test provenance and remaining acceptance limits. This supersedes older presentation direction only. Phase 10 is not started; owner content/likeness/contact/indexing/launch approval remains pending. Preserve XAMPP 3306, original records/environment/migrations, existing temporary accounts, auth/RBAC/CMS/privacy, backups and test locks. No deployment, public push, ZIP or account cleanup.
+The attached 2026-11-23 request explicitly approves replacement of the presentation using the six images in `docs/visual approval final/`, superseding older visual direction for this refresh. Keep the existing concept portrait, genuine CMS content/visibility, supported states and backend behavior. Use independent appearance preferences and lightweight SVG plus one optimized decorative sculpture; no new runtime dependency or deployment.
+<!-- /visual-refresh-current -->
+
 # Normal development temporary accounts authorized and ready - 2026-11-17
 
 The representative explicitly authorized two synthetic temporary users in normal development at localhost:5173 with the existing backend/XAMPP 3306, superseding the prior isolated-only restriction for this request. Existing secure provisioning and authentication remain unchanged; final preservation checks confirm all 17 original content/message records, full migration ledger and exact environment. Credentials/state are distinct, Git-ignored and owner/SYSTEM-only. Captured account/session removal retains audits and later content edits. Focused Chromium verification passed for both roles; see [guide](docs/DEVELOPMENT_DASHBOARD_TESTING.md).

@@ -26,9 +26,9 @@ export function HomePage({
   const ref = useSectionReveal();
   return (
     <main id="main-content" tabIndex={-1} ref={ref}>
-      <Hero profile={profile} hasExperience={!!content.experience.length} />
-      <Overview profile={profile} />
+      <Hero profile={profile} hasExpertise={!!content.skills.length} />
       <About profile={profile} />
+      <Overview profile={profile} />
       {!!content.skills.length && <Expertise skills={content.skills} />}
       {!!content.experience.length && (
         <Experience

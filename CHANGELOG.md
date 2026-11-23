@@ -1,3 +1,10 @@
+<!-- visual-refresh-current -->
+# Approved visual transformation - 2026-11-23
+
+The representative authorized the six-reference visual transformation in `docs/visual approval final/` across the existing public portfolio, Portfolio Studio and System Operations, including independent light/dark appearances. Visual implementation is complete locally; see [visual transformation](docs/VISUAL_TRANSFORMATION.md) for final test provenance and remaining acceptance limits. This supersedes older presentation direction only. Phase 10 is not started; owner content/likeness/contact/indexing/launch approval remains pending. Preserve XAMPP 3306, original records/environment/migrations, existing temporary accounts, auth/RBAC/CMS/privacy, backups and test locks. No deployment, public push, ZIP or account cleanup.
+Added independent light/dark appearance, reference-led public/Studio/Operations presentation, interactive expertise sculpture, spacious responsive layouts, a real publication-state inventory, protected account/audit overview, shared editor/media/message styling and regression/screenshot evidence. Existing portrait, backend, migrations, environment and dependency lockfile are preserved.
+<!-- /visual-refresh-current -->
+
 # 2026-11-17 - Normal development dashboard access verified
 
 - Created authorized synthetic ADMIN/SUPER_ADMIN in normal XAMPP development through existing audited bootstrap, reauthenticated ADMIN endpoint and mandatory password replacement. Stored independent random passwords/state only in Git-ignored owner/SYSTEM-only files.

@@ -1,5 +1,7 @@
 # Temporary dashboards on normal development — 2026-11-17
 
+> **2026-11-23 continuation:** Both existing temporary accounts remain ready and were verified with the six-theme visual refresh. All original 17 content/message rows, environment bytes and migrations remain unchanged; one appended contact message is retained (18 current rows). The original strict `status` command therefore refuses its old whole-table message fingerprint. Do not weaken the guard, overwrite its private baseline or delete the added message. See [current read-only preservation comparison and visual evidence](VISUAL_TRANSFORMATION.md). No development account cleanup was run.
+
 The representative explicitly authorized two synthetic temporary accounts in the normal XAMPP development database, `seraphine_portfolio_dev_x3306_20261116` on `127.0.0.1:3306`. This supersedes the earlier requirement to test only at port 5186 for this request. No real client identity, deployment, phase advancement or public design change is authorized.
 
 ## Daily login

@@ -1,6 +1,7 @@
 import type { PublicProfile } from '../types';
+import { WaterArt } from '../../../shared/components/ui/WaterArt';
 
-export function Hero({ profile, hasExperience }: { profile: PublicProfile; hasExperience: boolean }) {
+export function Hero({ profile, hasExpertise }: { profile: PublicProfile; hasExpertise: boolean }) {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-container">
@@ -8,12 +9,12 @@ export function Hero({ profile, hasExperience }: { profile: PublicProfile; hasEx
           <p className="eyebrow hero-eyebrow"><span className="eyebrow-rule" /> {[profile.city, profile.country].filter(Boolean).join(', ') || 'PROFESSIONAL PORTFOLIO'}</p>
           <h1 id="hero-title"><span>Nyirarukundo</span><strong>Seraphine<span className="hero-period" aria-hidden="true">.</span></strong></h1>
           <p className="hero-role">{profile.professionalTitle}</p>
+          {profile.motto && <div className="hero-signoff"><span className="fine-line"/> <span>“{profile.motto}”</span></div>}
           <p className="hero-summary">{profile.summary}</p>
           <div className="hero-actions">
-            <a className="button-primary" href={hasExperience ? '#experience' : '#contact'}>{hasExperience ? 'Explore experience' : 'Get in touch'} <span aria-hidden="true">↗</span></a>
-            <a className="button-text" href="#about">Discover my story <span aria-hidden="true">↓</span></a>
+            <a className="button-primary" href={hasExpertise ? '#expertise' : '#contact'}>{hasExpertise ? 'Explore my expertise' : 'Get in touch'}</a>
+            <a className="button-text" href="#about">About me</a>
           </div>
-          {profile.motto && <div className="hero-signoff"><span className="fine-line"/> <span>“{profile.motto}”</span><span className="signoff-label">A PERSONAL BELIEF</span></div>}
         </div>
         <div className="hero-media">
           <div className="hero-aura" aria-hidden="true" />
@@ -32,6 +33,8 @@ export function Hero({ profile, hasExperience }: { profile: PublicProfile; hasEx
           <span className="hero-vertical-text" aria-hidden="true">SCIENCE × PEOPLE × PURPOSE</span>
         </div>
       </div>
+      <WaterArt className="hero-water" eager />
+      <a className="scroll-cue" href="#about"><span aria-hidden="true">⌄</span>Scroll to explore</a>
     </section>
   );
 }

@@ -5,9 +5,9 @@ export function About({ profile }: { profile: PublicProfile }) {
     <section id="about" tabIndex={-1} className="section section-about">
       <div className="two-column">
         <SectionHeading
-          eyebrow="01 / THE PERSON"
-          title="Engineering solutions with"
-          accent="purpose."
+          eyebrow="01 / ABOUT"
+          title="Engineering solutions for"
+          accent="clean and safe water."
         />
         <div className="about-description">
           <p className="about-lead">{profile.summary}</p>

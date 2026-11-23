@@ -1,3 +1,5 @@
+> **2026-11-23 local visual refresh:** Six approved references now guide the public portfolio, Studio and Operations, with independent light/dark appearance. See [implementation and verification](docs/VISUAL_TRANSFORMATION.md). Owner/launch approval remains pending; Phase 10 is not started.
+
 <!-- xampp3306-current -->
 # XAMPP development database checkpoint - 2026-11-16
 

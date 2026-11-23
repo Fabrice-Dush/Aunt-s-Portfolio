@@ -12,7 +12,7 @@ import { launch } from 'chrome-launcher';
 import desktop from 'lighthouse/core/config/desktop-config.js';
 
 const label = process.argv[2];
-assert.ok(['baseline', 'final', 'phase09'].includes(label), 'Use baseline, final or phase09');
+assert.ok(['baseline', 'final', 'phase09', 'visual-refresh', 'visual-refresh-optimized', 'visual-refresh-final', 'visual-refresh-delivery'].includes(label), 'Use baseline, final, phase09, visual-refresh, visual-refresh-optimized, visual-refresh-final or visual-refresh-delivery');
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = resolve(root, '.cache/phase08-performance', label);
 await mkdir(output, { recursive: true });

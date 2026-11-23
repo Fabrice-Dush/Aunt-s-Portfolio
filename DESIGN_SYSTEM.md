@@ -1,3 +1,10 @@
+<!-- visual-refresh-current -->
+# Approved visual transformation - 2026-11-23
+
+The representative authorized the six-reference visual transformation in `docs/visual approval final/` across the existing public portfolio, Portfolio Studio and System Operations, including independent light/dark appearances. Visual implementation is complete locally; see [visual transformation](docs/VISUAL_TRANSFORMATION.md) for final test provenance and remaining acceptance limits. This supersedes older presentation direction only. Phase 10 is not started; owner content/likeness/contact/indexing/launch approval remains pending. Preserve XAMPP 3306, original records/environment/migrations, existing temporary accounts, auth/RBAC/CMS/privacy, backups and test locks. No deployment, public push, ZIP or account cleanup.
+Current tokens live in `frontend/src/shared/styles/global.css`, with shared workspace aliases and role-specific sidebars in `dashboard.css`. Public/Studio default to light; Operations defaults to dark. Local serif/system sans typography, roughly 80?152px public section spacing, glass-water artwork, responsive specialization selection, visible focus and reduced motion follow the six approved references. See the linked report for exact asset provenance and remaining visual differences.
+<!-- /visual-refresh-current -->
+
 <!-- phase09-current -->
 # Phase 9 final refinement — 2026-11-07
 

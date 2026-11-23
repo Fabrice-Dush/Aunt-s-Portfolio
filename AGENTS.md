@@ -1,3 +1,12 @@
+<!-- visual-refresh-current -->
+# Approved visual transformation - 2026-11-23
+
+The representative authorized the six-reference visual transformation in `docs/visual approval final/` across the existing public portfolio, Portfolio Studio and System Operations, including independent light/dark appearances. Visual implementation is complete locally; see [visual transformation](docs/VISUAL_TRANSFORMATION.md) for final test provenance and remaining acceptance limits. This supersedes older presentation direction only. Phase 10 is not started; owner content/likeness/contact/indexing/launch approval remains pending. Preserve XAMPP 3306, original records/environment/migrations, existing temporary accounts, auth/RBAC/CMS/privacy, backups and test locks. No deployment, public push, ZIP or account cleanup.
+Future continuation must read `docs/VISUAL_TRANSFORMATION.md` first for this presentation checkpoint and its exact test provenance. Retain the original development-account status guard; the historical Phase 8 privacy script assumes the pre-XAMPP environment, so use the documented XAMPP-aware comparison rather than rewriting the environment to satisfy the old baseline.
+Current preservation: all original 17 content/message rows, complete migrations, environment and temporary account identities remain unchanged; one additional contact message is retained (18 current rows). The original strict development status guard still refuses its old whole-table message fingerprint; do not weaken it or remove the appended row. Use the documented read-only comparison. Final isolated six-theme review passed 126 captures/30 axe scans with zero violations and captured-ID cleanup. Native Chrome/Edge timeouts and actual-device/owner acceptance remain separate limitations.
+Performance acceptance remains open: delivery native Chrome 157 medians are mobile score 74 / LCP 2.150 s / TBT 1210 ms / CLS 0 and desktop score 100 / LCP 0.551 s / TBT 5 ms / CLS 0. All six valid delivery traces are retained; do not substitute the earlier optimized score 98. Investigate mobile blocking time under controlled conditions and on actual devices before claiming restored performance.
+<!-- /visual-refresh-current -->
+
 <!-- development-dashboard-testing-current -->
 # Normal development dashboard access ready - 2026-11-17
 

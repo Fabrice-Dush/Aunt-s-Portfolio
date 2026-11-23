@@ -5,7 +5,7 @@ export function Experience({ positions }: { positions: readonly CareerPosition[]
   return (
     <section id="experience" tabIndex={-1} className="section section-experience">
       <div className="two-column">
-        <div><SectionHeading eyebrow="03 / PROFESSIONAL JOURNEY" title="Experience shaped by" accent="responsibility." />{positions.some(item => item.provisional) && <p className="editorial-note">The job periods shown are provisional and will be confirmed with Seraphine before launch.</p>}</div>
+        <div><SectionHeading eyebrow="03 / PROFESSIONAL JOURNEY" title="A career at the intersection of" accent="science and service." />{positions.some(item => item.provisional) && <p className="editorial-note">The job periods shown are provisional and will be confirmed with Seraphine before launch.</p>}</div>
         <div className="timeline">
           {positions.map((item, index) => (
             <article className="timeline-item" key={item.title + '-' + index}>

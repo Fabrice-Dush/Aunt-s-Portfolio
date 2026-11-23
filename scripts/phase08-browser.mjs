@@ -43,9 +43,10 @@ if (process.argv.includes('--api')) {
   async function test(name, operation) {
     if (focus && !name.toLowerCase().includes(focus)) { report.notRun.push(name); return; }
     const started = performance.now();
+    console.log('RUN ' + name);
     try { await operation(); report.tests.push({ name, status: 'PASSED', milliseconds: Math.round(performance.now() - started) }); console.log('PASS ' + name); }
     catch (error) {
-      const diagnostics = activePage && !activePage.isClosed() ? await activePage.evaluate(() => ({ url: location.pathname, alerts: [...document.querySelectorAll('[role="alert"]')].map(item => item.textContent), focus: { tag: document.activeElement?.tagName, text: document.activeElement?.textContent?.slice(0, 150) } })).catch(() => null) : null;
+      const diagnostics = activePage && !activePage.isClosed() ? await activePage.evaluate(() => ({ url: location.pathname, alerts: [...document.querySelectorAll('[role="alert"]')].map(item => item.textContent), focus: { tag: document.activeElement?.tagName, text: document.activeElement?.textContent?.slice(0, 150) }, controls: [...document.querySelectorAll('form input')].map(input => ({ name: input.name, type: input.type, label: input.labels?.[0]?.textContent?.trim(), visible: !!input.getClientRects().length })) })).catch(() => null) : null;
       report.tests.push({ name, status: 'FAILED', error: safe(error), diagnostics, milliseconds: Math.round(performance.now() - started) }); console.log('FAIL ' + name + ': ' + safe(error)); if (diagnostics) console.log(JSON.stringify(diagnostics)); errors.push(error);
     }
     finally { await f.capture(); }
@@ -485,6 +486,7 @@ if (process.argv.includes('--api')) {
     for (const [name, type, options] of [['Firefox', firefox, {}], ['WebKit', webkit, {}], ['Chrome', chromium, { channel: 'chrome' }], ['Edge', chromium, { channel: 'msedge' }]]) {
       if (focus && !name.toLowerCase().includes(focus)) { report.notRun.push(name + ' compatibility (not selected)'); continue; }
       await restartApi();
+      console.log('Launching ' + name);
       try { browser = await type.launch({ headless: true, ...options }); report.engines.push({ name, version: browser.version(), launch: 'PASSED' }); }
       catch (error) { report.engines.push({ name, launch: 'BLOCKED', error: safe(error) }); continue; }
       await test(name + ' real browser public hydration, mobile menu, ADMIN and SUPER_ADMIN login', async () => {

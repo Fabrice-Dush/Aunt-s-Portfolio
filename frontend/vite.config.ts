@@ -3,14 +3,26 @@ import react from '@vitejs/plugin-react';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
+import { readFileSync } from 'node:fs';
+
+const appearance = readFileSync(new URL('./src/shared/theme/appearance.js', import.meta.url), 'utf8');
+const appearanceAsset = 'assets/appearance-' + createHash('sha256').update(appearance).digest('hex').slice(0, 12) + '.js';
+let productionAppearance = false;
 
 export default defineConfig({
   plugins: [react(), {
+    name: 'appearance-before-paint',
+    configResolved(config) { productionAppearance = config.command === 'build'; },
+    buildStart() { if (productionAppearance) this.emitFile({ type: 'asset', fileName: appearanceAsset, source: appearance }); },
+    transformIndexHtml() {
+      return [{ tag: 'script', attrs: { src: productionAppearance ? '/' + appearanceAsset : '/src/shared/theme/appearance.js' }, injectTo: 'head-prepend' }];
+    },
+  }, {
     name: 'private-workspace-preview-shell',
     configurePreviewServer(server) {
       server.middlewares.use(async (request, response, next) => {
         const path = (request.url ?? '').split('?')[0];
-        if (!/^\/(?:$|index\.html$|favicon\.svg$|robots\.txt$|assets\/[\w-]+\.(?:js|css)$|images\/[\w-]+\.webp$|(?:login|admin|super-admin)(?:\/|$)|api\/)/.test(path ?? '')) {
+        if (!/^\/(?:$|index\.html$|favicon\.svg$|robots\.txt$|assets\/[\w-]+\.(?:js|css)$|images\/(?:[\w-]+\.webp|water-(?:ribbon|security)\.svg)$|(?:login|admin|super-admin)(?:\/|$)|api\/)/.test(path ?? '')) {
           response.statusCode = 404; response.end(); return;
         }
         if (path === '/.publication.json') { response.statusCode = 404; response.end(); return; }

@@ -40,17 +40,18 @@ const contrast = (first, second) => {
   const values = [luminance(first), luminance(second)].sort((a, b) => b - a);
   return (values[0] + 0.05) / (values[1] + 0.05);
 };
-test('form boundary tokens provide at least 3:1 contrast against adjacent surfaces', async () => {
-  const dashboard = await readFile(new URL('../src/features/dashboard/dashboard.css', import.meta.url), 'utf8');
-  const publicStyles = await readFile(new URL('../src/shared/styles/global.css', import.meta.url), 'utf8');
-  const controlColors = [...dashboard.matchAll(/--d-control:\s*#([\da-f]{6})/gi)].map(match => match[1]);
-  assert.equal(controlColors.length, 2);
-  for (const [color, surfaces] of [[controlColors[0], ['ffffff', 'f4f8fc', 'e8f2fa']], [controlColors[1], ['092333', '0c2c3e']]]) {
-    for (const surface of surfaces) assert.ok(contrast(color, surface) >= 3, `${color} against ${surface}`);
+test('shared light/dark control and text tokens retain accessible contrast', async () => {
+  const styles = await readFile(new URL('../src/shared/styles/global.css', import.meta.url), 'utf8');
+  const palettes = [styles.match(/:root \{([\s\S]*?)\}/)[1], styles.match(/:root\[data-theme=dark\] \{([\s\S]*?)\}/)[1]];
+  for (const source of palettes) {
+    const tokens = Object.fromEntries([...source.matchAll(/--([a-z-]+):\s*#([\da-f]{6})\b/g)].map(match => [match[1], match[2]]));
+    for (const name of ['page','panel','surface']) {
+      assert.ok(contrast(tokens.control, tokens[name]) >= 3, `Control against ${name}`);
+      assert.ok(contrast(tokens.ink, tokens[name]) >= 4.5, `Text against ${name}`);
+      assert.ok(contrast(tokens.muted, tokens[name]) >= 4.5, `Secondary text against ${name}`);
+      assert.ok(contrast(tokens.blue, tokens[name]) >= 4.5, `Accent text against ${name}`);
+    }
   }
-  const publicControl = publicStyles.match(/\.public-contact-form input, \.public-contact-form textarea \{ border-color: #([\da-f]{6}); \}/i)?.[1];
-  assert.ok(publicControl);
-  for (const surface of ['ffffff', 'f9fbfd']) assert.ok(contrast(publicControl, surface) >= 3);
 });
 
 test('contact text-link hover maintains AA contrast against its section background', async () => {

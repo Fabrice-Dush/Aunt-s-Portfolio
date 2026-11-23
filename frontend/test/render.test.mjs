@@ -54,7 +54,7 @@ test('portrait uses existing local responsive assets with accessible description
   assert.match(html, /alt="Concept standing portrait[^\"]+awaiting her approval"/);
   assert.match(html, /width="1122" height="1402"/);
   assert.match(html, /fetchPriority="high"/);
-  const images = [...new Set([...html.matchAll(/\/images\/[^\s",]+\.webp/g)].map(match => match[0]))];
+  const images = [...new Set([...html.matchAll(/\/images\/seraphine-portrait[^\s",]*\.webp/g)].map(match => match[0]))];
   assert.equal(images.length, 2);
   for (const image of images) {
     assert.ok(existsSync(fileURLToPath(new URL(`../public${image}`, import.meta.url))), image);

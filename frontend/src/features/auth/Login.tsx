@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { api } from './api';
 import type { User } from './api';
+import { AppearanceControl } from '../../shared/components/ui/AppearanceControl';
 
 export default function Login({ onLogin, notice }: { onLogin: (user: User) => void; notice?: string }) {
   const [error, setError] = useState(''); const [busy, setBusy] = useState(false);
@@ -15,6 +16,7 @@ export default function Login({ onLogin, notice }: { onLogin: (user: User) => vo
     finally { setBusy(false); }
   }
   return <main className="auth-page"><a className="auth-brand" href="/" aria-label="Return to the portfolio">NS<span>.</span></a>
+    <div className="auth-appearance"><AppearanceControl /></div>
     <div className="auth-intro"><p className="dash-eyebrow">NYIRARUKUNDO SERAPHINE / PRIVATE WORKSPACE</p><h1>A space for<br />your <em>story.</em></h1><p>Your professional journey, thoughtfully cared for.</p><a href="/">Explore the portfolio ↗</a></div>
     <section className="auth-card" aria-labelledby="login-title"><p className="dash-eyebrow">WELCOME BACK</p><h2 id="login-title">Sign in to your workspace</h2><p>Use your administrator account to continue.</p>
       {notice && <p className="dash-feedback" role="status">{notice}</p>}

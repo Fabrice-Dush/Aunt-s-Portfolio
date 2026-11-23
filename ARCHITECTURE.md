@@ -1,3 +1,10 @@
+<!-- visual-refresh-current -->
+# Approved visual transformation - 2026-11-23
+
+The representative authorized the six-reference visual transformation in `docs/visual approval final/` across the existing public portfolio, Portfolio Studio and System Operations, including independent light/dark appearances. Visual implementation is complete locally; see [visual transformation](docs/VISUAL_TRANSFORMATION.md) for final test provenance and remaining acceptance limits. This supersedes older presentation direction only. Phase 10 is not started; owner content/likeness/contact/indexing/launch approval remains pending. Preserve XAMPP 3306, original records/environment/migrations, existing temporary accounts, auth/RBAC/CMS/privacy, backups and test locks. No deployment, public push, ZIP or account cleanup.
+Appearance adds a same-origin hashed head script and a shared React switch; neutral private shells include that script, and existing CSP remains unchanged. Preferences contain only theme values. The new Operations overview reads the existing protected administrators and audit endpoints; no API, schema, service, authorization or publication contract changed.
+<!-- /visual-refresh-current -->
+
 # Local database connection update - 2026-11-16
 
 Application architecture, schema, migration SQL and public/auth contracts are unchanged. Normal development now uses XAMPP MariaDB on 3306 with three new healthy schemas; the recovered 13312 instance is preserved/stopped. Only four ignored environment URLs changed; runtime still uses DML and migration/test use separate narrowly scoped identities.
