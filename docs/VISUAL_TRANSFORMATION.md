@@ -1,5 +1,7 @@
 # Approved visual transformation — 2026-11-23
 
+For the subsequent authorized public-content/interactivity refinement, read [Public storytelling — 2026-11-24](PUBLIC_STORYTELLING.md). The results below remain the exact historical evidence for this visual delivery; do not substitute them for the newer extension's measurements.
+
 This is an authorized local extension of the completed Phase 9 implementation. Phase 10 deployment has not started. Visual-direction approval does not replace the outstanding owner content, likeness, contact, indexing or launch approvals.
 
 ## Reference mapping

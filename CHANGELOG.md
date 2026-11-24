@@ -1,3 +1,10 @@
+## 2026-11-24 — Public storytelling refinement
+
+- Explained published specializations using CMS-first text and clearly labelled educational fallback; fixed repeated-name detail, name-based icons, selected states and phone explanations.
+- Added The Science Behind Safe Water with source-linked educational themes, a lightweight vector illustration and native disclosures.
+- Enriched About with existing profile facts/motto; refined conditional timeline/project detail, education note readability and contact focus presentation.
+- Preserved empty-section privacy, publication/auth/contact/media behavior, database/environment/accounts and all previous evidence. Added source regression cases and browser review. [Full report](docs/PUBLIC_STORYTELLING.md).
+
 <!-- visual-refresh-current -->
 # Approved visual transformation - 2026-11-23
 

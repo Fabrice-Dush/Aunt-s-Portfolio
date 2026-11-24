@@ -1,3 +1,7 @@
+## Public storytelling extension — 2026-11-24
+
+The attached request authorizes frontend content/interactivity refinement of the existing approved design. After `docs/VISUAL_TRANSFORMATION.md`, read `docs/PUBLIC_STORYTELLING.md` for the latest audit, test provenance and remaining acceptance. Preserve CMS-first expertise descriptions and explicitly educational fallback, native no-JS science/disclosures and conditional empty collections. No fabricated methods/outlook/chronology, schema change, deployment/indexing, push, ZIP, development account cleanup or Phase 10. Original strict preservation guard and appended message remain intact.
+
 <!-- visual-refresh-current -->
 # Approved visual transformation - 2026-11-23
 

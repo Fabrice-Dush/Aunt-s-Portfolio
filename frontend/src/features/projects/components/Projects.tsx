@@ -16,7 +16,7 @@ export function Projects({ projects }: { projects: readonly PortfolioProject[] }
               <dl>{project.role && <div><dt>Role</dt><dd>{project.role}</dd></div>}{project.period && <div><dt>Period</dt><dd>{project.period}</dd></div>}</dl>
               {!!project.images?.length && <div className="project-images">{project.images.map(image => <img key={image.src} {...image} loading="lazy" decoding="async" />)}</div>}
               {!!project.outcomes?.length && <><h4>Outcomes</h4><ul>{project.outcomes.map(outcome => <li key={outcome}>{outcome}</li>)}</ul></>}
-              {project.supportingInformation && <p>{project.supportingInformation}</p>}
+              {project.supportingInformation && <details className="project-detail"><summary>Explore the contribution</summary><p>{project.supportingInformation}</p></details>}
             </article>
           ))}
         </div>

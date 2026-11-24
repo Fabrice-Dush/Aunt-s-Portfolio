@@ -1,3 +1,7 @@
+## Public storytelling acceptance — 2026-11-24
+
+Implemented informative Expertise, educational water-science exploration, richer About layout and conditional native collection disclosures. [Current audit and verification](docs/PUBLIC_STORYTELLING.md). Remaining: owner review of educational wording; approved biographies/methods/outlook; verified published journey/education/project content; actual-device/assistive/zoom and performance acceptance. Latest mobile median 71 / LCP 2.503 s / TBT 1216 ms / CLS 0; trace aggregates identify substantial style/layout work but do not isolate the cause. No new schema or Phase 10 authorization.
+
 <!-- visual-refresh-current -->
 # Approved visual transformation - 2026-11-23
 

@@ -19,5 +19,7 @@ Prepared for Nyirarukundo Seraphine. No new owner approvals were received during
 | CV/résumé | Supply a current approved file and confirm public download permission. | Missing; no fake download button |
 | Professional/social links | Provide exact links and confirm publication permission. | Missing; no invented links |
 | Message retention | Decide the retention period and who handles deletion requests. See launch checklist. | Owner decision pending |
+| Educational storytelling | Review the six general field explanations and The Science Behind Safe Water copy/source links. These are explicitly educational, not personal responsibilities or facility procedures. See PUBLIC_STORYTELLING.md. | Wording / appearance review pending before launch |
+| Specific competencies and outlook | Supply verified methods and an approved personal outlook if desired. Current broad published specializations do not establish additional skills, achievements or a personal quotation. | Content pending; no separate public claims |
 
 For each approval, privately record the item/version, approved wording or asset identifier, approver, date and permitted use. Store sensitive evidence outside Git. The maintainer can then verify the matching draft, separately approve media/contact use, publish and update the public website. Review the resulting page before launch. Approval here must never be inferred from a checked test fixture.

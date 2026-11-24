@@ -1,3 +1,5 @@
+> **2026-11-24 public storytelling:** Expertise now includes CMS-first explanations and labelled educational context; a native interactive water-science section and richer profile/conditional collection presentation continue the approved design. See [audit and verification](docs/PUBLIC_STORYTELLING.md). Owner/launch approval remains pending; Phase 10 is not started.
+
 > **2026-11-23 local visual refresh:** Six approved references now guide the public portfolio, Studio and Operations, with independent light/dark appearance. See [implementation and verification](docs/VISUAL_TRANSFORMATION.md). Owner/launch approval remains pending; Phase 10 is not started.
 
 <!-- xampp3306-current -->

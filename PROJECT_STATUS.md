@@ -1,3 +1,7 @@
+## Public storytelling refinement — 2026-11-24
+
+Authorized local content-presentation extension implemented: informative CMS-first Expertise with labelled educational fallback, mobile inline explanations, native Water science exploration, richer About identity layout and conditional journey/project disclosures. See [audit, evidence and remaining acceptance](docs/PUBLIC_STORYTELLING.md). Source/typechecks/builds/artifacts/isolated DB suites passed; 30 visual captures/eight axe scans have zero violations. Broad browser 16/19 plus independent passing reruns of its three failed cases; do not claim a new uniform 19/19 run. Latest six-trace medians: mobile 71 / LCP 2.503 s / TBT 1216 ms / CLS 0; desktop 100 / LCP 0.541 s / TBT 0 / CLS 0. Mobile acceptance remains open. Empty unpublished collections remain omitted; no invented competencies/outlook, database/schema/environment/account changes or Phase 10 work. Older visual performance results remain historical evidence.
+
 <!-- visual-refresh-current -->
 # Approved visual transformation - 2026-11-23
 

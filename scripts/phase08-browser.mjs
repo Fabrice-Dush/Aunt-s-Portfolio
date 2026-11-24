@@ -111,7 +111,7 @@ if (process.argv.includes('--api')) {
     return { status: response.status(), body: await response.json().catch(() => null), headers: response.headers() };
   }
   async function route(page, path) { await page.goto(base + path); await expect(page.locator('.dash-page-heading h1')).toBeVisible(); }
-  async function screenshot(page, name) { await page.screenshot({ path: resolve(reportDirectory, name + '.png'), fullPage: true }); report.screenshots.push(name + '.png'); }
+  async function screenshot(page, name) { await page.screenshot({ path: resolve(reportDirectory, name + '.png'), fullPage: true, timeout: 15000 }); report.screenshots.push(name + '.png'); }
   async function viewportScreenshots(page, name) { await screenshot(page, name + '-full'); await page.screenshot({ path: resolve(reportDirectory, name + '-top.png'), fullPage: false }); report.screenshots.push(name + '-top.png'); }
   async function reflow(page, name) {
     await page.setViewportSize({ width: 844, height: 390 }); await overflow(page); await viewportScreenshots(page, name + '-landscape');
@@ -215,6 +215,13 @@ if (process.argv.includes('--api')) {
       await expect(page.getByText('TEST ONLY published training', { exact: true })).toBeVisible();
       await page.waitForFunction(() => document.querySelector('.public-contact-form button')?.disabled === false);
       assert.equal(await page.locator('body').innerText().then(text => /PRIVATE_PHASE08/.test(text)), false);
+      // Native lazy images on the longer educational page need their load
+      // threshold visited. Still require every actual asset to decode.
+      for (const image of await page.locator('img').all()) {
+        await image.scrollIntoViewIfNeeded();
+        await image.evaluate(node => node.decode());
+      }
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
       assert.equal(await page.evaluate(() => [...document.images].every(image => image.complete && image.naturalWidth > 0)), true);
       assert.deepEqual(consoleErrors, []);
       assert.equal(await page.title(), 'TEST ONLY | Nyirarukundo Seraphine');
@@ -255,6 +262,11 @@ if (process.argv.includes('--api')) {
         await expect(p.locator('.public-contact-form button')).toBeDisabled();
         await expect(p.locator('.public-contact-form input[name="senderEmail"]')).toBeDisabled();
         assert.equal(await p.locator('.public-contact-form').getAttribute('method'), 'post');
+        await expect(p.locator('.expertise-card').first()).toBeDisabled();
+        await p.locator('.science-stage summary').last().click();
+        await expect(p.locator('.science-stage').last()).toContainText('corrective action');
+        await expect(p.locator('.science-stage').last()).toHaveAttribute('open', '');
+        await expect(p.locator('.expertise-fallback')).toContainText('Specialization explanations');
         await p.locator('.mobile-menu summary').click();
         await p.locator('.mobile-nav').getByRole('link', { name: 'About', exact: true }).click();
         await expect(p).toHaveURL(/#about$/); await overflow(p); await screenshot(p, 'chromium-nojs-375');
@@ -356,6 +368,7 @@ if (process.argv.includes('--api')) {
     });
     await restartApi();
     await test('Native link, Back, Forward, refresh and tab-close dirty warnings preserve changes', async () => {
+      if (focus) await login(page, 'ADMIN');
       await route(page, '/admin/projects'); await route(page, '/admin/skills');
       await page.getByRole('button', { name: 'Add skill', exact: true }).click(); await page.getByLabel('Skill name', { exact: true }).fill('TEST ONLY unsaved history');
       await dialog(page, false, () => page.getByRole('link', { name: 'Education', exact: true }).click());
@@ -491,13 +504,14 @@ if (process.argv.includes('--api')) {
       catch (error) { report.engines.push({ name, launch: 'BLOCKED', error: safe(error) }); continue; }
       await test(name + ' real browser public hydration, mobile menu, ADMIN and SUPER_ADMIN login', async () => {
         const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+        c.setDefaultTimeout(15000);
         const failedRequests = [], responses = []; let phase = 'public';
         try {
           const p = await c.newPage(); activePage = p; const engineErrors = [];
           p.on('requestfailed', request => failedRequests.push({ path: new URL(request.url()).pathname, error: request.failure()?.errorText }));
           p.on('response', response => { const path = new URL(response.url()).pathname; if (path.startsWith('/api/')) responses.push({ path, status: response.status() }); });
           p.on('pageerror', error => engineErrors.push({ phase, error: safe(error) }));
-          await p.goto(base); await p.waitForFunction(() => !document.querySelector('.public-contact-form button')?.disabled); await expect(p.locator('#hero-title')).toBeVisible(); await overflow(p);
+          await p.goto(base); await p.waitForFunction(() => !document.querySelector('.public-contact-form button')?.disabled, undefined, { timeout: 15000 }); await expect(p.locator('#hero-title')).toBeVisible(); await overflow(p);
           await p.locator('.mobile-menu summary').click();
           const about = p.locator('.mobile-nav').getByRole('link', { name: 'About', exact: true });
           await expect(about).toBeVisible();

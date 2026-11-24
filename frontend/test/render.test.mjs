@@ -32,7 +32,7 @@ test('rendered page has unique IDs and every local navigation target exists', ()
     for (const id of match[1].split(' ')) assert.ok(ids.includes(id), `Missing ARIA target: ${id}`);
   }
   assert.match(html, /<details class="mobile-menu"><summary[^>]+aria-controls="mobile-nav"/);
-  assert.doesNotMatch(html, /<details[^>]+\bopen(?:=|\s|>)/);
+  assert.doesNotMatch(html, /<details class="mobile-menu"[^>]+\bopen(?:=|\s|>)/);
 });
 
 test('rendered portfolio preserves identity, pending disclosures and section sequence', () => {
@@ -46,7 +46,7 @@ test('rendered portfolio preserves identity, pending disclosures and section seq
   assert.doesNotMatch(html, /Mobile laboratory testing|id="training"/);
   assert.doesNotMatch(html, /href="(?:mailto:|tel:)/);
   const sections = [...html.matchAll(/<section id="([^"]+)"/g)].map(match => match[1]);
-  assert.deepEqual(sections, ['about', 'expertise', 'contact']);
+  assert.deepEqual(sections, ['about', 'expertise', 'water-science', 'contact']);
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
 });
 
@@ -110,6 +110,30 @@ test('verified career periods do not retain a provisional badge', async () => {
     title: 'Test role', employer: 'Test employer', period: 'Test period', responsibilities: 'Test duty', provisional: false,
   }] }));
   assert.doesNotMatch(rendered, /TO VERIFY/);
+});
+
+test('expertise gives CMS descriptions priority and clearly labels educational fallbacks', async () => {
+  const { Expertise } = await server.ssrLoadModule('/src/features/expertise/components/Expertise.tsx');
+  const skill = { id: 'test', name: 'Water treatment', description: null, category: null };
+  const contextual = renderToStaticMarkup(createElement(Expertise, { skills: [skill] }));
+  assert.match(contextual, /General field context/);
+  assert.match(contextual, /barriers chosen for the source water/);
+  assert.doesNotMatch(contextual, /<p>Water treatment<\/p>/);
+  assert.match(contextual, /<noscript>/);
+  const authored = renderToStaticMarkup(createElement(Expertise, { skills: [{ ...skill, description: 'TEST ONLY approved description <safe>' }] }));
+  assert.match(authored, /TEST ONLY approved description &lt;safe&gt;/);
+  assert.doesNotMatch(authored, /barriers chosen for the source water|General field context/);
+  assert.equal(renderToStaticMarkup(createElement(Expertise, { skills: [] })), '');
+});
+
+test('science is educational, source-linked and all stage explanations are present without JavaScript', () => {
+  assert.match(html, /not a description of Seraphine/);
+  assert.match(html, /not a fixed treatment sequence/);
+  assert.match(html, /who.int\/teams/);
+  assert.match(html, /cdc.gov\/drinking-water/);
+  assert.equal([...html.matchAll(/class="science-stage"/g)].length, 4);
+  assert.match(html, /corrective action/);
+  assert.match(html, /independent surveillance/);
 });
 test('database-shaped published content renders safely and unavailable content has no stale sections',async()=>{
   const {default:App}=await server.ssrLoadModule('/src/app/App.tsx');

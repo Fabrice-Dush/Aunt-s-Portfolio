@@ -12,7 +12,7 @@ test('production contains meaningful portfolio HTML before JavaScript', () => {
   assert.doesNotMatch(html, /<!--app-html-->|<!--site-meta-->/);
   assert.match(html, /<main id="main-content"/);
   assert.match(html, /Water Treatment Plant Engineer/);
-  for (const id of ['about', 'expertise', 'contact']) {
+  for (const id of ['about', 'expertise', 'water-science', 'contact']) {
     assert.match(html, new RegExp('id="' + id + '"'));
   }
   assert.doesNotMatch(html, /TO VERIFY|id="experience"|id="education"|id="training"/);
@@ -22,6 +22,9 @@ test('production contains meaningful portfolio HTML before JavaScript', () => {
   assert.equal(snapshot.data.education.length, 0);
   assert.equal(snapshot.data.certifications.length, 0);
   assert.match(html, /<details class="mobile-menu"><summary/);
+  assert.match(html, /<noscript><div class="expertise-fallback"/);
+  assert.match(html, /General field context/);
+  assert.equal([...html.matchAll(/class="science-stage"/g)].length, 4);
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
   assert.doesNotMatch(html, /mailto:|tel:|id="projects"|href="#projects"/);
   assert.match(html, /noindex, nofollow/);

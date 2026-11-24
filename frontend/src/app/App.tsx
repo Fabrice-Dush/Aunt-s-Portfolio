@@ -59,6 +59,7 @@ export default function App({
           ...(content.skills.length
             ? [{ label: "Expertise", href: "#expertise" as const }]
             : []),
+          { label: "Water science", href: "#water-science" },
           ...(content.experience.length
             ? [{ label: "Experience", href: "#experience" as const }]
             : []),

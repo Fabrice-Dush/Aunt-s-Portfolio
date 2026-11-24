@@ -1,3 +1,7 @@
+## Public storytelling extension — 2026-11-24
+
+`WaterScience.tsx` is frontend-owned educational content; `expertise/context.ts` holds explicitly general field explanations, with published CMS descriptions taking precedence. Neither changes the public DTO, database/schema, seed, backend or auth/privacy architecture. The profile gate still withholds the whole public page when unavailable, and collections retain their existing publication filters. New review tooling only reads normal public data or intercepts browser responses with labelled synthetic layouts. [Details](docs/PUBLIC_STORYTELLING.md).
+
 <!-- visual-refresh-current -->
 # Approved visual transformation - 2026-11-23
 

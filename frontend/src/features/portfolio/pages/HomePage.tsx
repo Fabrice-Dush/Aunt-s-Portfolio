@@ -3,6 +3,7 @@ import { Overview } from "../components/Overview";
 import { About } from "../components/About";
 import { Contact } from "../components/Contact";
 import { ContactForm } from "../components/ContactForm";
+import { WaterScience } from "../components/WaterScience";
 import { Expertise } from "../../expertise/components/Expertise";
 import { Experience } from "../../experience/components/Experience";
 import { Education } from "../../education/components/Education";
@@ -30,6 +31,7 @@ export function HomePage({
       <About profile={profile} />
       <Overview profile={profile} />
       {!!content.skills.length && <Expertise skills={content.skills} />}
+      <WaterScience />
       {!!content.experience.length && (
         <Experience
           positions={content.experience.map((row) => ({

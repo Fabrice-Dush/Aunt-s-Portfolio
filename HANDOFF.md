@@ -1,3 +1,7 @@
+## Public storytelling continuation — 2026-11-24
+
+Read [PUBLIC_STORYTELLING](docs/PUBLIC_STORYTELLING.md) after the retained visual checkpoint. Expertise prefers published descriptions; exact known names receive clearly labelled educational context only when descriptions are blank. Phone explanations sit beneath selection controls; no-JS uses native disclosures. Water science is static educational copy with WHO/CDC links and native disclosures, not client biography or a facility sequence. Reuse the one normal dev launcher. Browser review: `node scripts/public-story-review.mjs`; distinct lab label: `npm run measure:performance -- public-story`. Do not overwrite prior evidence, weaken preservation guards, publish drafts, clean development accounts, deploy, push or start Phase 10.
+
 <!-- visual-refresh-current -->
 # Approved visual transformation - 2026-11-23
 

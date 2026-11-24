@@ -12,7 +12,7 @@ export function Experience({ positions }: { positions: readonly CareerPosition[]
               <p className="timeline-period">{item.period} {item.provisional && <span>TO VERIFY</span>}</p>
               <h3>{item.title}</h3>
               <p className="timeline-employer">{item.employer}</p>
-              <p className="timeline-responsibilities">{item.responsibilities}</p>
+              {item.responsibilities && <details className="timeline-detail" open={index === 0 ? true : undefined}><summary>Role and responsibilities</summary><p className="timeline-responsibilities">{item.responsibilities}</p></details>}
             </article>
           ))}
         </div>
