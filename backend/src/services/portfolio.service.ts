@@ -20,13 +20,16 @@ export function portfolioService(db: PrismaClient) {
     async profile() {
       const row = await db.profile.findFirst({ where: { id: 'owner', status: 'PUBLISHED' }, select: {
         fullName: true, professionalTitle: true, location: true, city: true, country: true,
-        motto: true, summary: true, biography: true, experienceDescription: true,
+        motto: true, summary: true, biography: true,
         email: true, phone: true, showPublicContact: true, contactApprovedAt: true,
         portrait: { select: { ...mediaSelect, approved: true } },
       } });
       if (!row) throw new AppError(404, 'NOT_FOUND', 'Profile not found');
       const { email, phone, showPublicContact, contactApprovedAt, portrait, ...identity } = row;
       return { ...identity,
+        // Duration remains owner-approval pending (OWNER_APPROVAL_REGISTER.md).
+        // Preserve it in the private CMS; exclude it from public HTML/API snapshots.
+        experienceDescription: null,
         contact: showPublicContact && contactApprovedAt ? { email, phone } : null,
         portrait: portrait?.approved && portrait.publicUrl
           ? { id: portrait.id, publicUrl: portrait.publicUrl, altText: portrait.altText, mimeType: portrait.mimeType } : null,

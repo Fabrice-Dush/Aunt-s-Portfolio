@@ -11,7 +11,9 @@ const base = process.argv.find(arg => arg.startsWith('--base='))?.slice(7) ?? 'h
 assert.ok(['http://localhost:5173', 'http://127.0.0.1:4496'].includes(base), 'Only documented local review servers');
 const performanceLabel = process.argv.find(arg => arg.startsWith('--performance='))?.slice(14);
 assert.ok(!performanceLabel || ['before', 'after'].includes(performanceLabel));
-const output = performanceLabel ? `.cache/performance-review/${performanceLabel}${selectedOnly ? '-selected-corrected' : ''}` : `.cache/public-story/${before ? 'before' : 'after'}`;
+const completionLabel = process.argv.find(arg => arg.startsWith('--completion='))?.slice(13);
+assert.ok(!completionLabel || ['before', 'after'].includes(completionLabel));
+const output = completionLabel ? `.cache/final-completion/${completionLabel}` : performanceLabel ? `.cache/performance-review/${performanceLabel}${selectedOnly ? '-selected-corrected' : ''}` : `.cache/public-story/${before ? 'before' : 'after'}`;
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch();
 const report = { browser: browser.version(), screenshots: [], scans: [], errors: [], passed: false };
@@ -41,6 +43,7 @@ async function capture(name, locator) {
       await img.evaluate(i => i.decode());
     }
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    if (completionLabel === 'after') assert.equal(await page.locator('#about').evaluate(node => node.scrollLeft), 0, 'Decorative art must not scroll About content out of view');
     await page.screenshot({ path, fullPage: true, animations: 'disabled' });
   }
   report.screenshots.push(path);
@@ -50,6 +53,12 @@ try {
   await expect(page.locator('#expertise')).toBeVisible();
   const publicContent = await (await page.request.get(base + '/api/v1/public-content')).json();
   await writeFile(`${output}/public-content.json`, JSON.stringify(publicContent));
+  if (completionLabel === 'after') {
+    assert.equal(publicContent.data.profile.experienceDescription, null, 'Pending experience duration must also be withheld from the public API');
+    assert.doesNotMatch(await page.locator('#expertise').innerText(), /Currently exploring|Explore this area/);
+    assert.doesNotMatch(await page.locator('#main-content').innerText(), /11 years|supplied questionnaire/);
+    for (const summary of await page.locator('.expertise-description').allTextContents()) assert.ok(summary.length > 30, 'Each real specialization has a meaningful summary');
+  }
   for (const theme of ['light', 'dark']) {
     if (await page.locator('html').getAttribute('data-theme') !== theme) await page.getByRole('switch').click();
     await page.locator('.expertise-card').first().click();
@@ -62,6 +71,7 @@ try {
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Overflow ${theme} ${width}`);
       if ([390, 1440].includes(width)) {
         await capture(`${theme}-${width}-full`);
+        if (completionLabel) await capture(`${theme}-${width}-hero`, page.locator('.hero'));
         for (const id of before ? ['about', 'expertise', 'contact'] : ['about', 'expertise', 'water-science', 'contact']) await capture(`${theme}-${width}-${id}`, page.locator(`#${id}`));
         if (!before) {
           const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
@@ -71,6 +81,14 @@ try {
       }
     }
     await page.setViewportSize({ width: 1440, height: 1000 });
+    if (completionLabel === 'after') {
+      for (const card of await page.locator('.expertise-card').all()) {
+        await card.focus(); await page.keyboard.press('Enter');
+        await expect(card).toHaveAttribute('aria-pressed', 'true');
+        await expect(page.locator('#expertise-detail h3')).toHaveText(await card.locator('.expertise-name').innerText());
+        await expect(page.locator('#expertise-detail')).toContainText('Educational context');
+      }
+    }
     await page.locator('.expertise-card').last().focus();
     await page.keyboard.press('Space');
     await expect(page.locator('.expertise-card').last()).toHaveAttribute('aria-pressed', 'true');
@@ -81,6 +99,10 @@ try {
       await page.locator('.science-stage summary').last().focus();
       await page.keyboard.press('Enter');
       await expect(page.locator('.science-stage').last()).toHaveAttribute('open', '');
+      if (completionLabel === 'after') {
+        await expect(page.locator('.science-stage').last()).toHaveAttribute('data-active', 'true');
+        await expect(page.locator('.science-visual strong')).toHaveText('Review and respond');
+      }
       await expect(page.locator('.science-stage').last()).toContainText('corrective action');
       await capture(`${theme}-science-selected`, page.locator('#water-science'));
       await page.setViewportSize({ width: 390, height: 844 });

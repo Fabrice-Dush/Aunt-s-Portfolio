@@ -1,3 +1,9 @@
+<!-- final-completion-20261126 -->
+## Final public corrections - 2026-11-26
+
+After the visual, storytelling and performance checkpoints, read `docs/FINAL_PORTFOLIO_REVIEW.md` for the final public corrections and exact delivery evidence. Preserve CMS-first descriptions, explicitly educational summaries, native disclosures/no-JS behavior, the public duration hold, conditional collections and independent themes. Original strict status guard and appended message remain intact. No schema/environment change, development account cleanup, push, ZIP, indexing, deployment or Phase 10.
+<!-- /final-completion-20261126 -->
+
 <!-- performance-20261126 -->
 ## Performance investigation — 2026-11-26
 

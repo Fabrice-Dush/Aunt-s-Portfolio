@@ -55,7 +55,10 @@ test('real MariaDB integration and public HTTP acceptance', async t => {
     assert.equal((await db.profile.findUnique({ where: { id: 'owner' } })).motto, 'Editor change');
     assert.equal(await db.profile.count(), 1); assert.equal(await db.skill.count(), 6);
     for (const model of ['user', 'project', 'achievement', 'contactMessage', 'mediaAsset']) assert.equal(await db[model].count(), 0);
-    assert.equal((await get('/profile')).body.data.fullName, 'Nyirarukundo Seraphine');
+    const publicProfile = (await get('/profile')).body.data;
+    assert.equal(publicProfile.fullName, 'Nyirarukundo Seraphine');
+    assert.equal(publicProfile.experienceDescription, null);
+    assert.match((await db.profile.findUniqueOrThrow({ where: { id: 'owner' } })).experienceDescription, /11 years/);
     for (const path of ['/experience', '/education', '/certifications', '/projects', '/achievements']) assert.deepEqual((await get(path)).body.data, []);
   });
   await t.test('draft create/read/update/publish/unpublish and partial-update preservation', async () => {

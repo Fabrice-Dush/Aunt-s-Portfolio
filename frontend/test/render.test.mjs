@@ -123,7 +123,23 @@ test('expertise gives CMS descriptions priority and clearly labels educational f
   const authored = renderToStaticMarkup(createElement(Expertise, { skills: [{ ...skill, description: 'TEST ONLY approved description <safe>' }] }));
   assert.match(authored, /TEST ONLY approved description &lt;safe&gt;/);
   assert.doesNotMatch(authored, /barriers chosen for the source water|General field context/);
+  assert.doesNotMatch(contextual, /Currently exploring|Explore this area/);
+  assert.match(contextual, /Treatment barriers that address source-water risks/);
+  const custom = renderToStaticMarkup(createElement(Expertise, { skills: [{ ...skill, description: 'TEST ONLY first sentence. Further approved information.' }] }));
+  assert.match(custom, /class="expertise-description">TEST ONLY first sentence\.<\/span>/);
+  assert.match(custom, /Further approved information/);
+  const unknown = renderToStaticMarkup(createElement(Expertise, { skills: [{ ...skill, name: 'constructor' }] }));
+  assert.match(unknown, /Further details for this published specialization/);
+  assert.doesNotMatch(unknown, /barriers chosen|native code/);
   assert.equal(renderToStaticMarkup(createElement(Expertise, { skills: [] })), '');
+});
+
+test('pending experience duration stays out of rendered public biography without altering profile data', async () => {
+  const { default: App } = await server.ssrLoadModule('/src/app/App.tsx');
+  const profile = { ...content.profile, experienceDescription: '11 years, according to the supplied questionnaire' };
+  const rendered = renderToStaticMarkup(createElement(App, { initialContent: { ...content, profile } }));
+  assert.doesNotMatch(rendered, /11 years|supplied questionnaire/);
+  assert.equal(profile.experienceDescription, '11 years, according to the supplied questionnaire');
 });
 
 test('science is educational, source-linked and all stage explanations are present without JavaScript', () => {

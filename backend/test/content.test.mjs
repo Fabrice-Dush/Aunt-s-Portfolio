@@ -58,11 +58,13 @@ test('public service selects explicit fields and requires publication and verifi
   assert.equal(result.pagination.hasMore, true);
   assert.equal(result.data.length, 1);
 });
-test('profile DTO omits private contacts and unapproved portrait fields', async () => {
-  const db = { profile: { findFirst: async () => ({ fullName: 'Test', email: 'private@example.invalid', phone: 'private',
-    showPublicContact: true, contactApprovedAt: null, portrait: { approved: false, publicUrl: 'https://example.invalid/private' } }) } };
+test('profile DTO withholds pending duration, private contacts and unapproved portrait fields', async () => {
+  let query;
+  const db = { profile: { findFirst: async args => { query = args; return { fullName: 'Test', email: 'private@example.invalid', phone: 'private',
+    showPublicContact: true, contactApprovedAt: null, portrait: { approved: false, publicUrl: 'https://example.invalid/private' } }; } } };
   const result = await portfolioService(db).profile();
-  assert.deepEqual(result, { fullName: 'Test', contact: null, portrait: null });
+  assert.deepEqual(result, { fullName: 'Test', experienceDescription: null, contact: null, portrait: null });
+  assert.equal(query.select.experienceDescription, undefined);
   await assert.rejects(() => portfolioService({ project: { findFirst: async () => null } }).project('missing'), { status: 404 });
 });
 test('central error responses map conflicts, auth boundaries and failures without raw details', () => {

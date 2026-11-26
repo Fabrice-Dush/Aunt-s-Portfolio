@@ -7,7 +7,7 @@ Prepared for Nyirarukundo Seraphine. No new owner approvals were received during
 | Name and title | Nyirarukundo Seraphine; Water Treatment Plant Engineer. Supported by questionnaire and representative. Confirm final spelling. | Owner sign-off pending |
 | Motto | “Water is life.” Confirm preferred capitalization and punctuation. | Owner sign-off pending |
 | Introduction and biography | Review the actual published introduction and responsibilities; questionnaire supports treatment, quality, microbiology, chemistry and water production. No new accomplishments added. | Final wording pending |
-| Experience description | Questionnaire says 11 years; do not silently advance this number with the calendar. | Current wording pending |
+| Experience description | Questionnaire says 11 years; do not silently advance this number with the calendar. Retained in private CMS; public field/overview withheld in the 2026-11-26 final corrections. | Current wording pending; reintroduction requires approval |
 | Employment | WASAC Group; overlapping supplied periods beginning in 2015 and 2022 need clarification. Earlier 2015–2021 split is provisional. | Exact positions/dates pending; drafts stay private |
 | Education | Confirm official qualification names, institutions, country and years against documents. | Verification pending |
 | Skills | Review selected/written answers; unticked questionnaire options do not establish skills. | Final list pending |

@@ -1,5 +1,4 @@
 import { Hero } from "../components/Hero";
-import { Overview } from "../components/Overview";
 import { About } from "../components/About";
 import { Contact } from "../components/Contact";
 import { ContactForm } from "../components/ContactForm";
@@ -29,7 +28,7 @@ export function HomePage({
     <main id="main-content" tabIndex={-1} ref={ref}>
       <Hero profile={profile} hasExpertise={!!content.skills.length} />
       <About profile={profile} />
-      <Overview profile={profile} />
+      {/* Experience duration awaits owner approval; keep the CMS value intact. */}
       {!!content.skills.length && <Expertise skills={content.skills} />}
       <WaterScience />
       {!!content.experience.length && (

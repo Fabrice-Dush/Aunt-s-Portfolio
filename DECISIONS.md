@@ -1,3 +1,9 @@
+<!-- final-completion-20261126 -->
+## Final public corrections - 2026-11-26
+
+Use authored specialization descriptions before educational definitions, and label fallback summaries on the card itself. Keep general science native disclosures and lightweight vector depth. Withhold the owner-pending duration from the explicit public projection and rendered overview while preserving the private CMS value; reintroduction needs an explicit content decision, not a string-based heuristic. Keep empty professional collections absent and document major dashboard differences separately. [Evidence](docs/FINAL_PORTFOLIO_REVIEW.md).
+<!-- /final-completion-20261126 -->
+
 <!-- performance-20261126 -->
 ## 2026-11-26 — Revision-aware public refresh and matched lab evidence
 

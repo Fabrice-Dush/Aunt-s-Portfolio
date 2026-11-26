@@ -3,8 +3,10 @@ import assert from 'node:assert/strict';
 import {readFile, writeFile, mkdir} from 'node:fs/promises';
 const median=values=>{const sorted=[...values].sort((a,b)=>a-b), middle=Math.floor(sorted.length/2);return sorted.length%2?sorted[middle]:(sorted[middle-1]+sorted[middle])/2;};
 const report={builds:{},differences:{},settingsMatch:true,complete:true,expectedRunsPerProfile:3};
+const completion=process.argv.includes('--completion');
+const labels=completion ? ['completion-before','completion-after'] : ['performance-before','performance-after'];
 let expectedSettings={};
-for(const label of ['performance-before','performance-after']) {
+for(const label of labels) {
  const dir=`.cache/phase08-performance/${label}`;
  const build={...(JSON.parse(await readFile(`${dir}/build.json`,'utf8'))),profiles:{}};
  for(const profile of ['mobile','desktop']) {
@@ -31,10 +33,11 @@ for(const label of ['performance-before','performance-after']) {
  report.builds[label]=build;
 }
 for(const profile of ['mobile','desktop']) {
- const before=report.builds['performance-before'].profiles[profile].medians;
- const after=report.builds['performance-after'].profiles[profile].medians;
+ const before=report.builds[labels[0]].profiles[profile].medians;
+ const after=report.builds[labels[1]].profiles[profile].medians;
  report.differences[profile]=Object.fromEntries(Object.keys(before).map(k=>[k,after[k]-before[k]]));
 }
-await mkdir('.cache/performance-review',{recursive:true});
-await writeFile('.cache/performance-review/comparison.json',JSON.stringify(report,null,2));
+const directory=completion ? '.cache/final-completion' : '.cache/performance-review';
+await mkdir(directory,{recursive:true});
+await writeFile(`${directory}/${completion ? 'performance-comparison' : 'comparison'}.json`,JSON.stringify(report,null,2));
 console.log(JSON.stringify({complete:report.complete,medians:Object.fromEntries(Object.entries(report.builds).map(([k,v])=>[k,Object.fromEntries(Object.entries(v.profiles).map(([p,x])=>[p,{validRuns:x.runs.length,missingRuns:x.missingRuns,...x.medians}]))])),differences:report.differences,settingsMatch:true}));

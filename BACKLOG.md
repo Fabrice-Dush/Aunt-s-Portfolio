@@ -1,3 +1,9 @@
+<!-- final-completion-20261126 -->
+## Final public corrections - 2026-11-26
+
+Targeted public content/composition gaps are corrected; [the final review](docs/FINAL_PORTFOLIO_REVIEW.md) records execution status. Remaining: owner wording/appearance/likeness/contact/launch acceptance, genuine published career/education/project content, verified specific competencies/outlook, actual hardware/assistive/zoom checks and separately reviewed dashboard composition differences. Historical slow measurements and browser limitations remain evidence, not erased by newer passes.
+<!-- /final-completion-20261126 -->
+
 <!-- performance-20261126 -->
 ## Performance acceptance follow-up — 2026-11-26
 

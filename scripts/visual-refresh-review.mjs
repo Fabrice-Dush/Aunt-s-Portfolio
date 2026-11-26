@@ -8,8 +8,10 @@ import AxeBuilder from '@axe-core/playwright';
 const fixture = process.argv.includes('--fixture');
 const isolated = process.argv.includes('--isolated');
 const selectedScope = process.argv.find(arg => arg.startsWith('--scope='))?.slice(8);
+const completion = process.argv.includes('--completion');
+const overviewOnly = process.argv.includes('--overview-only');
 const base = isolated ? 'http://127.0.0.1:5178' : 'http://localhost:5173';
-const output = resolve('.cache/visual-refresh', fixture ? 'fixture' : isolated ? 'isolated' : 'live');
+const output = completion ? resolve('.cache/final-completion/dashboards') : resolve('.cache/visual-refresh', fixture ? 'fixture' : isolated ? 'isolated' : 'live');
 await mkdir(output, { recursive: true });
 const report = { at: new Date().toISOString(), mode: fixture ? 'BROWSER-ONLY FIXTURES; NO FUNCTIONAL OR LIVE-DATABASE ACCEPTANCE' : isolated ? 'Real isolated APIs with synthetic fixtures; no development writes' : 'Existing development accounts; read-only content review', screenshots: [], checks: [], accessibility: [], errors: [], passed: false };
 const snapshot = fixture ? JSON.parse(await readFile('frontend/.cache/public-content.json', 'utf8')) : null;
@@ -85,6 +87,8 @@ try {
     const context = await browser.newContext({viewport:{width:1440,height:1000}});
     if (fixture) await mocked(context, role);
     const page = await context.newPage();
+    page.setDefaultTimeout(15000);
+    page.setDefaultNavigationTimeout(30000);
     await page.addInitScript(() => { window.__appearanceFirstFrame = new Promise(done => requestAnimationFrame(() => done(document.documentElement.dataset.theme))); });
     page.on('pageerror', e => report.errors.push({scope,message: String(e.message).slice(0,400)}));
     const home = scope === 'public' ? '/' : scope === 'studio' ? '/admin' : '/super-admin';
@@ -125,7 +129,7 @@ try {
       }
       report.checks.push({scope,theme,persistence:'PASS',beforeFirstFrame:'PASS',responsive:'PASS'});
     }
-    if(scope !== 'public') {
+    if(scope !== 'public' && !overviewOnly) {
       for(const area of !isolated && !fixture ? ['profile'] : scope === 'studio' ? ['profile','experience','education','skills','projects','achievements','certifications','media','messages','settings','account'] : ['users','security','status','profile','experience','education','skills','projects','achievements','certifications','media','messages','settings','account']) {
         stage = scope + ' ' + area;
         await page.goto(base+home+'/'+area); await expect(page.locator('.workspace')).toBeVisible();

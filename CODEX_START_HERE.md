@@ -1,3 +1,9 @@
+<!-- final-completion-20261126 -->
+## Final public corrections - 2026-11-26
+
+Read [FINAL_PORTFOLIO_REVIEW.md](docs/FINAL_PORTFOLIO_REVIEW.md) after VISUAL_TRANSFORMATION, PUBLIC_STORYTELLING and PERFORMANCE_OPTIMIZATION. It records the current public correction scope, pending-duration hold and exact evidence. Preserve all content/account/environment/test-lock safeguards; Phase 10 remains unstarted.
+<!-- /final-completion-20261126 -->
+
 <!-- xampp3306-current -->
 # XAMPP development database checkpoint - 2026-11-16
 

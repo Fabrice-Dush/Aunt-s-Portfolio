@@ -7,9 +7,10 @@ import {setTimeout as delay} from 'node:timers/promises';
 import {chromium, expect} from '@playwright/test';
 
 const label=process.argv[2];
+const completion=process.argv.includes('--completion');
 const selectedOnly=process.argv.includes('--selected-only');
 assert.ok(['before','after'].includes(label));
-const output=`.cache/performance-review/${label}`;
+const output=completion ? `.cache/final-completion/${label}` : `.cache/performance-review/${label}`;
 await mkdir(output,{recursive:true});
 const server=spawn(process.execPath,['scripts/phase08-performance-server.mjs'],{env:{...process.env,NODE_ENV:'production',PORT:'4496'},stdio:['ignore','pipe','pipe'],windowsHide:true});
 let ready=false, browser;
@@ -18,7 +19,7 @@ server.stderr.on('data',()=>{});
 try {
  for(let n=0;n<100&&!ready&&server.exitCode===null;n++) await delay(100);
  assert.ok(ready,'Owned production server required');
- const review=spawn(process.execPath,['scripts/public-story-review.mjs','--base=http://127.0.0.1:4496',`--performance=${label}`,...(selectedOnly?['--selected-only']:[])],{stdio:'inherit',windowsHide:true});
+ const review=spawn(process.execPath,['scripts/public-story-review.mjs','--base=http://127.0.0.1:4496',completion ? `--completion=${label}` : `--performance=${label}`,...(selectedOnly?['--selected-only']:[])],{stdio:'inherit',windowsHide:true});
  const [code]=await once(review,'exit');
  assert.equal(code,0,'Production visual review must pass');
  if(!selectedOnly) {

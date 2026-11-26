@@ -127,7 +127,7 @@ export function ContactForm() {
             <input name="website" tabIndex={-1} autoComplete="off" />
           </label>
           <button className="button-primary" disabled={!enhanced || busy}>
-            {busy ? "Sending…" : "Send message ↗"}
+            {busy ? "Sending…" : "Send message"}
           </button>
           </fieldset>
           {error && <p role="alert">{error}</p>}

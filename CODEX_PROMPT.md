@@ -1,3 +1,9 @@
+<!-- final-completion-20261126 -->
+## Final public corrections - 2026-11-26
+
+Current continuation is [FINAL_PORTFOLIO_REVIEW.md](docs/FINAL_PORTFOLIO_REVIEW.md), following the visual/storytelling/performance checkpoints. Historical phase-start instructions below are superseded. Keep owner approval gates, public duration hold, protected records/accounts/environment, separate evidence and no deployment/push/ZIP/cleanup.
+<!-- /final-completion-20261126 -->
+
 <!-- xampp3306-current -->
 # XAMPP development database checkpoint - 2026-11-16
 

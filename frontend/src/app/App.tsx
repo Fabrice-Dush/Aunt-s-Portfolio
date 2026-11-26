@@ -113,6 +113,7 @@ export default function App({
       )}
       <Footer
         name={profile?.fullName ?? "Nyirarukundo Seraphine"}
+        motto={profile?.motto}
         location={
           profile
             ? [profile.city, profile.country].filter(Boolean).join(", ") ||

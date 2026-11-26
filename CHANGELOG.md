@@ -1,3 +1,9 @@
+<!-- final-completion-20261126 -->
+## Final public corrections - 2026-11-26
+
+Corrected Expertise card placeholders with CMS-first summaries and labelled educational definitions; integrated selected detail, refined the existing scientific droplet/selection, balanced About/contact/footer and portrait framing. Withheld pending duration in public projection/HTML without changing its private CMS record or schema. Added contract/render/browser assertions and separate completion evidence labels. [Audit, screenshots, tests, performance and limits](docs/FINAL_PORTFOLIO_REVIEW.md). No push, deployment, indexing, ZIP or account cleanup.
+<!-- /final-completion-20261126 -->
+
 <!-- performance-20261126 -->
 ## 2026-11-26 — Targeted public refresh optimization and performance QA
 

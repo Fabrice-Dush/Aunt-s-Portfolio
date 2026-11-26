@@ -8,8 +8,9 @@ export function Contact({ contact, location, children }: { contact: PublicContac
       <div className="section-inner">
         <p className="eyebrow">CONTACT / THE NEXT CHAPTER</p>
         {!children && <h2>Start a conversation.</h2>}
+        {children}
         <div className="contact-bottom">
-          <div><p>Interested in professional opportunities in water operations, quality and management.</p>
+          <div>
             {location && <p className="contact-location">{location}</p>}
             <div className="contact-links">
               {contact.email?.publicationApproved && <a href={`mailto:${contact.email.value}`}>{contact.email.value}</a>}
@@ -18,7 +19,6 @@ export function Contact({ contact, location, children }: { contact: PublicContac
           </div>
           <a href="#top" className="text-link">Back to top <span aria-hidden="true">↑</span></a>
         </div>
-        {children}
       </div>
       <WaterArt className="contact-water" />
     </section>

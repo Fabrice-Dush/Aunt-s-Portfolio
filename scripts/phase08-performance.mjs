@@ -12,7 +12,7 @@ import { launch } from 'chrome-launcher';
 import desktop from 'lighthouse/core/config/desktop-config.js';
 
 const label = process.argv[2];
-assert.ok(['baseline', 'final', 'phase09', 'visual-refresh', 'visual-refresh-optimized', 'visual-refresh-final', 'visual-refresh-delivery', 'public-story', 'performance-before', 'performance-before-trace', 'performance-after'].includes(label), 'Use a documented measurement label');
+assert.ok(['baseline', 'final', 'phase09', 'visual-refresh', 'visual-refresh-optimized', 'visual-refresh-final', 'visual-refresh-delivery', 'public-story', 'performance-before', 'performance-before-trace', 'performance-after', 'completion-before', 'completion-after'].includes(label), 'Use a documented measurement label');
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = resolve(root, '.cache/phase08-performance', label);
 await mkdir(output, { recursive: true });
@@ -37,7 +37,7 @@ for (const profile of traceOnly ? ['mobile'] : ['mobile', 'desktop']) {
     child.stdout.on('data', bytes => { if (String(bytes).includes('Portfolio API available')) ready = true; });
     child.stderr.on('data', () => {});
     try {
-      for (let i = 0; i < 100 && !ready && child.exitCode === null; i++) await delay(100);
+      for (let i = 0; i < 300 && !ready && child.exitCode === null; i++) await delay(100);
       assert.ok(ready, 'Owned compiled API must start on 4496');
       const response = await fetch('http://127.0.0.1:4496/');
       assert.equal(response.status, 200, 'Current gated build required');

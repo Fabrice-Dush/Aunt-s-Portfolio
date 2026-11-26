@@ -1,3 +1,9 @@
+<!-- final-completion-20261126 -->
+## Final public corrections - 2026-11-26
+
+Targeted public corrections are implemented: informative CMS-first expertise card summaries, integrated detail, refined science depth/selection, balanced About/contact/footer and pending-duration withholding in public HTML/API while retaining the private CMS value. Exact final test/performance/visual status and remaining dashboard/owner/device differences are in [FINAL_PORTFOLIO_REVIEW.md](docs/FINAL_PORTFOLIO_REVIEW.md). Phase 9 owner/launch approval remains pending; Phase 10 not started.
+<!-- /final-completion-20261126 -->
+
 <!-- performance-20261126 -->
 ## Performance investigation — 2026-11-26
 

@@ -1,3 +1,9 @@
+<!-- final-completion-20261126 -->
+## Final public corrections - 2026-11-26
+
+Read [FINAL_PORTFOLIO_REVIEW.md](docs/FINAL_PORTFOLIO_REVIEW.md) after the visual/storytelling/performance reports. Reuse the normal localhost:5173 launcher and XAMPP 3306. New QA uses `.cache/final-completion/` and Lighthouse labels `completion-before`/`completion-after`, preserving historical evidence. Duration remains private pending owner approval; do not silently restore it. Keep CMS-first/educational provenance, conditional collections, strict preservation guard, original records, appended message and temporary accounts. No push, ZIP, deployment, indexing or Phase 10.
+<!-- /final-completion-20261126 -->
+
 <!-- performance-20261126 -->
 ## Performance continuation — 2026-11-26
 

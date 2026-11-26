@@ -1,3 +1,9 @@
+<!-- final-completion-20261126 -->
+## Final public corrections - 2026-11-26
+
+No schema, environment, dependency or auth/session/RBAC/CMS mutation change. The public portfolio service stops selecting the pending duration and returns `experienceDescription: null`; private CMS storage/editing remains unchanged. Frontend no longer renders its overview. A shared specialization resolver prefers published descriptions and uses exact known-name educational summaries otherwise. Existing revision-aware refresh, fail-closed serving and conditional collections remain. [Verification](docs/FINAL_PORTFOLIO_REVIEW.md).
+<!-- /final-completion-20261126 -->
+
 <!-- performance-20261126 -->
 ## Public freshness optimization — 2026-11-26
 

@@ -1,3 +1,9 @@
+<!-- final-completion-20261126 -->
+## Final public corrections - 2026-11-26
+
+Expertise keeps the sculpture/orbit with readable summaries and a glass selected-detail panel; phones use inline explanation. About promotes the actual summary above grouped identity facts, with a clipped non-scrolling water accent. Science adds layered vector reflection, connectors, active framing and matching caption. Contact/form and CMS-motto footer have a clearer rhythm. Exact art/portrait bytes, native fallbacks, independent light/dark and reduced motion remain. [Reference comparison](docs/FINAL_PORTFOLIO_REVIEW.md).
+<!-- /final-completion-20261126 -->
+
 <!-- performance-20261126 -->
 ## Performance QA — 2026-11-26
 
