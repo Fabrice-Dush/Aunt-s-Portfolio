@@ -1,3 +1,5 @@
+> Subsequent local performance investigation: [PERFORMANCE_OPTIMIZATION.md](PERFORMANCE_OPTIMIZATION.md). Historical measurements below remain unchanged evidence for their own deliveries.
+
 # Approved visual transformation — 2026-11-23
 
 For the subsequent authorized public-content/interactivity refinement, read [Public storytelling — 2026-11-24](PUBLIC_STORYTELLING.md). The results below remain the exact historical evidence for this visual delivery; do not substitute them for the newer extension's measurements.

@@ -1,3 +1,9 @@
+<!-- performance-20261126 -->
+## 2026-11-26 — Targeted public refresh optimization and performance QA
+
+Reproduced the unchanged production build before edits, retained separate matched measurement sets and raw traces, avoided React/observer work for identical CMS revisions, and made one CMS version test independent of a second clock read. Extended compiled public visual/no-JS/refresh QA and performance comparison tooling. Preserved all approved visual assets, CSS/motion, content, security, database/environment/migrations and temporary accounts. Exact results and limitations: [PERFORMANCE_OPTIMIZATION.md](docs/PERFORMANCE_OPTIMIZATION.md). No push, deployment, indexing, ZIP or Phase 10.
+<!-- /performance-20261126 -->
+
 ## 2026-11-24 — Public storytelling refinement
 
 - Explained published specializations using CMS-first text and clearly labelled educational fallback; fixed repeated-name detail, name-based icons, selected states and phone explanations.

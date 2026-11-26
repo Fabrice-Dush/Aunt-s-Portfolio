@@ -6,12 +6,19 @@ import AxeBuilder from '@axe-core/playwright';
 import sharp from 'sharp';
 
 const before = process.argv.includes('--before');
-const output = `.cache/public-story/${before ? 'before' : 'after'}`;
+const selectedOnly = process.argv.includes('--selected-only');
+const base = process.argv.find(arg => arg.startsWith('--base='))?.slice(7) ?? 'http://localhost:5173';
+assert.ok(['http://localhost:5173', 'http://127.0.0.1:4496'].includes(base), 'Only documented local review servers');
+const performanceLabel = process.argv.find(arg => arg.startsWith('--performance='))?.slice(14);
+assert.ok(!performanceLabel || ['before', 'after'].includes(performanceLabel));
+const output = performanceLabel ? `.cache/performance-review/${performanceLabel}${selectedOnly ? '-selected-corrected' : ''}` : `.cache/public-story/${before ? 'before' : 'after'}`;
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch();
 const report = { browser: browser.version(), screenshots: [], scans: [], errors: [], passed: false };
 const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
 const page = await context.newPage();
+page.setDefaultTimeout(15000);
+page.setDefaultNavigationTimeout(30000);
 page.on('pageerror', error => report.errors.push(error.message));
 async function capture(name, locator) {
   const path = `${output}/${name}.png`;
@@ -19,7 +26,12 @@ async function capture(name, locator) {
   if (locator) {
     // Crop the actual full-page capture at scroll origin; element screenshots can
     // move Chromium's sticky header into the middle of a tall section.
-    const bounds = await locator.boundingBox();
+    // Full-page pixels use document coordinates, even if keyboard focus has
+    // caused native scrolling between the scroll reset and the screenshot.
+    const bounds = await locator.evaluate(node => {
+      const rect = node.getBoundingClientRect();
+      return { x: rect.left + scrollX, y: rect.top + scrollY, width: rect.width, height: rect.height };
+    });
     const buffer = await page.screenshot({ fullPage: true, animations: 'disabled' });
     await sharp(buffer).extract({ left: Math.round(bounds.x), top: Math.round(bounds.y), width: Math.round(bounds.width), height: Math.round(bounds.height) }).toFile(path);
   }
@@ -34,9 +46,9 @@ async function capture(name, locator) {
   report.screenshots.push(path);
 }
 try {
-  await page.goto('http://localhost:5173/');
+  await page.goto(base + '/');
   await expect(page.locator('#expertise')).toBeVisible();
-  const publicContent = await (await page.request.get('http://localhost:5173/api/v1/public-content')).json();
+  const publicContent = await (await page.request.get(base + '/api/v1/public-content')).json();
   await writeFile(`${output}/public-content.json`, JSON.stringify(publicContent));
   for (const theme of ['light', 'dark']) {
     if (await page.locator('html').getAttribute('data-theme') !== theme) await page.getByRole('switch').click();
@@ -45,7 +57,7 @@ try {
       for (const stage of await page.locator('.science-stage').all()) if (await stage.evaluate(el => el.open)) { await stage.locator('summary').focus(); await page.keyboard.press('Enter'); }
       await page.locator('.science-stage summary').first().focus(); await page.keyboard.press('Enter');
     }
-    for (const width of [320, 375, 390, 768, 1024, 1440, 1920]) {
+    for (const width of selectedOnly ? [] : [320, 375, 390, 768, 1024, 1440, 1920]) {
       await page.setViewportSize({ width, height: 1000 });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Overflow ${theme} ${width}`);
       if ([390, 1440].includes(width)) {
@@ -79,24 +91,32 @@ try {
       for (const href of await page.locator('a[href^="#"]').evaluateAll(links => links.map(a => a.getAttribute('href')))) assert.ok(await page.locator(href).count(), `Dead anchor ${href}`);
     }
   }
-  if (!before) {
+  if (!before && !selectedOnly) {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     assert.ok(await page.evaluate(() => document.getAnimations().every(a => a.playState !== 'running')));
     const nojs = await browser.newContext({ javaScriptEnabled: false });
     const fallback = await nojs.newPage();
-    await fallback.goto('http://localhost:5173/');
-    // Vite development has no prerender; no-JS is verified against compiled HTML separately.
-    report.noJavaScript = 'Verified by production artifact tests, not the Vite development shell';
+    await fallback.goto(base + '/');
+    if (base.endsWith(':4496')) {
+      await expect(fallback.locator('#hero-title')).toBeVisible();
+      await expect(fallback.locator('.expertise-card').first()).toBeDisabled();
+      await expect(fallback.locator('.expertise-fallback details')).toHaveCount(publicContent.data.skills.length);
+      await fallback.locator('.science-stage summary').last().click();
+      await expect(fallback.locator('.science-stage').last()).toHaveAttribute('open', '');
+      await expect(fallback.locator('.public-contact-form button')).toBeDisabled();
+      report.noJavaScript = 'PASSED compiled public HTML, native disclosures, skill fallbacks and disabled contact submission';
+    } else report.noJavaScript = 'Verified by production artifact tests, not the Vite development shell';
     await nojs.close();
     // Browser-response fixtures test conditional layouts only. No CMS/database writes.
     const synthetic = structuredClone(publicContent);
+    synthetic.revision = 'TEST-ONLY-browser-layout-fixture';
     synthetic.data.profile.summary = 'TEST ONLY browser layout fixtures. These are not client records.';
     synthetic.data.experience = [0, 1, 2].map(i => ({ id: `test-role-${i}`, jobTitle: `TEST ONLY role ${i}`, organization: 'TEST ONLY organization', startYear: null, endYear: null, isCurrent: false, description: 'TEST ONLY published description.', responsibilities: 'TEST ONLY responsibility. A long paragraph verifies wrapping and keyboard disclosure.' }));
     synthetic.data.education = [{ id: 'test-education', qualification: 'TEST ONLY qualification', institution: 'TEST ONLY institution', country: null, yearCompleted: null, notes: 'TEST ONLY supporting information.' }];
     synthetic.data.projects = [{ id: 'test-project', slug: 'test-layout', title: 'TEST ONLY contribution', summary: 'TEST ONLY summary.', body: 'TEST ONLY supporting detail.', role: 'TEST ONLY role', result: 'TEST ONLY outcome', year: null, organization: null, startYear: null, endYear: null, featured: false, media: [] }];
     synthetic.data.certifications = [{ id: 'test-certificate', title: 'TEST ONLY training', issuer: null, year: null, credentialDetails: 'TEST ONLY training detail.', media: null }];
     await context.route('**/api/v1/public-content', route => route.fulfill({ json: synthetic }));
-    await page.goto('http://localhost:5173/');
+    await page.goto(base + '/');
     await expect(page.locator('#experience')).toBeVisible();
     for (const theme of ['light', 'dark']) {
       if (await page.locator('html').getAttribute('data-theme') !== theme) await page.getByRole('switch').click();

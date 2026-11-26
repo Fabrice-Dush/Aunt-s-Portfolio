@@ -1,3 +1,9 @@
+<!-- performance-20261126 -->
+## Public freshness optimization — 2026-11-26
+
+The existing embedded public snapshot revision initializes App state alongside the DTO. Successful equal-revision refreshes retain the current state object; changed/missing revisions take the update path. Errors clear data and revision, allowing same-publication recovery after failure. The server still hashes the complete selected public DTO and freshness-gates HTML. No API/schema/cache/privacy or authentication change. See [the verification report](docs/PERFORMANCE_OPTIMIZATION.md).
+<!-- /performance-20261126 -->
+
 ## Public storytelling extension — 2026-11-24
 
 `WaterScience.tsx` is frontend-owned educational content; `expertise/context.ts` holds explicitly general field explanations, with published CMS descriptions taking precedence. Neither changes the public DTO, database/schema, seed, backend or auth/privacy architecture. The profile gate still withholds the whole public page when unavailable, and collections retain their existing publication filters. New review tooling only reads normal public data or intercepts browser responses with labelled synthetic layouts. [Details](docs/PUBLIC_STORYTELLING.md).

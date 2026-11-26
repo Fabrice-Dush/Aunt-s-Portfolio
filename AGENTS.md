@@ -1,3 +1,9 @@
+<!-- performance-20261126 -->
+## Performance investigation — 2026-11-26
+
+After the visual and storytelling checkpoints, read `docs/PERFORMANCE_OPTIMIZATION.md` for the matched production baseline, small revision-aware refresh optimization, final verification and remaining limits. Preserve the approved artwork/motion, CMS-first descriptions, educational/no-JS fallbacks, conditional collections, original strict status guard and appended message. No deployment/indexing, push, ZIP, schema/environment change, development account cleanup or Phase 10. Historical performance reports remain intact.
+<!-- /performance-20261126 -->
+
 ## Public storytelling extension — 2026-11-24
 
 The attached request authorizes frontend content/interactivity refinement of the existing approved design. After `docs/VISUAL_TRANSFORMATION.md`, read `docs/PUBLIC_STORYTELLING.md` for the latest audit, test provenance and remaining acceptance. Preserve CMS-first expertise descriptions and explicitly educational fallback, native no-JS science/disclosures and conditional empty collections. No fabricated methods/outlook/chronology, schema change, deployment/indexing, push, ZIP, development account cleanup or Phase 10. Original strict preservation guard and appended message remain intact.

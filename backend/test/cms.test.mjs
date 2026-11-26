@@ -47,9 +47,8 @@ test("CMS writes require explicit versions and publication confirmation; orderin
       ),
     { code: "EDIT_CONFLICT" },
   );
-  assert.ok(
-    nextVersion(new Date(Date.now() + 1000)).getTime() > Date.now() + 1000,
-  );
+  const futureVersion = new Date(Date.now() + 1000);
+  assert.ok(nextVersion(futureVersion).getTime() > futureVersion.getTime());
 });
 test("upload checks content, extension, MIME, size and real decoding", async () => {
   for (const [data, name, mime] of [

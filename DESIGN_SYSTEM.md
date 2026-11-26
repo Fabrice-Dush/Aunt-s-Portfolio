@@ -1,3 +1,9 @@
+<!-- performance-20261126 -->
+## Performance QA — 2026-11-26
+
+No CSS, artwork, portrait, typography, spacing or motion changes. Preserve both approved public appearances, glass-water sculpture/ribbons, finite entrances, native science disclosures and reduced motion. Fresh compiled before/after screenshots and accessibility results are documented in [PERFORMANCE_OPTIMIZATION.md](docs/PERFORMANCE_OPTIMIZATION.md); actual-device and owner acceptance remain separate.
+<!-- /performance-20261126 -->
+
 ## Public storytelling extension — 2026-11-24
 
 Retain existing tokens, sculpture/orbit, portrait, ribbons and independent appearances. Expertise has a dedicated editorial detail panel on larger screens and an explanation directly below the active control on phones. Water science pairs a lightweight vector droplet with four native disclosures, readable without motion or JavaScript. About uses real profile identity/location and motto. Finite selection settling and native detail states respect reduced motion. See [visual comparison and evidence](docs/PUBLIC_STORYTELLING.md).

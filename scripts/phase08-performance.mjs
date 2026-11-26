@@ -12,7 +12,7 @@ import { launch } from 'chrome-launcher';
 import desktop from 'lighthouse/core/config/desktop-config.js';
 
 const label = process.argv[2];
-assert.ok(['baseline', 'final', 'phase09', 'visual-refresh', 'visual-refresh-optimized', 'visual-refresh-final', 'visual-refresh-delivery', 'public-story'].includes(label), 'Use a documented measurement label: baseline, final, phase09, visual-refresh, visual-refresh-optimized, visual-refresh-final, visual-refresh-delivery or public-story');
+assert.ok(['baseline', 'final', 'phase09', 'visual-refresh', 'visual-refresh-optimized', 'visual-refresh-final', 'visual-refresh-delivery', 'public-story', 'performance-before', 'performance-before-trace', 'performance-after'].includes(label), 'Use a documented measurement label');
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = resolve(root, '.cache/phase08-performance', label);
 await mkdir(output, { recursive: true });
@@ -21,8 +21,10 @@ const previousBuild = await readFile(resolve(output, 'build.json'), 'utf8').then
 assert.ok(!previousBuild || previousBuild.fingerprint === fingerprint, 'Saved measurements belong to another build; preserve them before starting a new measurement set');
 await writeFile(resolve(output, 'build.json'), JSON.stringify({ fingerprint, label }));
 const report = { label, environment: { node: process.version, os: process.platform, localLab: true, fieldINP: 'NOT MEASURED', runsPerProfile: 3, buildFingerprint: fingerprint }, runs: [], medians: {} };
-for (const profile of ['mobile', 'desktop']) {
-  for (let run = 1; run <= 3; run++) {
+const traceOnly = label === 'performance-before-trace';
+report.environment.runsPerProfile = traceOnly ? 1 : 3;
+for (const profile of traceOnly ? ['mobile'] : ['mobile', 'desktop']) {
+  for (let run = 1; run <= report.environment.runsPerProfile; run++) {
     const saved = await readFile(resolve(output, `${profile}-${run}.json`), 'utf8').then(JSON.parse).catch(() => null);
     if (saved && !saved.runtimeError) {
       report.runs.push(summarize(saved, profile, run));
@@ -44,10 +46,15 @@ for (const profile of ['mobile', 'desktop']) {
       const result = await lighthouse('http://127.0.0.1:4496/', { port: chrome.port, output: 'json', logLevel: 'error', onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'] }, profile === 'desktop' ? desktop : undefined);
       if (!result?.lhr || result.lhr.runtimeError) {
         if (result?.lhr) await writeFile(resolve(output, `${profile}-${run}-failed.json`), JSON.stringify(result.lhr, null, 2));
+        if (result?.artifacts?.Trace) await writeFile(resolve(output, `${profile}-${run}-failed.trace.json`), JSON.stringify(result.artifacts.Trace));
+        if (result?.artifacts?.DevtoolsLog) await writeFile(resolve(output, `${profile}-${run}-failed.devtoolslog.json`), JSON.stringify(result.artifacts.DevtoolsLog));
         throw new Error('Lighthouse failed: ' + (result?.lhr?.runtimeError?.code ?? 'NO_RESULT'));
       }
       const { lhr } = result;
       await writeFile(resolve(output, `${profile}-${run}.json`), JSON.stringify(lhr, null, 2));
+      // Retain raw evidence for task/style attribution, in addition to the scored report.
+      if (result.artifacts?.Trace) await writeFile(resolve(output, `${profile}-${run}.trace.json`), JSON.stringify(result.artifacts.Trace));
+      if (result.artifacts?.DevtoolsLog) await writeFile(resolve(output, `${profile}-${run}.devtoolslog.json`), JSON.stringify(result.artifacts.DevtoolsLog));
       const row = summarize(lhr, profile, run);
       report.runs.push(row);
       console.log(JSON.stringify({ label, profile, run, scores: row.scores, metrics: row.metrics }));
@@ -56,7 +63,7 @@ for (const profile of ['mobile', 'desktop']) {
       if (child.exitCode === null) { const ended = once(child, 'exit'); child.kill(); await ended; }
     }
   }
-  const median = values => [...values].sort((a,b) => a-b)[1];
+  const median = values => [...values].sort((a,b) => a-b)[Math.floor(values.length / 2)];
   const rows = report.runs.filter(row => row.profile === profile);
   report.medians[profile] = { scores: Object.fromEntries(Object.keys(rows[0].scores).map(key => [key, median(rows.map(row => row.scores[key]))])), metrics: Object.fromEntries(Object.keys(rows[0].metrics).map(key => [key, median(rows.map(row => row.metrics[key]))])) };
 }

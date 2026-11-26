@@ -1,3 +1,11 @@
+<!-- performance-20261126 -->
+## Performance acceptance follow-up — 2026-11-26
+
+See [matched baseline/final measurements and regression status](docs/PERFORMANCE_OPTIMIZATION.md). The earlier slow result did not reproduce on the unchanged build; retain it and its provenance. Remaining work includes real mobile hardware, Safari/iOS, screen readers, browser zoom and owner content/appearance/likeness/contact/indexing/launch approval. If slow traces recur, retain all runs and investigate with matched browser/host/build conditions. No field INP/p75 or Phase 10 acceptance is implied.
+
+Current local mobile median targets PASSED (99 / 2.026 s / 22.5 ms / CLS 0). Complete desktop three-run after acceptance remains BLOCKED by NO_NAVSTART despite two valid 100 scores. Browser broad acceptance is 18/19, with a separate passing Firefox rerun; owner/device work remains pending.
+<!-- /performance-20261126 -->
+
 ## Public storytelling acceptance — 2026-11-24
 
 Implemented informative Expertise, educational water-science exploration, richer About layout and conditional native collection disclosures. [Current audit and verification](docs/PUBLIC_STORYTELLING.md). Remaining: owner review of educational wording; approved biographies/methods/outlook; verified published journey/education/project content; actual-device/assistive/zoom and performance acceptance. Latest mobile median 71 / LCP 2.503 s / TBT 1216 ms / CLS 0; trace aggregates identify substantial style/layout work but do not isolate the cause. No new schema or Phase 10 authorization.

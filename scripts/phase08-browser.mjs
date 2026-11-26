@@ -46,7 +46,7 @@ if (process.argv.includes('--api')) {
     console.log('RUN ' + name);
     try { await operation(); report.tests.push({ name, status: 'PASSED', milliseconds: Math.round(performance.now() - started) }); console.log('PASS ' + name); }
     catch (error) {
-      const diagnostics = activePage && !activePage.isClosed() ? await activePage.evaluate(() => ({ url: location.pathname, alerts: [...document.querySelectorAll('[role="alert"]')].map(item => item.textContent), focus: { tag: document.activeElement?.tagName, text: document.activeElement?.textContent?.slice(0, 150) }, controls: [...document.querySelectorAll('form input')].map(input => ({ name: input.name, type: input.type, label: input.labels?.[0]?.textContent?.trim(), visible: !!input.getClientRects().length })) })).catch(() => null) : null;
+      const diagnostics = activePage && !activePage.isClosed() ? await bounded(activePage.evaluate(() => ({ url: location.pathname, alerts: [...document.querySelectorAll('[role="alert"]')].map(item => item.textContent), focus: { tag: document.activeElement?.tagName, text: document.activeElement?.textContent?.slice(0, 150) }, controls: [...document.querySelectorAll('form input')].map(input => ({ name: input.name, type: input.type, label: input.labels?.[0]?.textContent?.trim(), visible: !!input.getClientRects().length })) })), 5000, 'Failure diagnostics').catch(() => null) : null;
       report.tests.push({ name, status: 'FAILED', error: safe(error), diagnostics, milliseconds: Math.round(performance.now() - started) }); console.log('FAIL ' + name + ': ' + safe(error)); if (diagnostics) console.log(JSON.stringify(diagnostics)); errors.push(error);
     }
     finally { await f.capture(); }
@@ -63,7 +63,7 @@ if (process.argv.includes('--api')) {
   async function bounded(operation, milliseconds, label) {
     let timer;
     try {
-      return await Promise.race([operation, new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(label + ' exceeded its shutdown deadline')), milliseconds); })]);
+      return await Promise.race([operation, new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(label + ' exceeded its deadline')), milliseconds); })]);
     } finally { clearTimeout(timer); }
   }
   async function stopChild(child) {
@@ -147,6 +147,8 @@ if (process.argv.includes('--api')) {
     browser = await chromium.launch({ headless: true });
     report.engines.push({ name: 'Chromium', version: browser.version(), launch: 'PASSED' });
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    context.setDefaultTimeout(15000);
+    context.setDefaultNavigationTimeout(30000);
     const page = await context.newPage();
     activePage = page;
     const consoleErrors = [];
@@ -503,11 +505,11 @@ if (process.argv.includes('--api')) {
       try { browser = await type.launch({ headless: true, ...options }); report.engines.push({ name, version: browser.version(), launch: 'PASSED' }); }
       catch (error) { report.engines.push({ name, launch: 'BLOCKED', error: safe(error) }); continue; }
       await test(name + ' real browser public hydration, mobile menu, ADMIN and SUPER_ADMIN login', async () => {
-        const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+        const c = await bounded(browser.newContext({ viewport: { width: 390, height: 844 } }), 30000, name + ' context creation');
         c.setDefaultTimeout(15000);
         const failedRequests = [], responses = []; let phase = 'public';
         try {
-          const p = await c.newPage(); activePage = p; const engineErrors = [];
+          const p = await bounded(c.newPage(), 15000, name + ' page creation'); activePage = p; const engineErrors = [];
           p.on('requestfailed', request => failedRequests.push({ path: new URL(request.url()).pathname, error: request.failure()?.errorText }));
           p.on('response', response => { const path = new URL(response.url()).pathname; if (path.startsWith('/api/')) responses.push({ path, status: response.status() }); });
           p.on('pageerror', error => engineErrors.push({ phase, error: safe(error) }));
@@ -515,10 +517,10 @@ if (process.argv.includes('--api')) {
           await p.locator('.mobile-menu summary').click();
           const about = p.locator('.mobile-nav').getByRole('link', { name: 'About', exact: true });
           await expect(about).toBeVisible();
-          const bounds = await about.boundingBox(); assert.ok(bounds);
+          const bounds = await bounded(about.boundingBox(), 15000, name + ' anchor bounds'); assert.ok(bounds);
           // Send a real mouse click and assert the same-document result explicitly.
           // Firefox's locator post-click navigation wait can stall after the disclosure closes.
-          await p.mouse.click(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+          await bounded(p.mouse.click(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2), 15000, name + ' native anchor click');
           await expect(p).toHaveURL(/#about$/);
           await expect(p.locator('.mobile-menu')).not.toHaveAttribute('open', '');
           await expect(p.locator('#about')).toBeFocused();
@@ -532,12 +534,12 @@ if (process.argv.includes('--api')) {
         } catch (error) {
           const p = c.pages()[0];
           report.engineDiagnostics ??= [];
-          report.engineDiagnostics.push({ name, phase, failedRequests, responses, page: p && !p.isClosed() ? await p.evaluate(() => ({ path: location.pathname, title: document.title, alerts: [...document.querySelectorAll('[role="alert"],[role="status"]')].map(node => node.textContent) })).catch(() => null) : null });
+          report.engineDiagnostics.push({ name, phase, failedRequests, responses, page: p && !p.isClosed() ? await bounded(p.evaluate(() => ({ path: location.pathname, title: document.title, alerts: [...document.querySelectorAll('[role="alert"],[role="status"]')].map(node => node.textContent) })), 5000, name + ' diagnostics').catch(() => null) : null });
           if (p && !p.isClosed()) await screenshot(p, name.toLowerCase() + '-failure');
           throw error;
-        } finally { await c.close(); }
+        } finally { await bounded(c.close(), 10000, name + ' context shutdown'); }
       });
-      await browser.close(); browser = null;
+      await bounded(browser.close(), 10000, name + ' browser shutdown'); browser = null;
     }
   } catch (error) { report.tests.push({ name: 'Harness prerequisite/runtime', status: 'FAILED', error: safe(error) }); errors.push(error); console.log('FAIL harness: ' + safe(error)); }
   finally {

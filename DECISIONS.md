@@ -1,3 +1,9 @@
+<!-- performance-20261126 -->
+## 2026-11-26 — Revision-aware public refresh and matched lab evidence
+
+Reuse the existing complete-public-DTO SHA-256 revision to avoid replacing identical React state. Continue every freshness request; changed revisions update and failures clear both data and revision. Keep SSR/no-JS content and all approved visuals. The unchanged build already meets the requested lab median targets on Chrome 158; historical Chrome 156/157 measurements do not establish causation. See [performance verification](docs/PERFORMANCE_OPTIMIZATION.md).
+<!-- /performance-20261126 -->
+
 ## 2026-11-24 — Approved public storytelling extension
 
 Preserve the six-reference design and backend publication contract. Reuse the existing Skill description/category fields; no schema enhancement is needed. Educational definitions are visibly separate from personal claims and yield to CMS descriptions. Use native disclosures for science/journey/project detail, with finite CSS motion and no dependencies. Integrate current broad skill names into Expertise rather than inventing methods or repeating them as a second competencies section. Personal outlook awaits approved wording. [Audit and provenance](docs/PUBLIC_STORYTELLING.md).

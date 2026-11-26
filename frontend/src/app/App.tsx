@@ -7,10 +7,16 @@ import type { NavigationLink } from "../shared/components/layout/types";
 
 export default function App({
   initialContent = null,
+  initialRevision = null,
 }: {
   initialContent?: PublicContent | null;
+  initialRevision?: string | null;
 }) {
-  const [content, setContent] = useState(initialContent);
+  const [snapshot, setSnapshot] = useState({
+    data: initialContent,
+    revision: initialRevision,
+  });
+  const content = snapshot.data;
   useEffect(() => {
     let active = true;
     let inFlight = false;
@@ -23,9 +29,18 @@ export default function App({
         });
         if (!response.ok) throw new Error("Unavailable");
         const result = await response.json();
-        if (active) setContent(result.data);
+        if (active)
+          setSnapshot((previous) => {
+            // The API hashes the complete public DTO. Keep the existing tree when
+            // a freshness check confirms that its published content is unchanged.
+            const revision =
+              typeof result.revision === "string" ? result.revision : null;
+            return revision && previous.data && previous.revision === revision
+              ? previous
+              : { data: result.data, revision };
+          });
       } catch {
-        if (active) setContent(null);
+        if (active) setSnapshot({ data: null, revision: null });
       } finally {
         inFlight = false;
       }

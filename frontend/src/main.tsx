@@ -8,10 +8,10 @@ const mountNode = document.getElementById('root');
 if (!mountNode) throw new Error('Missing #root mount element');
 
 const embedded = document.getElementById('public-content')?.textContent;
-const initialContent: PublicContent | null = embedded ? JSON.parse(embedded).data : null;
+const snapshot: { data: PublicContent; revision?: string } | null = embedded ? JSON.parse(embedded) : null;
 const application = (
   <React.StrictMode>
-    <App initialContent={initialContent} />
+    <App initialContent={snapshot?.data ?? null} initialRevision={snapshot?.revision ?? null} />
   </React.StrictMode>
 );
 

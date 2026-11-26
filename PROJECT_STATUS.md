@@ -1,3 +1,11 @@
+<!-- performance-20261126 -->
+## Performance investigation — 2026-11-26
+
+The unchanged storytelling fingerprint reproduced mobile 99 / LCP 2.058 s / TBT 37 ms / CLS 0 and desktop 100 before optimization on native Chrome 158. The previous regression did not reproduce; do not attribute that recovery to this patch. A small revision-aware public refresh avoids unnecessary React/observer work while preserving freshness/failure withdrawal. See [the complete performance and regression report](docs/PERFORMANCE_OPTIMIZATION.md) for final matched measurements and test outcomes. Phase 9 owner/launch approval remains pending; Phase 10 is not started.
+
+Final mobile n=3: 99 / LCP 2.026 s / TBT 22.5 ms / CLS 0. Both valid desktop scores are 100; third capture BLOCKED by native NO_NAVSTART. Broad browser 18/19 plus separate Firefox 1/1; no uniform 19/19 claim. Final visual, artifact, source, type, isolated DB/auth/CMS and preservation checks passed. See the report for crop-correction provenance and remaining owner/device limits.
+<!-- /performance-20261126 -->
+
 ## Public storytelling refinement — 2026-11-24
 
 Authorized local content-presentation extension implemented: informative CMS-first Expertise with labelled educational fallback, mobile inline explanations, native Water science exploration, richer About identity layout and conditional journey/project disclosures. See [audit, evidence and remaining acceptance](docs/PUBLIC_STORYTELLING.md). Source/typechecks/builds/artifacts/isolated DB suites passed; 30 visual captures/eight axe scans have zero violations. Broad browser 16/19 plus independent passing reruns of its three failed cases; do not claim a new uniform 19/19 run. Latest six-trace medians: mobile 71 / LCP 2.503 s / TBT 1216 ms / CLS 0; desktop 100 / LCP 0.541 s / TBT 0 / CLS 0. Mobile acceptance remains open. Empty unpublished collections remain omitted; no invented competencies/outlook, database/schema/environment/account changes or Phase 10 work. Older visual performance results remain historical evidence.

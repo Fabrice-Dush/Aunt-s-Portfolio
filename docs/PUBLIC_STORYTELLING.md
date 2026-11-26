@@ -1,3 +1,5 @@
+> Subsequent local performance investigation: [PERFORMANCE_OPTIMIZATION.md](PERFORMANCE_OPTIMIZATION.md). Historical measurements below remain unchanged evidence for their own deliveries.
+
 # Public content and interactive storytelling — 2026-11-24
 
 Authorized local refinement of the existing Phase 9 portfolio, following all six references in `visual approval final/`. This continues [the visual checkpoint](VISUAL_TRANSFORMATION.md); it does not authorize Phase 10, deployment, indexing, new personal claims, contact/likeness permissions or development account cleanup.

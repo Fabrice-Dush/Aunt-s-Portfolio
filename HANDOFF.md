@@ -1,3 +1,11 @@
+<!-- performance-20261126 -->
+## Performance continuation — 2026-11-26
+
+Read [PERFORMANCE_OPTIMIZATION.md](docs/PERFORMANCE_OPTIMIZATION.md) after the visual/storytelling reports. Reuse its exact before/after evidence and preserve all valid runs; do not substitute historical medians or overwrite a fingerprint label. App now reuses identical published revisions; focus/30-second refresh and fail-closed withdrawal/recovery remain. Browser/DB suites stay sequential with captured-ID cleanup. Artwork, motion, security, XAMPP 3306, temporary accounts, original records and appended message remain protected. No push, ZIP, deployment, indexing or Phase 10.
+
+Final mobile median 99 / 2.026 s LCP / 22.5 ms TBT / CLS 0; before was already 99 / 2.058 s / 37 ms / 0. Desktop has two valid 100 scores and four invalid NO_NAVSTART attempts at run 3. Preserve the partial-set flag in `comparison.json`. Browser is 18/19 broad plus focused Firefox 1/1. The old selected-state crop helper used viewport coordinates; six corrected final captures and exact overlapping-pixel alignment evidence are retained without overwriting old images.
+<!-- /performance-20261126 -->
+
 ## Public storytelling continuation — 2026-11-24
 
 Read [PUBLIC_STORYTELLING](docs/PUBLIC_STORYTELLING.md) after the retained visual checkpoint. Expertise prefers published descriptions; exact known names receive clearly labelled educational context only when descriptions are blank. Phone explanations sit beneath selection controls; no-JS uses native disclosures. Water science is static educational copy with WHO/CDC links and native disclosures, not client biography or a facility sequence. Reuse the one normal dev launcher. Browser review: `node scripts/public-story-review.mjs`; distinct lab label: `npm run measure:performance -- public-story`. Do not overwrite prior evidence, weaken preservation guards, publish drafts, clean development accounts, deploy, push or start Phase 10.
