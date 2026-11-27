@@ -1,3 +1,9 @@
+<!-- ux-improvements-20261127 -->
+## Final UX and protected portfolio demonstration ? 2026-11-27
+
+Continue from docs/FINAL_UX_IMPROVEMENTS.md for the 2026-11-27 targeted UX and protected-demo extension. The normal launcher is reused at localhost:5173, XAMPP 3306. Demo routes are /admin/design-preview and /super-admin/design-preview with server-only read-only fixtures and existing auth. Never insert or publish the samples. Keep native Expertise/no-JS and category-driven real CMS sections. Delivery source/type/build/artifact/isolated DB and focused checks pass; 61 captures/13 axe scans have zero violations. Mobile lab median 99/2.057 s/54 ms/0; desktop 100/0.520 s/0 ms/0, matched six-run sets. Broad compatibility remains incomplete (13 initial passes/five scenario/harness failures, two focused corrections pass; Firefox public/shutdown failure, later engines not reached). Exact provenance is recorded in that report; retain failed attempts and historical evidence. No push/deployment/indexing/ZIP/account cleanup or Phase 10.
+<!-- /ux-improvements-20261127 -->
+
 <!-- final-completion-20261126 -->
 ## Final public corrections - 2026-11-26
 

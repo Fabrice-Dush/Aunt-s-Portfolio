@@ -3,7 +3,7 @@ import { Header } from "../shared/components/layout/Header";
 import { Footer } from "../shared/components/layout/Footer";
 import { HomePage } from "../features/portfolio/pages/HomePage";
 import type { PublicContent } from "../features/portfolio/types";
-import type { NavigationLink } from "../shared/components/layout/types";
+import { portfolioNavigation } from "../features/portfolio/data/navigation";
 
 export default function App({
   initialContent = null,
@@ -67,41 +67,13 @@ export default function App({
         profile ? content?.settings?.description || profile.summary || "" : "",
       );
   }, [content, profile]);
-  const navigation: NavigationLink[] =
-    profile && content
-      ? [
-          { label: "About", href: "#about" },
-          ...(content.skills.length
-            ? [{ label: "Expertise", href: "#expertise" as const }]
-            : []),
-          { label: "Water science", href: "#water-science" },
-          ...(content.experience.length
-            ? [{ label: "Experience", href: "#experience" as const }]
-            : []),
-          ...(content.education.length
-            ? [{ label: "Education", href: "#education" as const }]
-            : []),
-          ...(content.projects.length
-            ? [{ label: "Projects", href: "#projects" as const }]
-            : []),
-          ...(content.achievements.length
-            ? [{ label: "Achievements", href: "#achievements" as const }]
-            : []),
-          ...(content.certifications.length
-            ? [{ label: "Training", href: "#training" as const }]
-            : []),
-          { label: "Contact", href: "#contact" },
-        ]
-      : [];
+  const navigation = content ? portfolioNavigation(content) : [];
   return (
     <>
       <a className="skip-link" href="#main-content">
         Skip to main content
       </a>
-      <div id="top" tabIndex={-1} className="development-banner">
-        PRIVATE DESIGN REVIEW <span aria-hidden="true">/</span> NOT YET
-        PUBLISHED
-      </div>
+      <div id="top" tabIndex={-1} />
       <Header links={navigation} />
       {profile && content ? (
         <HomePage content={content} profile={profile} />

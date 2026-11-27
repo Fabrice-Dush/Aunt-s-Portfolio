@@ -57,7 +57,7 @@ export default defineConfig({
     headers: { 'X-Robots-Tag': 'noindex, nofollow' },
     fs: {
       // Keep Vite's default secret exclusions and block local testing credentials.
-      deny: ['.env', '.env.*', '*.{crt,pem}', '**/.git/**', '**/.cache/**', '**/handoff-private/**', '**/.private-media/**'],
+      deny: ['.env', '.env.*', '*.{crt,pem}', '**/.git/**', '**/.cache/**', '**/handoff-private/**', '**/.private-media/**', '**/backend/**'],
     },
     port: 5173,
     strictPort: true,

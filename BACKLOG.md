@@ -1,3 +1,9 @@
+<!-- ux-improvements-20261127 -->
+## Final UX and protected portfolio demonstration ? 2026-11-27
+
+Targeted native Expertise, visible-element removal and protected full-portfolio sample presentation are implemented; verification is recorded in docs/FINAL_UX_IMPROVEMENTS.md. Remaining owner work: genuine chronology, qualifications, projects, precise competencies, outlook, likeness/contact/launch consent; replace samples through real CMS records. Actual-device, screen-reader and native zoom acceptance remain. No automatic sample publication or Phase 10.
+<!-- /ux-improvements-20261127 -->
+
 <!-- final-completion-20261126 -->
 ## Final public corrections - 2026-11-26
 

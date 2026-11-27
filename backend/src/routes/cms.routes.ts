@@ -5,6 +5,7 @@ import {
   actionCms,
   createCms,
   listCms,
+  designPreviewCms,
   previewCms,
   reorderCms,
   updateCms,
@@ -20,6 +21,7 @@ cmsRouter.use(
     legacyHeaders: false,
   }),
 );
+cmsRouter.get("/design-preview", designPreviewCms);
 cmsRouter.get("/:section", listCms);
 cmsRouter.post("/:section", createCms);
 cmsRouter.post("/:section/reorder", reorderCms);

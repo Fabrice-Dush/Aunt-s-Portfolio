@@ -29,7 +29,6 @@ export function Hero({ profile, hasExpertise }: { profile: PublicProfile; hasExp
               decoding="async"
             />}
           </div>
-          {!profile.portrait && <span className="image-caption">PORTRAIT CONCEPT / OWNER APPROVAL PENDING</span>}
           <span className="hero-vertical-text" aria-hidden="true">SCIENCE × PEOPLE × PURPOSE</span>
         </div>
       </div>

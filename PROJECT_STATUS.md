@@ -1,3 +1,9 @@
+<!-- ux-improvements-20261127 -->
+## Final UX and protected portfolio demonstration ? 2026-11-27
+
+The targeted UX implementation adds native inline Expertise, removes the requested visible banner/portrait badge/evidence row, and supplies conditional CMS-backed competencies/outlook plus an authenticated complete-portfolio sample demo. Delivery source/type/build/artifact/isolated DB and focused browser checks pass; 61 visual captures/13 axe scans have zero violations. Matched lab medians are mobile 99 / LCP 2.057 s / TBT 54 ms / CLS 0 and desktop 100 / LCP 0.520 s / TBT 0 / CLS 0. The broad run failed in Firefox/public shutdown plus two corrected Chromium cases; those two pass separately. No uniform cross-browser pass. docs/FINAL_UX_IMPROVEMENTS.md records exact evidence and remaining limits. Public unapproved collections remain absent. Phase 9 owner/launch acceptance remains pending; Phase 10 is not started.
+<!-- /ux-improvements-20261127 -->
+
 <!-- final-completion-20261126 -->
 ## Final public corrections - 2026-11-26
 

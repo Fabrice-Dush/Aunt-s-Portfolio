@@ -91,6 +91,7 @@ test('real authentication, authorization and session acceptance on isolated Mari
   await t.test('temporary credentials permit only account/session operations until password replacement', async () => {
     assert.equal((await request('/auth/me', { token: regular.access })).status, 200);
     assert.equal((await request('/dashboard/summary', { token: regular.access })).body.error.code, 'PASSWORD_CHANGE_REQUIRED');
+    assert.equal((await request('/cms/design-preview', { token: regular.access })).body.error.code, 'PASSWORD_CHANGE_REQUIRED');
     assert.equal((await request('/auth/change-password', { method: 'POST', token: regular.access, body: { currentPassword: 'wrong', newPassword: secret() } })).status, 401);
     const nextPassword = secret();
     assert.equal((await request('/auth/change-password', { method: 'POST', token: regular.access, body: { currentPassword: adminPassword, newPassword: nextPassword } })).status, 204);

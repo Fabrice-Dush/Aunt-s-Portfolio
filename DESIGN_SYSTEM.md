@@ -1,3 +1,9 @@
+<!-- ux-improvements-20261127 -->
+## Final UX and protected portfolio demonstration ? 2026-11-27
+
+Expertise keeps the sculpture in a reserved center grid column and expands full explanations inside individual glass cards. Tablet moves art above two columns; phone uses one column. Projects alternate illustration/text and support text-led contributions; competencies use grouped native disclosures; outlook is editorial text. Full navigation uses Menu when needed. Preserve exact artwork and independent themes. Private sample notice appears only inside the authenticated demo. See docs/FINAL_UX_IMPROVEMENTS.md.
+<!-- /ux-improvements-20261127 -->
+
 <!-- final-completion-20261126 -->
 ## Final public corrections - 2026-11-26
 

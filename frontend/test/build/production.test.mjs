@@ -22,7 +22,8 @@ test('production contains meaningful portfolio HTML before JavaScript', () => {
   assert.equal(snapshot.data.education.length, 0);
   assert.equal(snapshot.data.certifications.length, 0);
   assert.match(html, /<details class="mobile-menu"><summary/);
-  assert.match(html, /<noscript><div class="expertise-fallback"/);
+  assert.match(html, /<details class="expertise-option" name=/);
+  assert.doesNotMatch(html, /PRIVATE DESIGN REVIEW|PORTRAIT CONCEPT \/ OWNER APPROVAL PENDING|science-sources|Explore the evidence/);
   assert.match(html, /General field context/);
   assert.equal([...html.matchAll(/class="science-stage"/g)].length, 4);
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
@@ -63,7 +64,7 @@ test('public distribution contains only expected web files, no private source or
   for (const file of readdirSync(join(dist, 'assets'))) {
     assert.match(file, /^(index|Workspace|appearance)-[\w-]+\.(js|css)$/);
     assert.ok(statSync(join(dist, 'assets', file)).size > 0);
-    assert.doesNotMatch(readFileSync(join(dist, 'assets', file), 'utf8'), /handoff-private|DATABASE_URL|test@example.invalid|Test fixture/);
+    assert.doesNotMatch(readFileSync(join(dist, 'assets', file), 'utf8'), /handoff-private|DATABASE_URL|test@example.invalid|Test fixture|demo-review-notebook|Fictional demonstration institution|Sample Project —/);
   }
 });
 
@@ -72,6 +73,11 @@ test('private shells contain no authenticated content and dashboard chunks are l
   assert.match(shell, /noindex,nofollow/);
   assert.match(shell, /<div id="root"><\/div>/);
   assert.doesNotMatch(shell, /Account & session|passwordHash|<table|<h1/);
+  for (const role of ['admin', 'super-admin']) {
+    const preview = readFileSync(join(dist, role, 'design-preview/index.html'), 'utf8');
+    assert.match(preview, /noindex,nofollow/);
+    assert.doesNotMatch(preview, /Sample Project|demo-review-notebook|Fictional demonstration institution/);
+  }
   const lazy = readdirSync(join(dist, 'assets')).filter(name => name.startsWith('Workspace-'));
   assert.equal(lazy.length, 2);
   for (const file of lazy) assert.ok(!html.includes(file), 'Private chunk must not be preloaded');

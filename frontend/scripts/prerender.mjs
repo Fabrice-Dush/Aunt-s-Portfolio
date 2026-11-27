@@ -34,7 +34,7 @@ await writeFile(resolve(root, distribution, '.publication.json'), JSON.stringify
 // Private routes have a neutral shell only. Never prerender authenticated data.
 const assets = template.match(/<(?:script|link)[^>]+(?:src|href)="\/assets\/[^>]+>(?:<\/script>)?/g) ?? [];
 const shell = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Private workspace | Seraphine</title>${assets.join('')}</head><body><div id="root"></div><noscript>JavaScript is required to sign in to this private workspace. <a href="/">Visit the public portfolio</a>.</noscript></body></html>`;
-for (const route of ['login', 'admin', 'super-admin', ...['admin','super-admin'].flatMap(role => ['profile','experience','education','skills','projects','achievements','certifications','media','settings','messages','account', ...(role === 'super-admin' ? ['users','security','status','portfolio'] : [])].map(area => role + '/' + area))]) {
+for (const route of ['login', 'admin', 'super-admin', ...['admin','super-admin'].flatMap(role => ['design-preview','profile','experience','education','skills','projects','achievements','certifications','media','settings','messages','account', ...(role === 'super-admin' ? ['users','security','status','portfolio'] : [])].map(area => role + '/' + area))]) {
   await mkdir(resolve(root, distribution, route), { recursive: true });
   await writeFile(resolve(root, distribution, route, 'index.html'), shell);
 }

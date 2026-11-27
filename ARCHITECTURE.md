@@ -1,3 +1,9 @@
+<!-- ux-improvements-20261127 -->
+## Final UX and protected portfolio demonstration ? 2026-11-27
+
+Added read-only GET /api/v1/cms/design-preview behind the existing CMS no-store/auth/password/rate stack. Server-only fixtures are combined with the public-safe profile/expertise; no persistence or publication path exists. Neutral private shells and lazy Workspace render the demo with shared HomePage, disabled contact sending and session revalidation. Vite denies backend source serving. Explicit Skill category partitions drive conditional competencies/outlook; public DTO contract/schema unchanged. See docs/FINAL_UX_IMPROVEMENTS.md.
+<!-- /ux-improvements-20261127 -->
+
 <!-- final-completion-20261126 -->
 ## Final public corrections - 2026-11-26
 

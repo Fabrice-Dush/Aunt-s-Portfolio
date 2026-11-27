@@ -3,6 +3,7 @@ import { api, homeFor, navigate } from './api';
 import type { User } from './api';
 import Login from './Login';
 import Dashboard from '../dashboard/Dashboard';
+import DesignPreview from '../dashboard/DesignPreview';
 import '../dashboard/dashboard.css';
 
 export default function Workspace() {
@@ -35,5 +36,6 @@ export default function Workspace() {
   if (error) return <main className="auth-loading"><h1>Workspace unavailable</h1><p role="alert">{error}</p><button onClick={() => window.location.reload()}>Try again</button><a href="/">Return to portfolio</a></main>;
   if (!user) return <Login onLogin={setUser} notice={notice} />;
   if (!path.startsWith(homeFor(user)) || (user.mustChangePassword && !path.endsWith('/account'))) return <main className="auth-loading" role="status">Opening your workspace…</main>;
+  if (!user.mustChangePassword && path === homeFor(user) + '/design-preview') return <DesignPreview user={user} />;
   return <Dashboard user={user} path={path} onSignedOut={(message) => { setNotice(message ?? 'You have been signed out.'); setUser(null); }} />;
 }

@@ -11,6 +11,16 @@ import {
 } from "../validators/cms.js";
 import { emptyQuerySchema, idSchema } from "../validators/content.js";
 import { z } from "zod";
+import { designPreview } from "../services/design-preview.service.js";
+import { publicSnapshot } from "../services/public-site.service.js";
+
+// The CMS router applies no-store, current-session authentication (including
+// mandatory password replacement) and its existing request/rate safeguards.
+export const designPreviewCms: RequestHandler = async (req, res) => {
+  emptyQuerySchema.parse(req.query);
+  const { data } = await publicSnapshot();
+  res.json({ data: designPreview(data.profile, data.skills as unknown[]) });
+};
 
 const publicUpdate =
   "Public API updated. Update the public website to regenerate its HTML.";

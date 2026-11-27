@@ -3,7 +3,7 @@ import { Brand } from './Brand';
 import type { NavigationLink } from './types';
 import { AppearanceControl } from '../ui/AppearanceControl';
 
-export function Header({ links }: { links: readonly NavigationLink[] }) {
+export function Header({ links, scope = 'public' }: { links: readonly NavigationLink[]; scope?: 'public' | 'studio' | 'operations' }) {
   const menu = useRef<HTMLDetailsElement>(null);
   const [active, setActive] = useState('');
 
@@ -64,11 +64,11 @@ export function Header({ links }: { links: readonly NavigationLink[] }) {
   }
 
   return (
-    <header className="site-header">
+    <header className={'site-header' + (links.length > 7 ? ' has-full-navigation' : '')}>
       <div className="header-inner">
         <Brand />
         <nav className="desktop-nav" aria-label="Main navigation">{navigation(false)}</nav>
-        <AppearanceControl />
+        <AppearanceControl scope={scope} />
         <details className="mobile-menu" ref={menu}>
           <summary className="menu-toggle" aria-controls="mobile-nav">
             <span>Menu</span><span className="menu-lines" aria-hidden="true"><i /><i /></span>

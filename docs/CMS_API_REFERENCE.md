@@ -1,3 +1,7 @@
+## Read-only design demonstration
+
+`GET /api/v1/cms/design-preview` requires an active authenticated ADMIN or SUPER_ADMIN session with mandatory password replacement complete. It returns a public-shaped content object with server-only labeled fictional collections for private layout review, uses `Cache-Control: no-store` and `X-Robots-Tag: noindex, nofollow`, rejects query parameters, and has no save/publish operation. No fixture is persisted. Public endpoints are unchanged. See [the isolation report](FINAL_UX_IMPROVEMENTS.md).
+
 # CMS API reference
 
 Base `/api/v1`. All private responses use no-store/noindex. JSON errors retain `{error:{code,message}}`. Every protected route uses Phase 6 cookies/session checks; no role headers or bearer-token substitute are accepted. Both roles share this single owner's CMS. Existing technical-only endpoints remain technical-only.

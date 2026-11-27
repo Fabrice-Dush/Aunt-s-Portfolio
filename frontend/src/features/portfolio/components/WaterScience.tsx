@@ -47,7 +47,6 @@ export function WaterScience() {
           </details>)}
         </div>
       </div>
-      <div className="science-sources"><span>Explore the evidence</span><a href="https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/water-safety-and-quality/water-safety-planning">WHO: water safety planning</a><a href="https://www.cdc.gov/drinking-water/about/how-water-treatment-works.html">CDC: how water treatment works</a></div>
     </div>
   </section>;
 }

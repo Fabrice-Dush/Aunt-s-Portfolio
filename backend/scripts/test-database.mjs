@@ -46,6 +46,7 @@ try {
   run(['--import', 'tsx', '--test', 'test/integration/database.test.mjs']);
   run(['--import', 'tsx', '--test', 'test/integration/auth.test.mjs']);
   run(['--import', 'tsx', '--test', 'test/integration/cms.test.mjs']);
+  run(['--import', 'tsx', '--test', 'test/integration/design-preview.test.mjs']);
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;

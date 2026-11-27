@@ -1,3 +1,9 @@
+<!-- ux-improvements-20261127 -->
+## Final UX and protected portfolio demonstration ? 2026-11-27
+
+Use native exclusive details/summary for inline Expertise, including no-JS. Reuse existing Skills categories as explicit opt-ins for Technical / <group> and Professional outlook; do not infer methods or parse biography. Serve fictional fixtures only from an authenticated no-store CMS GET, never database records or frontend bundles. Private preview uses shared public presentation and originating workspace appearance. Remove requested visible elements while retaining internal approvals. See docs/FINAL_UX_IMPROVEMENTS.md.
+<!-- /ux-improvements-20261127 -->
+
 <!-- final-completion-20261126 -->
 ## Final public corrections - 2026-11-26
 

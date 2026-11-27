@@ -1,3 +1,7 @@
+## Local complete-portfolio design review
+
+See [the UX review and CMS mappings](docs/FINAL_UX_IMPROVEMENTS.md). Sign in at `http://localhost:5173/login` and choose **Complete portfolio demo**. Fictional examples are authenticated read-only server fixtures, never CMS records to publish. Public sections continue to require genuine verified/published content. No launch or indexing permission is implied.
+
 <!-- final-completion-20261126 -->
 ## Final public corrections - 2026-11-26
 

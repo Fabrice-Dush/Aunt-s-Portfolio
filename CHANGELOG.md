@@ -1,3 +1,9 @@
+<!-- ux-improvements-20261127 -->
+## Final UX and protected portfolio demonstration ? 2026-11-27
+
+Implemented native exclusive inline Expertise for desktop/mobile/no-JS; removed the requested public banner, portrait overlay and WHO/CDC row; extended editorial projects and added explicit category-driven competencies/outlook. Added authenticated read-only server-fixture portfolio demonstration, neutral route shells, disabled demo messaging, source-serving exclusion and regression/isolation checks. See docs/FINAL_UX_IMPROVEMENTS.md for verification and limits. No development content/schema/environment change, push, deployment, indexing, ZIP or account removal.
+<!-- /ux-improvements-20261127 -->
+
 <!-- final-completion-20261126 -->
 ## Final public corrections - 2026-11-26
 

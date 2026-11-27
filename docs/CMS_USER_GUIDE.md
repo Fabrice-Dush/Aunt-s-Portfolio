@@ -1,3 +1,7 @@
+## Complete-portfolio design demonstration
+
+The workspace?s **Complete portfolio demo** opens a protected, labeled layout review. Samples cannot be edited, saved or published; enter genuine replacement information in the existing CMS modules. See [field mappings and owner steps](FINAL_UX_IMPROVEMENTS.md#e-cms-field-mapping-and-limits). In Skills, ordinary categories feed Expertise, `Technical / <group>` feeds grouped Technical Competencies, and exact `Professional outlook` uses Name as a statement heading and Description as approved text. All normal verification/publication and media/contact consent rules remain.
+
 # Seraphine's Portfolio Studio guide
 
 ## Sign in

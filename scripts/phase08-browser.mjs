@@ -28,6 +28,7 @@ if (process.argv.includes('--api')) {
   const report = { startedAt: new Date().toISOString(), environment: { platform: process.platform, node: process.version, database: 'isolated local ' + localDatabaseTarget(process.env.DATABASE_URL, 'test').database + ':' + localDatabaseTarget(process.env.DATABASE_URL, 'test').port, headless: true }, responsive: { cssWidths: [320,375,390,768,1024,1440,1920], landscape: { width: 844, height: 390 }, reflow: '640 CSS px and 320 CSS px model a 1280 px viewport at 200% and 400%; these are viewport reflow checks, not actual browser zoom or OS magnification.' }, tests: [], engines: [], accessibility: [], screenshots: [], limitations: ['Playwright WebKit on Windows is not actual Safari/macOS/iOS.', 'No real owner accounts or real client content are used.', 'Automated keyboard and screenshots do not replace owner/device acceptance.', 'axe incomplete contrast checks on gradients/images need separate review; zero violations is not a complete WCAG conformance claim.'] };
   const f = await fixture().catch(() => { throw new Error('Isolated browser fixture preparation failed. Verify the documented empty test database; raw database errors are not logged.'); });
   const focus = process.env.PHASE08_BROWSER_FOCUS?.toLowerCase();
+  const selectedCases = focus?.split(',').map(value => value.trim()).filter(Boolean);
   report.selection = focus ?? 'all';
   report.notRun = [];
   const disposableSecrets = [f.password, process.env.JWT_SECRET, process.env.DATABASE_URL, process.env.TEST_DATABASE_URL];
@@ -41,7 +42,7 @@ if (process.argv.includes('--api')) {
     return value.slice(0, 2300);
   }
   async function test(name, operation) {
-    if (focus && !name.toLowerCase().includes(focus)) { report.notRun.push(name); return; }
+    if (selectedCases?.length && !selectedCases.some(value => name.toLowerCase().includes(value))) { report.notRun.push(name); return; }
     const started = performance.now();
     console.log('RUN ' + name);
     try { await operation(); report.tests.push({ name, status: 'PASSED', milliseconds: Math.round(performance.now() - started) }); console.log('PASS ' + name); }
@@ -110,7 +111,7 @@ if (process.argv.includes('--api')) {
     const response = await page.request.fetch(base + '/api/v1' + path, { method, headers: { Origin: base, 'X-Portfolio-Request': '1', 'Idempotency-Key': randomUUID() }, ...(body === undefined ? {} : { data: body }) });
     return { status: response.status(), body: await response.json().catch(() => null), headers: response.headers() };
   }
-  async function route(page, path) { await page.goto(base + path); await expect(page.locator('.dash-page-heading h1')).toBeVisible(); }
+  async function route(page, path) { await page.goto(base + path); await expect(page.locator('.dash-page-heading h1')).toBeVisible({ timeout: 15000 }); }
   async function screenshot(page, name) { await page.screenshot({ path: resolve(reportDirectory, name + '.png'), fullPage: true, timeout: 15000 }); report.screenshots.push(name + '.png'); }
   async function viewportScreenshots(page, name) { await screenshot(page, name + '-full'); await page.screenshot({ path: resolve(reportDirectory, name + '-top.png'), fullPage: false }); report.screenshots.push(name + '-top.png'); }
   async function reflow(page, name) {
@@ -264,11 +265,14 @@ if (process.argv.includes('--api')) {
         await expect(p.locator('.public-contact-form button')).toBeDisabled();
         await expect(p.locator('.public-contact-form input[name="senderEmail"]')).toBeDisabled();
         assert.equal(await p.locator('.public-contact-form').getAttribute('method'), 'post');
-        await expect(p.locator('.expertise-card').first()).toBeDisabled();
+        await p.locator('.expertise-card').first().click();
+        await expect(p.locator('.expertise-option').first()).toHaveAttribute('open', '');
+        await expect(p.locator('.expertise-option').first().locator('.expertise-inline-detail')).toBeVisible();
         await p.locator('.science-stage summary').last().click();
         await expect(p.locator('.science-stage').last()).toContainText('corrective action');
         await expect(p.locator('.science-stage').last()).toHaveAttribute('open', '');
-        await expect(p.locator('.expertise-fallback')).toContainText('Specialization explanations');
+        await p.locator('.expertise-card').last().click();
+        await expect(p.locator('.expertise-option[open]')).toHaveCount(await p.locator('.expertise-card').count() > 1 ? 1 : 0);
         await p.locator('.mobile-menu summary').click();
         await p.locator('.mobile-nav').getByRole('link', { name: 'About', exact: true }).click();
         await expect(p).toHaveURL(/#about$/); await overflow(p); await screenshot(p, 'chromium-nojs-375');

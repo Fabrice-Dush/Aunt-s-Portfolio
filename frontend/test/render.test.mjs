@@ -35,11 +35,11 @@ test('rendered page has unique IDs and every local navigation target exists', ()
   assert.doesNotMatch(html, /<details class="mobile-menu"[^>]+\bopen(?:=|\s|>)/);
 });
 
-test('rendered portfolio preserves identity, pending disclosures and section sequence', () => {
+test('rendered portfolio preserves identity, approval metadata and section sequence', () => {
   assert.match(html, /Nyirarukundo/);
   assert.match(html, /Seraphine/);
   assert.match(html, /Water Treatment Plant Engineer/);
-  assert.match(html, /PORTRAIT CONCEPT \/ OWNER APPROVAL PENDING/);
+  assert.doesNotMatch(html, /PRIVATE DESIGN REVIEW|PORTRAIT CONCEPT \/ OWNER APPROVAL PENDING/);
   assert.doesNotMatch(html, /TO VERIFY|2015|2022|Kigali Independent University/);
   assert.doesNotMatch(html, /id="projects"|href="#projects"|PROJECT CASE STUDIES/);
   assert.match(html, /TEST ONLY skill/);
@@ -119,7 +119,9 @@ test('expertise gives CMS descriptions priority and clearly labels educational f
   assert.match(contextual, /General field context/);
   assert.match(contextual, /barriers chosen for the source water/);
   assert.doesNotMatch(contextual, /<p>Water treatment<\/p>/);
-  assert.match(contextual, /<noscript>/);
+  assert.match(contextual, /<details class="expertise-option" name=/);
+  assert.match(contextual, /class="expertise-inline-detail" role="region" aria-labelledby=/);
+  assert.doesNotMatch(contextual, /expertise-mobile-detail|id="expertise-detail"/);
   const authored = renderToStaticMarkup(createElement(Expertise, { skills: [{ ...skill, description: 'TEST ONLY approved description <safe>' }] }));
   assert.match(authored, /TEST ONLY approved description &lt;safe&gt;/);
   assert.doesNotMatch(authored, /barriers chosen for the source water|General field context/);
@@ -142,11 +144,10 @@ test('pending experience duration stays out of rendered public biography without
   assert.equal(profile.experienceDescription, '11 years, according to the supplied questionnaire');
 });
 
-test('science is educational, source-linked and all stage explanations are present without JavaScript', () => {
+test('science retains educational explanations without the removed evidence row', () => {
   assert.match(html, /not a description of Seraphine/);
   assert.match(html, /not a fixed treatment sequence/);
-  assert.match(html, /who.int\/teams/);
-  assert.match(html, /cdc.gov\/drinking-water/);
+  assert.doesNotMatch(html, /science-sources|Explore the evidence|who.int\/teams|cdc.gov\/drinking-water/);
   assert.equal([...html.matchAll(/class="science-stage"/g)].length, 4);
   assert.match(html, /corrective action/);
   assert.match(html, /independent surveillance/);
@@ -158,4 +159,25 @@ test('database-shaped published content renders safely and unavailable content h
   assert.doesNotMatch(rendered,/<script>STORED_XSS_SENTINEL/);assert.match(rendered,/&lt;script&gt;STORED_XSS_SENTINEL/);
   assert.match(rendered,/id="projects"/);assert.match(rendered,/id="achievements"/);assert.match(rendered,/id="training"/);
   const unavailable=renderToStaticMarkup(createElement(App));assert.match(unavailable,/Portfolio temporarily unavailable/);assert.doesNotMatch(unavailable,/TEST ONLY|id="about"|id="expertise"|\/images\//);
+});
+
+
+test('explicit CMS categories drive distinct professional sections and conditional navigation', async () => {
+  const { default: App } = await server.ssrLoadModule('/src/app/App.tsx');
+  const skills = [
+    { id: 'broad', name: 'Water treatment', category: null, description: 'TEST ONLY broad specialization.' },
+    { id: 'specific', name: 'TEST ONLY sampling records', category: 'Technical / Quality work', description: 'TEST ONLY approved method <escaped>.' },
+    { id: 'outlook', name: 'TEST ONLY professional statement', category: 'Professional outlook', description: 'TEST ONLY approved outlook.' },
+    { id: 'empty-outlook', name: 'Unapproved empty statement', category: 'Professional outlook', description: '   ' },
+  ];
+  const rendered = renderToStaticMarkup(createElement(App, { initialContent: { ...content, skills } }));
+  assert.match(rendered, /id="competencies"/); assert.match(rendered, /href="#competencies"/);
+  assert.match(rendered, /id="outlook"/); assert.match(rendered, /href="#outlook"/);
+  assert.match(rendered, /Quality work/); assert.match(rendered, /method &lt;escaped&gt;/);
+  assert.doesNotMatch(rendered, /Unapproved empty statement/);
+  const expertise = rendered.slice(rendered.indexOf('id="expertise"'), rendered.indexOf('id="water-science"'));
+  assert.doesNotMatch(expertise, /sampling records|professional statement/);
+  const onlyTechnical = renderToStaticMarkup(createElement(App, { initialContent: { ...content, skills: [skills[1]] } }));
+  assert.doesNotMatch(onlyTechnical, /id="expertise"|href="#expertise"/);
+  assert.match(onlyTechnical, /id="competencies"/);
 });

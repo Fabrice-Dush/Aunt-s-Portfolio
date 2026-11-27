@@ -1,3 +1,5 @@
+import { professionalSkills } from "../data/sections";
+import { TechnicalCompetencies, ProfessionalOutlook } from "../components/ProfessionalSections";
 import { Hero } from "../components/Hero";
 import { About } from "../components/About";
 import { Contact } from "../components/Contact";
@@ -19,17 +21,20 @@ export const period = (
 export function HomePage({
   content,
   profile,
+  preview = false,
 }: {
   content: PublicContent;
   profile: PublicProfile;
+  preview?: boolean;
 }) {
   const ref = useSectionReveal();
+  const skills = professionalSkills(content.skills);
   return (
     <main id="main-content" tabIndex={-1} ref={ref}>
-      <Hero profile={profile} hasExpertise={!!content.skills.length} />
+      <Hero profile={profile} hasExpertise={!!skills.expertise.length} />
       <About profile={profile} />
       {/* Experience duration awaits owner approval; keep the CMS value intact. */}
-      {!!content.skills.length && <Expertise skills={content.skills} />}
+      {!!skills.expertise.length && <Expertise skills={skills.expertise} />}
       <WaterScience />
       {!!content.experience.length && (
         <Experience
@@ -41,18 +46,6 @@ export function HomePage({
               .filter(Boolean)
               .join("\n"),
             provisional: false,
-          }))}
-        />
-      )}
-      {!!content.education.length && (
-        <Education
-          entries={content.education.map((row) => ({
-            year: row.yearCompleted?.toString() ?? "",
-            qualification: row.qualification,
-            institution: [row.institution, row.country]
-              .filter(Boolean)
-              .join(" · "),
-            note: row.notes ?? "",
           }))}
         />
       )}
@@ -75,28 +68,18 @@ export function HomePage({
             .map((m) => ({ src: m.publicUrl, alt: m.altText ?? "" })),
         }))}
       />
-      {!!content.achievements.length && (
-        <section id="achievements" tabIndex={-1} className="section section-achievements">
-          <div className="section-inner">
-            <SectionHeading
-              eyebrow="ACHIEVEMENTS"
-              title="Milestones with"
-              accent="meaning."
-            />
-            <div className="education-list">
-              {content.achievements.map((row) => (
-                <article key={row.id} className="education-item">
-                  <time>{row.year}</time>
-                  <div>
-                    <h3>{row.title}</h3>
-                    <p>{row.description}</p>
-                    {row.project && <p>{row.project.title}</p>}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+      <TechnicalCompetencies skills={skills.technical} />
+      {!!content.education.length && (
+        <Education
+          entries={content.education.map((row) => ({
+            year: row.yearCompleted?.toString() ?? "",
+            qualification: row.qualification,
+            institution: [row.institution, row.country]
+              .filter(Boolean)
+              .join(" · "),
+            note: row.notes ?? "",
+          }))}
+        />
       )}
       {!!content.certifications.length && (
         <section
@@ -132,6 +115,30 @@ export function HomePage({
           </div>
         </section>
       )}
+      {!!content.achievements.length && (
+        <section id="achievements" tabIndex={-1} className="section section-achievements">
+          <div className="section-inner">
+            <SectionHeading
+              eyebrow="ACHIEVEMENTS"
+              title="Milestones with"
+              accent="meaning."
+            />
+            <div className="education-list">
+              {content.achievements.map((row) => (
+                <article key={row.id} className="education-item">
+                  <time>{row.year}</time>
+                  <div>
+                    <h3>{row.title}</h3>
+                    <p>{row.description}</p>
+                    {row.project && <p>{row.project.title}</p>}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+      <ProfessionalOutlook statements={skills.outlook} />
       <Contact
         location={
           [profile.city, profile.country].filter(Boolean).join(", ") ||
@@ -157,7 +164,7 @@ export function HomePage({
               }
             : {}),
         }}
-      ><ContactForm /></Contact>
+      ><ContactForm preview={preview} /></Contact>
     </main>
   );
 }

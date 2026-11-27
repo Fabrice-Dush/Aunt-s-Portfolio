@@ -1,3 +1,9 @@
+<!-- ux-improvements-20261127 -->
+## Final UX and protected portfolio demonstration ? 2026-11-27
+
+The 2026-11-27 attached request authorizes native inline Expertise disclosures on all widths, removal of the three visible public review/evidence elements, and a labeled authenticated complete-portfolio demonstration. Read docs/FINAL_UX_IMPROVEMENTS.md after prior visual/storytelling/performance/final-review checkpoints. Samples remain server-only read-only fixtures behind existing CMS authentication; never seed, verify, publish or bundle them. Use Skills categories Technical / <group> and Professional outlook for eventual verified content, retaining ordinary categories as Expertise. Preserve no-JS native disclosures, public duration hold, publication/freshness/auth/media/contact rules, XAMPP 3306, original records/migrations/environment, both retained messages and temporary accounts. Keep the original strict status guard intact. No Phase 10, schema/environment change, account cleanup, push, ZIP, indexing or deployment.
+<!-- /ux-improvements-20261127 -->
+
 <!-- final-completion-20261126 -->
 ## Final public corrections - 2026-11-26
 

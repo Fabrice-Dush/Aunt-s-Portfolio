@@ -171,6 +171,7 @@ export function Cms({ section }: { section: string }) {
             publish it again.
           </p>
           {section !== "profile" && <details className="cms-order-help"><summary>How display order works</summary><p>Use the arrows to swap neighbors on this page. At a page boundary, or in a collection over 100 records, edit Display order instead. Lower numbers appear first; equal numbers use a stable order. Check surrounding pages after saving.</p></details>}
+          {section === "skills" && <details className="cms-order-help"><summary>Expertise, competencies and professional outlook</summary><p>Ordinary categories display in Expertise. Use a category beginning “Technical /” followed by a group name, such as “Technical / Laboratory and quality”, for Technical Competencies. Use the exact category “Professional outlook” for an approved statement: Skill name becomes its heading and Description becomes its text. These records still require verification and publication. Never copy fictional demonstration entries into the CMS as facts.</p></details>}
           {!data.result ? (
             <DataState error={data.error} reload={data.reload} />
           ) : !data.result.data.length ? (

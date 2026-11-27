@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
-export function ContactForm() {
+export function ContactForm({ preview = false }: { preview?: boolean }) {
   const started = useRef(Date.now());
   const submitting = useRef(false);
   const operation = useRef<{ fingerprint: string; key: string } | null>(null);
@@ -11,7 +11,7 @@ export function ContactForm() {
   useEffect(() => setEnhanced(true), []);
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (submitting.current) return;
+    if (preview || submitting.current) return;
     const form = event.currentTarget;
     const values = Object.fromEntries(new FormData(form));
     const input = {
@@ -87,8 +87,9 @@ export function ContactForm() {
           aria-busy={busy}
           onSubmit={submit}
         >
+          {preview && <p role="note">Design preview: message sending is disabled.</p>}
           <noscript>Enable JavaScript to send a message. You can still read and navigate the portfolio.</noscript>
-          <fieldset aria-label="Message details" disabled={!enhanced || busy}>
+          <fieldset aria-label="Message details" disabled={preview || !enhanced || busy}>
           <label>
             Your name
             <input
@@ -126,7 +127,7 @@ export function ContactForm() {
             Website
             <input name="website" tabIndex={-1} autoComplete="off" />
           </label>
-          <button className="button-primary" disabled={!enhanced || busy}>
+          <button className="button-primary" disabled={preview || !enhanced || busy}>
             {busy ? "Sending…" : "Send message"}
           </button>
           </fieldset>
